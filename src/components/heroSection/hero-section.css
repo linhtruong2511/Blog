@@ -1,0 +1,19 @@
+.hero {
+  background-image: url('/hero-img.png');
+  background-color: rgba(0, 0, 0, 0.3);
+  background-size: cover;
+  position: relative;
+  background-position-y: center;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+}

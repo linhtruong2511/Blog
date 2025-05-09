@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+body{
+  background-color: #1e293b;
+  color: white;
+}
+
+.btn {
+  background-color: royalblue;
+  padding: 8px 20px ;
+  border-radius: 10px;
+  border: 1px solid royalblue;
+  transition: background-color .3s; 
+  min-width: 100px;
+}
+
+.btn:hover {
+  background-color: transparent;
+}
+
+.input {
+  display: block;
+  padding: 12px 20px;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.reset-tailwin {
+  all: revert;
+}
