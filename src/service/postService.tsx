@@ -1,6 +1,7 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs } from "firebase/firestore";
 import useDB from "../hook/useDB";
 import Post from "../types/Post";
+import { deleteContent } from "./contentService";
 const db = useDB();
 export const getAllPost = async () => {
   try {
@@ -43,3 +44,14 @@ export const getPost = async (id: string) : Promise<Post | undefined> => {
     console.log("get post error: " + e);
   }
 };
+
+export const deletePost = async (post : Post)  => {
+    try{
+        await deleteDoc(doc(db, 'post', post.id as string));
+        if (await deleteContent(post.contentId)) return true;
+        else return false;
+    } catch (e) {
+        console.log('delete error: ' + e);
+        return false;
+    }
+}

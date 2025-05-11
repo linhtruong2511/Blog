@@ -2,7 +2,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import Post from "../../types/Post";
 import { useEffect, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../../components/comment/Comment";
 import BlogRelated from "../../components/blogRelated/BlogRelated";
 import { getPost } from "../../service/postService";
@@ -12,6 +12,7 @@ export default function BLog() {
   const { id } = useParams();
   const [post, setPost] = useState<Post>();
   const [content, setContent] = useState<string>();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchPost = async () => {
       const post = await getPost(id as string);
@@ -33,7 +34,7 @@ export default function BLog() {
   }, [post]);
   return (
     <div className="container mx-auto my-5 px-5">
-      <span>
+      <span onClick={() => navigate(-1)} className="cursor-pointer">
         <FaArrowLeft className="inline mr-3" /> Quay lại danh sách bài viết
       </span>
       <div className="h-[700px] my-10">

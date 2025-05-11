@@ -6,6 +6,7 @@ import Post, { status } from "../../../types/Post";
 import ModalConfirm from "../../../components/modalConfirm/ModalConfirm";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
+import { deletePost, getAllPost } from "../../../service/postService";
 export default function BLogPostList() {
   const db = useDB();
   const [posts, setPosts] = useState<Post[]>([]);
@@ -13,45 +14,33 @@ export default function BLogPostList() {
   const [selectedPost, setSelectedPost] = useState<Post>();
   const [showModalConfirm, setShowModalConfirm] = useState<boolean>(false);
   const question = "Bạn có muốn xóa " + selectedPost?.title + " không?";
+  
   const handleClickDelete = (id: string) => {
     setSelectedPost(posts.find((post) => (post.id = id)));
     setShowModalConfirm(true);
   };
+ 
   const handleDelete = async () => {
-    if (selectedPost?.id) {
-      try {
-        await deleteDoc(doc(db, "post", selectedPost.id));
-        setPosts(posts.filter((item) => item.id !== selectedPost.id));
-        setDeleteError(false);
-        setShowModalConfirm(false);
-      } catch (e) {
-        setDeleteError(true);
-        console.log("error: " + e);
-      }
+    if (!selectedPost) return;
+    
+    if (await deletePost(selectedPost)) {
+      setPosts(posts.filter((item) => item.id !== selectedPost.id));
+      setShowModalConfirm(false);
+      setDeleteError(false);
+    } else {
+      setDeleteError(true);
     }
   };
+
   useEffect(() => {
     const fetchPost = async () => {
-      const postRef = collection(db, "post");
-      const q = query(postRef);
-      const postsSnap = await getDocs(q);
-      const newPosts = postsSnap.docs.map((post): Post => {
-        return {
-          id: post.id,
-          title: post.get("title"),
-          createDate: post.get("createDate"),
-          shortDesc: post.get("shortDecs"),
-          tags: post.get("tags"),
-          thumbnailURL: post.get("thumbnailURL"),
-          contentId: post.get("content"),
-          status: post.get("status"),
-          view: post.get("view"),
-        };
-      });
-      setPosts(newPosts);
+      const posts = await getAllPost();
+      if (!posts) return;
+      setPosts(posts);
     };
     fetchPost();
   }, []);
+
   return (
     <>
       <div className="flex justify-between mb-10">
