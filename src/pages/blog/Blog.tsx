@@ -7,40 +7,34 @@ import useDB from "../../hook/useDB";
 import { doc, getDoc } from "firebase/firestore";
 import Comment from "../../components/comment/Comment";
 import BlogRelated from "../../components/blogRelated/BlogRelated";
+import { getPost } from "../../service/postService";
+import { getContent } from "../../service/contentService";
 
 export default function BLog() {
   const { id } = useParams();
-  const db = useDB();
   const [post, setPost] = useState<Post>();
   const [content, setContent] = useState<string>();
   useEffect(() => {
     const fetchPost = async () => {
-      const postSnap = await getDoc(doc(db, "post", id as string));
-      if (postSnap.exists()) {
-        const data: Post = postSnap.data() as Post;
-        setPost({
-          ...data,
-          id: postSnap.id,
-        });
-      }
+      const post = await getPost(id as string);
+      setPost(post);
     };
     fetchPost();
   }, []);
   useEffect(() => {
     const fetchContent = async () => {
-      try {
-        if (post && post.id) {
-          const contentSnap = await getDoc(doc(db, "content", post.contentId));
-          setContent(contentSnap.get("data"));
-        }
-      } catch (e) {
-        console.log(e);
+      if (post){   
+        const content = await getContent(post?.contentId);
+        if (!content) return;
+        setContent(content.data);
+      } else {
+        console.log("post is " + post);
       }
     };
     fetchContent();
   }, [post]);
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto my-5 px-5">
       <span>
         <FaArrowLeft className="inline mr-5" /> Quay lại danh sách bài viết
       </span>
