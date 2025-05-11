@@ -3,13 +3,11 @@ import Post from "../../types/Post";
 import { useEffect, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
 import { useParams } from "react-router-dom";
-import useDB from "../../hook/useDB";
-import { doc, getDoc } from "firebase/firestore";
 import Comment from "../../components/comment/Comment";
 import BlogRelated from "../../components/blogRelated/BlogRelated";
 import { getPost } from "../../service/postService";
 import { getContent } from "../../service/contentService";
-
+import { FaEye } from "react-icons/fa";
 export default function BLog() {
   const { id } = useParams();
   const [post, setPost] = useState<Post>();
@@ -36,9 +34,9 @@ export default function BLog() {
   return (
     <div className="container mx-auto my-5 px-5">
       <span>
-        <FaArrowLeft className="inline mr-5" /> Quay lại danh sách bài viết
+        <FaArrowLeft className="inline mr-3" /> Quay lại danh sách bài viết
       </span>
-      <div className="h-[800px] mt-10">
+      <div className="h-[700px] my-10">
         <img
           src={post?.thumbnailURL}
           alt=""
@@ -46,10 +44,10 @@ export default function BLog() {
         />
       </div>
 
-      <h1>{post?.title}</h1>
-      <div className="flex gap-5">
-        <p>{post?.createDate}</p>
-        <p>{post?.view}</p>
+      <h1 className="text-4xl"><b>{post?.title}</b></h1>
+      <div className="flex gap-10 mb-5 mt-1">
+        <p>Ngày tạo: {post?.createDate}</p>
+        <p className="flex gap-2 items-center"> <FaEye className="inline" /> {post?.view}</p>
       </div>
       <div>
         <>
