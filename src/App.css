@@ -1,32 +1,21 @@
 @import 'tailwindcss';
 
+
 body{
-  background-color: #1e293b;
-  color: white;
+  color: rgb(37, 37, 37);
 }
 
 .btn {
-  background-color: royalblue;
   padding: 8px 20px ;
-  border-radius: 10px;
-  border: 1px solid royalblue;
+  border-radius: 5px;
+  border: 1px solid gray;
   transition: background-color .3s; 
   min-width: 100px;
 }
 
 .btn:hover {
-  background-color: transparent;
+  box-shadow: 5px 3px 5px #ddd;
+  transform: translateX(-3px);
 }
+  
 
-.input {
-  display: block;
-  padding: 12px 20px;
-  outline: none;
-  border: 1px solid gray;
-  border-radius: 10px;
-  width: 100%;
-}
-
-.reset-tailwin {
-  all: revert;
-}

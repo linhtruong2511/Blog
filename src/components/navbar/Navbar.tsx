@@ -3,11 +3,11 @@ import Nav from "./Nav";
 
 export default function Navbar() {
   return (
-    <>
-      <header className="flex items-center justify-between shadow-xl px-7 py-4">
+    <div className="shadow-md">
+      <header className="flex items-center justify-between py-4 max-w-[1120px] mx-auto">
         <Logo />
         <Nav />
       </header>
-    </>
+    </div>
   );
 }

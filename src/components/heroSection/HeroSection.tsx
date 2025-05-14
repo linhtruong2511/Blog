@@ -2,7 +2,7 @@ import "./hero-section.css";
 export default function HeroSection() {
   return (
     <>
-      <div className="hero flex flex-col justify-center items-center w-full text-center text-xl px-32 py-60 mb-20">
+      <div className="hero flex flex-col justify-center items-center w-full text-center text-xl px-32 py-60">
         <div className="overlay"></div>
         <div className="content flex flex-col items-center">
           {/* <img src={CodeIcon} alt="" className="h-32" /> */}

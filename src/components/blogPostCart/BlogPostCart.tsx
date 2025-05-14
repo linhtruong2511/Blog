@@ -5,7 +5,6 @@ import useDB from "../../hook/useDB";
 import { getAllPost } from "../../service/postService";
 
 export default function BlogPostCart() {
-  const db = useDB();
   const [carts, setCarts] = useState<Post[]>([]);
   useEffect(() => {
     const fetchPost = async () => {

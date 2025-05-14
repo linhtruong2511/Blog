@@ -6,7 +6,7 @@ function Layout() {
     <div className="relative">
       <Navbar />
 
-      <div className="content min-h-screen">
+      <div className="content min-h-screen mx-auto">
         <Outlet></Outlet>
       </div>
 

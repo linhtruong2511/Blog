@@ -33,7 +33,7 @@ export default function BLog() {
     fetchContent();
   }, [post]);
   return (
-    <div className="container mx-auto my-5 px-5">
+    <div className="container mx-auto my-5 max-w-[1120px]">
       <span onClick={() => navigate(-1)} className="cursor-pointer">
         <FaArrowLeft className="inline mr-3" /> Quay lại danh sách bài viết
       </span>

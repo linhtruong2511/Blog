@@ -4,8 +4,8 @@ import Post from "../../types/Post";
 export default function Cart({ cart }: { cart: Post }) {
   const navigate = useNavigate();
   return (
-    <div className="flex mb-16 gap-8 h-70 overflow-hidden">
-      <div className="relative flex-4/12 rounded-xl overflow-hidden ">
+    <div className="flex mb-16 gap-8 h-52 overflow-hidden">
+      <div className="border border-gray-200 flex-4/12 rounded-xl overflow-hidden ">
         <img
           className="h-full w-full object-cover opacity-90 transition-transform hover:scale-125"
           src={cart.thumbnailURL}
@@ -26,7 +26,7 @@ export default function Cart({ cart }: { cart: Post }) {
           })}
         </div>
         <h2 className="text-2xl font-semibold mb-2">{cart.title}</h2>
-        <p className="text-gray-400 mb-2 line-clamp-3 min-h-[72px]">
+        <p className="text-gray-400 mb-2 line-clamp-2">
           {cart.shortDesc}
         </p>
         <small className="text-sm text-gray-500 block mb-4">
@@ -36,7 +36,7 @@ export default function Cart({ cart }: { cart: Post }) {
           </i>
         </small>
         <div className="text-right">
-          <button onClick={() => navigate("blog/" + cart.id)} className="btn">
+          <button onClick={() => navigate("/blog/" + cart.id)} className="btn">
             Xem thêm
           </button>
         </div>
