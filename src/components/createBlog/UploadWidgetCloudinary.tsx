@@ -21,22 +21,22 @@ export default function UploadWidgetCloudinary({ setThumbnail }: Props) {
   };
 
   return (
-    <>
+    <div className="">
       <div className="">
         <CloudinaryUploadWidget
           uwConfig={uwConfig}
           setPublicId={setPublicId}
           setThumbnail={setThumbnail}
         />
+      </div>
+      <div className="text-center w-96 h-auto mx-auto">
         {publicId && (
-          <div className="text-center w-96 h-auto mx-auto">
-            <AdvancedImage
-              cldImg={cld.image(publicId)}
-              plugins={[responsive(), placeholder()]}
-            />
-          </div>
+          <AdvancedImage
+            cldImg={cld.image(publicId)}
+            plugins={[responsive(), placeholder()]}
+          />
         )}
       </div>
-    </>
+    </div>
   );
 }

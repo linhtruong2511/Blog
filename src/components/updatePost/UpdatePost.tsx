@@ -58,22 +58,30 @@ export default function UpdatePost({
     });
   };
   return (
-    <>
+    <div className="flex flex-col items-start">
       <button onClick={onBackToEdit} className="btn mb-4">
         Quay lại
       </button>
+      <label htmlFor="title" className=" text-xl font-medium">
+        Tiêu đề:
+      </label>
       <input
         type="text"
         className="input mb-4"
         placeholder="Tiêu đề"
         onChange={handleChangeTitle}
         value={post.title}
+        id="title"
       />
+      <label htmlFor="desc" className=" text-xl font-medium">
+        Mô tả:
+      </label>
       <textarea
         className="input mb-4 h-50"
         placeholder="Mô tả bài viết"
         onChange={handleChangeDecs}
         value={post.shortDesc}
+        id="desc"
       />
       <div className="mb-4">
         <UploadWidgetCloudinary
@@ -86,7 +94,7 @@ export default function UpdatePost({
           }
         />
         {!thumbnailChanged && (
-          <div className="text-center ">
+          <div className="text-center">
             <img
               src={post.thumbnailURL}
               alt=""
@@ -105,6 +113,6 @@ export default function UpdatePost({
           Update
         </button>{" "}
       </div>
-    </>
+    </div>
   );
 }

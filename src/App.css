@@ -17,5 +17,14 @@ body{
   box-shadow: 5px 3px 5px #ddd;
   transform: translateX(-3px);
 }
+
+input, textarea {
+  display: block;
+  width: 100%;
+  padding: 3px 5px;
+  outline: none;
+  border: 1px solid #333;
+  border-radius: 5px;
+}
   
 
