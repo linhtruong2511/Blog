@@ -1,6 +1,5 @@
 import Search from "../search/Search";
 import Logo from "./Logo";
-import Nav from "./Nav";
 
 export default function Navbar() {
   return (

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Cart from "./Cart";
 import Post from "../../types/Post";
-import useDB from "../../hook/useDB";
 import { getAllPost } from "../../service/postService";
 
 export default function BlogPostCart() {

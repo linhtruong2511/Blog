@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Post from "../../types/Post";
 
 export default function Cart({ cart }: { cart: Post }) {
