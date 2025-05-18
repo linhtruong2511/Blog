@@ -3,9 +3,9 @@ import { TbSquareToggle } from "react-icons/tb";
 
 export default function NavBar() {
   return (
-    <div className="bg-gray-200 text-black text-xl top-0 sticky w-60 h-screen">
-      <div className="py-5 flex flex-col justify-between h-full">
-        <ul className="w-full ">
+    <div className="bg-gray-200 text-black top-0 sticky w-60 h-screen">
+      <div className="pt-5 flex flex-col justify-between h-full">
+        <ul className="w-full">
           <div className="flex justify-between mb-12 items-center px-2">
             <h2 className="text-3xl font-bold ">Admin</h2>
             <TbSquareToggle className="text-2xl cursor-pointer" />

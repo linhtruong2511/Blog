@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { collection, getDocs, doc, query, deleteDoc } from "firebase/firestore";
-import useDB from "../../../hook/useDB";
 import Post, { status } from "../../../types/Post";
 import ModalConfirm from "../../../components/modalConfirm/ModalConfirm";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { deletePost, getAllPost } from "../../../service/postService";
 export default function BLogPostList() {
-  const db = useDB();
   const [posts, setPosts] = useState<Post[]>([]);
   const [_, setDeleteError] = useState<boolean>(false);
   const [selectedPost, setSelectedPost] = useState<Post>();
@@ -43,14 +40,6 @@ export default function BLogPostList() {
 
   return (
     <>
-      <div className="flex justify-between mb-10">
-        <h2 className="text-3xl font-bold">Danh sách bài viết</h2>
-        <Link to={"/admin/createblog"}>
-          <button className="btn text-white hover:text-black cursor-pointer hover:underlie">
-            Thêm bài viết
-          </button>
-        </Link>
-      </div>
       <div>
         {posts.map((cart, index) => {
           return (

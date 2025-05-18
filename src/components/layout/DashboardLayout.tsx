@@ -6,7 +6,7 @@ export default function DashboardLayout() {
     <>
       <div className="flex items-start min-h-screen bg-white text-black">
         <NavBar />
-        <main className="grow my-8 container mx-auto">
+        <main className="grow my-8 container mx-auto p-5">
           <Outlet></Outlet>
         </main>
       </div>
