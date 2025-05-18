@@ -59,7 +59,7 @@ export default function UpdatePost({
   };
   return (
     <div className="flex flex-col items-start">
-      <button onClick={onBackToEdit} className="btn mb-4">
+      <button onClick={onBackToEdit} className="btn btn-primary mb-4 ">
         Quay lại
       </button>
       <label htmlFor="title" className=" text-xl font-medium">
@@ -109,7 +109,7 @@ export default function UpdatePost({
         <div className="article-content" ref={preview}></div>
       </div>
       <div className="text-right pt-5">
-        <button onClick={handleUpdate} className="btn">
+        <button onClick={handleUpdate} className="btn btn-primary">
           Update
         </button>{" "}
       </div>

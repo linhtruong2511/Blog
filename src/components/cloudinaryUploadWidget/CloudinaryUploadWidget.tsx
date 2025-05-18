@@ -64,7 +64,7 @@ const CloudinaryUploadWidget = ({
     <button
       ref={uploadButtonRef}
       id="upload_widget"
-      className="cursor-pointer hover:underline btn"
+      className="btn btn-primary"
     >
       Chọn ảnh bìa
     </button>

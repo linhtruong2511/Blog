@@ -7,7 +7,7 @@ export default function Dashboard() {
       <div className="flex justify-between mb-10">
         <h2 className="text-3xl font-bold">Danh sách bài viết</h2>
         <Link to={"/admin/createblog"}>
-          <button className="btn text-black cursor-pointer">
+          <button className="btn btn-primary text-black cursor-pointer">
             Thêm bài viết
           </button>
         </Link>

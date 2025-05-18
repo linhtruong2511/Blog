@@ -6,11 +6,17 @@ body{
 }
 
 .btn {
-  padding: 8px 20px ;
+  padding: 6px 20px ;
   border-radius: 5px;
   border: 1px solid gray;
   transition: background-color .3s; 
   min-width: 100px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--color-blue-400);
+  color: white;
 }
 
 .btn:hover {

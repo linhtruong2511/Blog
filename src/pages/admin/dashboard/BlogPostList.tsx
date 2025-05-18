@@ -57,7 +57,7 @@ export default function BLogPostList() {
                   <h2 className="text-xl">
                     <b>{cart.title}</b>
                   </h2>
-                  <div className="flex gap-4">
+                  <div className="flex gap-4 text-gray-500">
                     <p>
                       Lượt xem: <b>{cart.view}</b>
                     </p>
@@ -72,7 +72,7 @@ export default function BLogPostList() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-7 mr-8">
+              <div className="flex items-center gap-7 mr-8 text-gray-500">
                 <Link to={"/admin/editblog/" + cart.id}>
                   <button className="cursor-pointer hover:underline">
                     <FaEdit size={20} />
