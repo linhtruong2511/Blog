@@ -10,9 +10,6 @@ export default function Home() {
         <div className="flex-8/12">
           <BlogPostCart />
         </div>
-        <div className="flex-4/12">
-          <SideBar />
-        </div>
       </main>
     </div>
   );
