@@ -24,7 +24,7 @@ body{
   transform: translateX(-3px);
 }
 
-input, textarea {
+.input, textarea {
   display: block;
   width: 100%;
   padding: 3px 5px;
