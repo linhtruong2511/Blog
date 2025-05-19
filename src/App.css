@@ -6,16 +6,31 @@ body{
 }
 
 .btn {
-  padding: 8px 20px ;
+  padding: 6px 20px ;
   border-radius: 5px;
   border: 1px solid gray;
   transition: background-color .3s; 
   min-width: 100px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--color-blue-400);
+  color: white;
 }
 
 .btn:hover {
   box-shadow: 5px 3px 5px #ddd;
   transform: translateX(-3px);
+}
+
+.input, textarea {
+  display: block;
+  width: 100%;
+  padding: 3px 5px;
+  outline: none;
+  border: 1px solid #333;
+  border-radius: 5px;
 }
   
 
