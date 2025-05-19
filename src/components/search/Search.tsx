@@ -1,19 +1,20 @@
 import { LiaSearchSolid } from "react-icons/lia";
-import Wrapper from "../sideBar/Wrapper";
 
 export default function Search() {
   return (
-    <Wrapper title="Search">
-      <form className="w-full">
+      <form className="w-full relative">
         <input
           type="text"
-          className="border px-2 py-3 pr-16 rounded-md w-full bg-gray-400 focus:bg-gray-200 transition-colors text-black outline-none"
+          className="border border-gray-200 p-2 pr-12 rounded-md w-full focus:bg-gray-100 
+          transition-colors text-black outline-none
+          focus:shadow-xl
+          "
+          placeholder="Search..."
         />
         <LiaSearchSolid
-          className="absolute text-black top-7 right-7 cursor-pointer"
-          size={30}
+          className="absolute text-black top-3 right-2 cursor-pointer"
+          size={20}
         />
       </form>
-    </Wrapper>
   );
 }

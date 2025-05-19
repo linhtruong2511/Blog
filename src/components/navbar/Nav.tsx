@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { FaShareAlt } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import SearchDiaglog from "../search/SearchDialog";
 import { useState } from "react";
@@ -13,9 +12,6 @@ export default function Nav() {
     <>
       <Link to={"/"}>
         <li>Home</li>
-      </Link>
-      <Link to={"/blogs"}>
-        <li>Blogs</li>
       </Link>
       <Link to={"/admin"}>
         <li>About</li>
@@ -31,7 +27,6 @@ export default function Nav() {
         onClick={handleShowDialog}
         className="cursor-pointer"
       />
-      <FaShareAlt size={20} />
       <div
         className="absolute top-10 right-10 z-10 transition-all"
         style={{

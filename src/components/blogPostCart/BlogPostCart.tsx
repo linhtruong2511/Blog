@@ -1,28 +1,14 @@
 import { useEffect, useState } from "react";
 import Cart from "./Cart";
 import Post from "../../types/Post";
-import useDB from "../../hook/useDB";
-import { collection, getDocs } from "firebase/firestore";
+import { getAllPost } from "../../service/postService";
 
 export default function BlogPostCart() {
-  const db = useDB();
   const [carts, setCarts] = useState<Post[]>([]);
   useEffect(() => {
     const fetchPost = async () => {
-      const postSnap = await getDocs(collection(db, "post"));
-      const posts = postSnap.docs.map((post): Post => {
-        return {
-          id: post.id,
-          contentId: post.get("content"),
-          createDate: post.get("createDate"),
-          shortDesc: post.get("shortDesc"),
-          status: post.get("status"),
-          tags: post.get("tags"),
-          thumbnailURL: post.get("thumbnailURL"),
-          title: post.get("title"),
-          view: post.get("view"),
-        };
-      });
+      const posts = await getAllPost();
+      if (!posts) return;
       setCarts(posts);
     };
     fetchPost();

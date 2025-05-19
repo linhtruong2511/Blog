@@ -2,49 +2,42 @@ import { FaArrowLeft } from "react-icons/fa";
 import Post from "../../types/Post";
 import { useEffect, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
-import { useParams } from "react-router-dom";
-import useDB from "../../hook/useDB";
-import { doc, getDoc } from "firebase/firestore";
+import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../../components/comment/Comment";
 import BlogRelated from "../../components/blogRelated/BlogRelated";
-
+import { getPost } from "../../service/postService";
+import { getContent } from "../../service/contentService";
+import { FaEye } from "react-icons/fa";
 export default function BLog() {
   const { id } = useParams();
-  const db = useDB();
   const [post, setPost] = useState<Post>();
   const [content, setContent] = useState<string>();
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchPost = async () => {
-      const postSnap = await getDoc(doc(db, "post", id as string));
-      if (postSnap.exists()) {
-        const data: Post = postSnap.data() as Post;
-        setPost({
-          ...data,
-          id: postSnap.id,
-        });
-      }
+      const post = await getPost(id as string);
+      setPost(post);
     };
     fetchPost();
   }, []);
   useEffect(() => {
     const fetchContent = async () => {
-      try {
-        if (post && post.id) {
-          const contentSnap = await getDoc(doc(db, "content", post.contentId));
-          setContent(contentSnap.get("data"));
-        }
-      } catch (e) {
-        console.log(e);
+      if (post){   
+        const content = await getContent(post?.contentId);
+        if (!content) return;
+        setContent(content.data);
+      } else {
+        console.log("post is " + post);
       }
     };
     fetchContent();
   }, [post]);
   return (
-    <div className="container mx-auto">
-      <span>
-        <FaArrowLeft className="inline mr-5" /> Quay lại danh sách bài viết
+    <div className="container mx-auto my-5 max-w-[1120px]">
+      <span onClick={() => navigate(-1)} className="cursor-pointer">
+        <FaArrowLeft className="inline mr-3" /> Quay lại danh sách bài viết
       </span>
-      <div className="h-[800px] mt-10">
+      <div className="h-[700px] my-10">
         <img
           src={post?.thumbnailURL}
           alt=""
@@ -52,10 +45,10 @@ export default function BLog() {
         />
       </div>
 
-      <h1>{post?.title}</h1>
-      <div className="flex gap-5">
-        <p>{post?.createDate}</p>
-        <p>{post?.view}</p>
+      <h1 className="text-4xl"><b>{post?.title}</b></h1>
+      <div className="flex gap-10 mb-5 mt-1">
+        <p>Ngày tạo: {post?.createDate}</p>
+        <p className="flex gap-2 items-center"> <FaEye className="inline" /> {post?.view}</p>
       </div>
       <div>
         <>
