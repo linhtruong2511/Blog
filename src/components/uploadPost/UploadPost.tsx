@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
 import "quill/dist/quill.snow.css";
 import UploadWidgetCloudinary from "../createBlog/UploadWidgetCloudinary";
-import Post, { status } from "../../types/Post";
+import Post, { Status } from "../../types/Post";
 import { addDoc, collection } from "firebase/firestore";
 import useDB from "../../hook/useDB";
 import { useNavigate } from "react-router-dom";
@@ -38,9 +38,11 @@ export default function UploadPost({ content, onBackToEdit }: Props) {
       title: title.current,
       createDate: new Date().toLocaleString("vi-VN"),
       shortDesc: shortDecs.current,
-      status: status.show,
+      status: Status.show,
       tags: [],
       view: 0,
+      isDraft: false,
+      lastUpdate: new Date().toLocaleDateString('vi-VN'),
     };
     try {
       await addDoc(collection(db, "post"), {

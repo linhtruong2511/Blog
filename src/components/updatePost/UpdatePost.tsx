@@ -35,10 +35,10 @@ export default function UpdatePost({
     try {
       await updateDoc(doc(db, "post", post.id as string), {
         ...post,
-        createDate: new Date().toLocaleString("vi-VN"),
+        lastUpdate: new Date().toLocaleString("vi-VN"),
       });
       setTimeout(() => {
-        navigate("/admin/dashboard");
+        navigate("/admin");
       }, 1000);
     } catch (e) {
       console.log(e);
