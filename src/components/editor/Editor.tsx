@@ -24,7 +24,7 @@ export default function Editor({ content, onSave }: Props) {
   const [showModalSaveDraft, setshowModalSaveDraft] = useState<Boolean>(false);
   const handleSaveDraft = async (title: string): Promise<boolean> => {
     const dataQuill: string = quillRef.current?.root.innerHTML as string;
-
+    
     if (title.trim() === "" || dataQuill.trim() === "") return false;
 
     const content: PostContent = {
@@ -59,8 +59,8 @@ export default function Editor({ content, onSave }: Props) {
       return false;
     }
   };
-  const handleOk = () => {
-    if (handleSaveDraft(draftTitle)) {
+  const handleOk = async () => {
+    if (await handleSaveDraft(draftTitle)) {
       setshowModalSaveDraft(false);
     }
   };

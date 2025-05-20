@@ -1,4 +1,4 @@
-import { DocumentSnapshot, QueryDocumentSnapshot } from "firebase/firestore";
+import { DocumentSnapshot } from "firebase/firestore";
 import Post from "../types/Post";
 
 export const convertPostSnap = (post: DocumentSnapshot): Post => {

@@ -14,7 +14,7 @@ export default function BLogPostList() {
   const question = "Bạn có muốn xóa " + selectedPost?.title + " không?";
   
   const handleClickDelete = (id: string) => {
-    setSelectedPost(posts.find((post) => (post.id = id)));
+    setSelectedPost(posts.find((post) => (post.id === id)));
     setShowModalConfirm(true);
   };
  
