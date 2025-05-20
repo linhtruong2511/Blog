@@ -5,6 +5,7 @@ import ModalConfirm from "../../../components/modalConfirm/ModalConfirm";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { deletePost, getAllPost } from "../../../service/postService";
+import { deleteContent } from "../../../service/contentService";
 export default function BLogPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [_, setDeleteError] = useState<boolean>(false);
@@ -20,7 +21,7 @@ export default function BLogPostList() {
   const handleDelete = async () => {
     if (!selectedPost) return;
     
-    if (await deletePost(selectedPost)) {
+    if (await deleteContent(selectedPost.contentId) && await deletePost(selectedPost)) {
       setPosts(posts.filter((item) => item.id !== selectedPost.id));
       setShowModalConfirm(false);
       setDeleteError(false);

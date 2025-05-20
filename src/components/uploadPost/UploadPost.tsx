@@ -47,7 +47,7 @@ export default function UploadPost({ content, onBackToEdit }: Props) {
         ...data,
       });
       setTimeout(() => {
-        navigate("/admin/dashboard");
+        navigate("/admin");
       }, 1000);
     } catch (e) {
       console.log(e);
