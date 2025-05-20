@@ -27,7 +27,7 @@ export default function UploadPost({ content, onBackToEdit }: Props) {
 
   const handlePost = async () => {
     const postDataContent: PostContent = {
-      createDate: new Date(),
+      createDate: new Date().toLocaleDateString('vi-VN'),
       data: content,
     };
     const contentId = await addDoc(collection(db, "content"), postDataContent);

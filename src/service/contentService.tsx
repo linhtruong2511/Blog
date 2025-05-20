@@ -1,4 +1,4 @@
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc } from "firebase/firestore";
 import useDB from "../hook/useDB";
 import PostContent from "../types/PostContent";
 const db = useDB();
@@ -11,7 +11,15 @@ export const getContent = async (id: string): Promise<PostContent | undefined> =
     };
   } catch (e) {
     return undefined;
-    console.log('get content id: ' + id + 'with error ' + e);
+  }
+};
+
+export const createContent = async (content : PostContent): Promise<string | undefined> => {
+  try {
+    const refContent = await addDoc(collection(db, "content"), content);
+    return refContent.id as string;
+  } catch (e) {
+    console.log('create post content error: ' + e);
   }
 };
 

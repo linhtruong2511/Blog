@@ -1,8 +1,14 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "./editor.css";
 import { useNavigate } from "react-router-dom";
+import { addPost } from "../../service/postService";
+import Post, { Status } from "../../types/Post";
+import PostContent from "../../types/PostContent";
+import { createContent } from "../../service/contentService";
+import { getDateNow } from "../../utils/date";
+import Modal from "../modal/Modal";
 interface Props {
   content: string;
   onSave: (content: string) => void;
@@ -14,8 +20,49 @@ export default function Editor({ content, onSave }: Props) {
   const navigate = useNavigate();
   const pathname: string = window.location.pathname;
   const isCreate = pathname.includes("createblog");
-  const handleSaveDraft = () => {
-    navigate("/admin");
+  const [draftTitle, setDraftTitle] = useState<string>("");
+  const [showModalSaveDraft, setshowModalSaveDraft] = useState<Boolean>(false);
+  const handleSaveDraft = async (title: string): Promise<boolean> => {
+    const dataQuill: string = quillRef.current?.root.innerHTML as string;
+
+    if (title.trim() === "" || dataQuill.trim() === "") return false;
+
+    const content: PostContent = {
+      createDate: new Date().toLocaleDateString("vi-VN"),
+      data: dataQuill,
+    };
+
+    const iDContent = await createContent(content);
+
+    if (!iDContent) return false;
+
+    const data: Post = {
+      contentId: iDContent,
+      createDate: getDateNow(),
+      id: "",
+      isDraft: true,
+      lastUpdate: getDateNow(),
+      shortDesc: "",
+      status: Status.hide,
+      tags: [],
+      thumbnailURL: "",
+      title: title,
+      view: 0,
+    };
+    const id = await addPost(data);
+
+    if (id) {
+      navigate("/admin");
+      return true;
+    } else {
+      alert("Tạo bản nháp không thành công");
+      return false;
+    }
+  };
+  const handleOk = () => {
+    if (handleSaveDraft(draftTitle)) {
+      setshowModalSaveDraft(false);
+    }
   };
   const uploadToCloudinary = async (file: File): Promise<string> => {
     const formData = new FormData();
@@ -91,21 +138,42 @@ export default function Editor({ content, onSave }: Props) {
   }, [content]);
 
   return (
-    <div className="prose">
-      <div ref={editorRef} style={{ height: "750px" }}></div>
-      <div className="mt-5 flex gap-5 justify-end">
-        {isCreate && (
-          <button className="btn " onClick={handleSaveDraft}>
-            Lưu nháp
+    <>
+      <div className="prose">
+        <div ref={editorRef} style={{ height: "750px" }}></div>
+        <div className="mt-5 flex gap-5 justify-end">
+          {isCreate && (
+            <button
+              className="btn "
+              onClick={() => setshowModalSaveDraft(true)}
+            >
+              Lưu nháp
+            </button>
+          )}
+          <button
+            className="btn btn-primary"
+            onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
+          >
+            {isCreate ? "Tạo bài viết" : "Cập nhật"}
           </button>
-        )}
-        <button
-          className="btn btn-primary"
-          onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
-        >
-          {isCreate ? "Tạo bài viết" : "Cập nhật"}
-        </button>
+        </div>
       </div>
-    </div>
+
+      {showModalSaveDraft && (
+        <Modal
+          onCancel={() => setshowModalSaveDraft((e) => !e)}
+          onOk={handleOk}
+          title="Nhập tên bản nháp"
+        >
+          <input
+            placeholder="Tiêu đề"
+            type="text"
+            className="input"
+            value={draftTitle}
+            onChange={(e) => setDraftTitle(e.target.value)}
+          />
+        </Modal>
+      )}
+    </>
   );
 }
