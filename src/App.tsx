@@ -13,6 +13,7 @@ import DashboardLayout from "./components/layout/DashboardLayout";
 import CreateBlog from "./components/createBlog/CreateBlog";
 import EditBlog from "./components/editBlog/EditBlog";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
+import Draft from "./components/draftEdit/Draft";
 function App() {
   return (
     <Provider>
@@ -28,6 +29,7 @@ function App() {
           <Route path="/adminlogin" element={<AdminLogin />} />
           <Route path="/admin" element={<DashboardLayout />}>
             <Route path="" element={<Dashboard />} />
+            <Route path="draft" element={<Draft />}/>
             <Route path="createblog" element={<CreateBlog />} />
             <Route path="editblog/:postId" element={<EditBlog />} />
           </Route>

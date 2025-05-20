@@ -86,12 +86,18 @@ export default function Editor({ content, onSave }: Props) {
   return (
     <div className="prose">
       <div ref={editorRef} style={{ height: "750px" }}></div>
-      <div className="text-right mt-5">
+      <div className="mt-5 flex gap-5 justify-end">
         <button
-          className="btn"
+          className="btn "
           onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
         >
-          Lưu
+          Lưu nháp
+        </button>
+        <button
+          className="btn btn-primary"
+          onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
+        >
+          Đăng bài
         </button>
       </div>
     </div>

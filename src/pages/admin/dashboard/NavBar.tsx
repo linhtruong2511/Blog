@@ -15,7 +15,7 @@ export default function NavBar() {
               Quản lý bài viết
             </li>
           </Link>
-          <Link to={"/admin/createblog"}>
+          <Link to={"/admin/draft"}>
             <li className="hover:bg-gray-400 hover:text-white transition-all py-3 px-2">
               Tạo bài viết
             </li>
