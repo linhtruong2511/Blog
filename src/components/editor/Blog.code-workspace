@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "../../.."
+		},
+		{
+			"path": "../../../../Cat-HTML/Digital-World"
+		}
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "Digital-World"
+	}
+}

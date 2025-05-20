@@ -12,9 +12,11 @@ export default function Editor({ content, onSave }: Props) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
   const navigate = useNavigate();
+  const pathname: string = window.location.pathname;
+  const isCreate = pathname.includes("createblog");
   const handleSaveDraft = () => {
-    navigate('/admin');
-  }
+    navigate("/admin");
+  };
   const uploadToCloudinary = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append("file", file);
@@ -92,17 +94,16 @@ export default function Editor({ content, onSave }: Props) {
     <div className="prose">
       <div ref={editorRef} style={{ height: "750px" }}></div>
       <div className="mt-5 flex gap-5 justify-end">
-        <button
-          className="btn "
-          onClick={handleSaveDraft}
-        >
-          Lưu nháp
-        </button>
+        {isCreate && (
+          <button className="btn " onClick={handleSaveDraft}>
+            Lưu nháp
+          </button>
+        )}
         <button
           className="btn btn-primary"
           onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
         >
-          Đăng bài
+          {isCreate ? "Tạo bài viết" : "Cập nhật"}
         </button>
       </div>
     </div>
