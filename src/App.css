@@ -1,8 +1,15 @@
 @import 'tailwindcss';
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 body{
   color: rgb(37, 37, 37);
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+}
+
+h1,h2,h3 {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
 }
 
 .btn {
