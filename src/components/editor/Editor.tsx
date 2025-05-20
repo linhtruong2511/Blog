@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "./editor.css";
+import { useNavigate } from "react-router-dom";
 interface Props {
   content: string;
   onSave: (content: string) => void;
@@ -10,6 +11,10 @@ interface Props {
 export default function Editor({ content, onSave }: Props) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
+  const navigate = useNavigate();
+  const handleSaveDraft = () => {
+    navigate('/admin');
+  }
   const uploadToCloudinary = async (file: File): Promise<string> => {
     const formData = new FormData();
     formData.append("file", file);
@@ -89,7 +94,7 @@ export default function Editor({ content, onSave }: Props) {
       <div className="mt-5 flex gap-5 justify-end">
         <button
           className="btn "
-          onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
+          onClick={handleSaveDraft}
         >
           Lưu nháp
         </button>
