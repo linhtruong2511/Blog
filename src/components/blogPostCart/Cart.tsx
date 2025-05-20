@@ -36,7 +36,7 @@ export default function Cart({ cart }: { cart: Post }) {
           </i>
         </small>
         <div className="text-right">
-          <button onClick={() => navigate("/blog/" + cart.id)} className="btn">
+          <button onClick={() => navigate("/blog/" + cart.id)} className="btn btn-primary">
             Xem thêm
           </button>
         </div>

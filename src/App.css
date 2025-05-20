@@ -1,5 +1,5 @@
-@import 'tailwindcss';
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import 'tailwindcss';
 
 body{
   color: rgb(37, 37, 37);
@@ -19,11 +19,20 @@ h1,h2,h3 {
   transition: background-color .3s; 
   min-width: 100px;
   cursor: pointer;
+  transition: transform .3s;
 }
 
 .btn-primary {
-  background-color: var(--color-blue-400);
+  background-color: var(--color-blue-500);
   color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-blue-600);
+}
+
+.btn-primary:active {
+  background-color: var(--color-blue-700);
 }
 
 .btn:hover {
