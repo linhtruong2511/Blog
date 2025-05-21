@@ -23,7 +23,8 @@ export default function Editor({ content, onSave }: Props) {
   const [draftTitle, setDraftTitle] = useState<string>("");
   const [showModalSaveDraft, setshowModalSaveDraft] = useState<Boolean>(false);
   const handleSaveDraft = async (title: string): Promise<boolean> => {
-    if (title.trim() === "") return false;
+    const dataQuill: string = quillRef.current?.root.innerHTML as string;
+    if (title.trim() === "" || dataQuill.trim() === "") return false;
 
     const content: PostContent = {
       createDate: new Date().toLocaleDateString("vi-VN"),

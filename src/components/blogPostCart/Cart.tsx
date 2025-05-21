@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import Post from "../../types/Post";
+import { Button } from "../ui/button";
 
 export default function Cart({ cart }: { cart: Post }) {
   const navigate = useNavigate();
@@ -36,9 +37,7 @@ export default function Cart({ cart }: { cart: Post }) {
           </i>
         </small>
         <div className="text-right">
-          <button onClick={() => navigate("/blog/" + cart.id)} className="btn btn-primary">
-            Xem thêm
-          </button>
+          <Button onClick={() => navigate("/blog/" + cart.id)} size={"lg"}>Xem thêm</Button>
         </div>
       </div>
     </div>
