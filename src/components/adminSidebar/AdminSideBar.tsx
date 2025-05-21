@@ -1,15 +1,9 @@
 import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
   ChevronUp,
-  CreditCard,
-  DoorClosed,
   Home,
   Inbox,
-  LogOut,
+  LayoutDashboard,
   Settings,
-  Sparkles,
   User2,
 } from "lucide-react";
 
@@ -17,41 +11,40 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarTrigger,
+  SidebarRail,
+  SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
+import { useState } from "react";
+import Logo from '../../assets/logox.png';
 // Menu items.
 const items = [
   {
-    title: "Bài viết",
+    id: 1,
+    title: "Trang chủ",
     url: "/admin",
     icon: Home,
   },
   {
+    id: 2,
     title: "Tạo bài viết",
     url: "/admin/createblog",
     icon: Inbox,
   },
 
   {
+    id: 3,
     title: "Settings",
     url: "#",
     icon: Settings,
@@ -59,28 +52,27 @@ const items = [
 ];
 
 export function AdminSidebar() {
-  const { open, isMobile } = useSidebar();
-  const hideHeader = !open ? "opacity-0" : "opacity-100";
+  const [selectedMenuItem, setSelectedMenuItem] = useState<number>(1);
+  const { open } = useSidebar();
+  const hideHeader = !open ? "hidden" : "auto";
   const navigate = useNavigate();
   return (
-    <Sidebar collapsible="icon">
-      <SidebarHeader className="overflow-clip">
-        <div className="mt-2">
-          <h2
-            className={
-              "font-bold text-2xl transition-all text-nowrap " + hideHeader
-            }
-          >
-            Admin Page
-          </h2>
-        </div>
+    <Sidebar collapsible="icon" className="overflow-clip">
+      <SidebarHeader className="overflow-clip mt-2">
+        <SidebarMenu>
+          <SidebarMenuItem className="flex gap-2 items-center">
+              <img src={Logo} alt="" className="w-10" /> <h2 className={"text-2xl font-bold " + hideHeader}>DevTruong</h2>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarHeader>
+
+      <SidebarSeparator />
 
       <SidebarContent className="mt-2">
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild isActive={item.id === selectedMenuItem} onClick={() => setSelectedMenuItem(item.id)}>
                 <Link to={item.url}>
                   <item.icon />
                   <span>{item.title}</span>
@@ -103,12 +95,12 @@ export function AdminSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 side={open ? "top" : "right"}
-                className="w-60"
+                className="w-[12rem]"
               >
                 <DropdownMenuItem>
                   <span>Tài khoản</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/')}>
+                <DropdownMenuItem onClick={() => navigate("/")}>
                   <span>Thoát</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -116,6 +108,8 @@ export function AdminSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
+
+      <SidebarRail />
     </Sidebar>
   );
 }
