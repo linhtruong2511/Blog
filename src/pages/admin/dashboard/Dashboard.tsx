@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import BLogPostList from "./BlogPostList";
+import { Button } from "@/components/ui/button";
 
 export default function Dashboard() {
   return (
     <>
       <div className="flex justify-between mb-10">
-        <h2 className="text-3xl font-bold">Danh sách bài viết</h2>
+        <h2 className="text-3xl font-bold">Bài viết</h2>
         <Link to={"/admin/createblog"}>
-          <button className="btn btn-primary text-black cursor-pointer">
-            Thêm bài viết
-          </button>
+          <Button>Thêm bài viết</Button>
         </Link>
       </div>
       <BLogPostList />

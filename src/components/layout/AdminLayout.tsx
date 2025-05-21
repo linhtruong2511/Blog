@@ -1,15 +1,19 @@
 import NavBar from "../../pages/admin/dashboard/NavBar";
 import { Outlet } from "react-router-dom";
-
+import { SidebarProvider, SidebarTrigger } from "../ui/sidebar";
+import { AdminSidebar } from "../adminSidebar/AdminSideBar";
 export default function AdminLayout() {
   return (
     <>
-      <div className="flex items-start min-h-screen bg-white text-black">
-        <NavBar />
-        <main className="grow my-8 container mx-auto p-5">
-          <Outlet></Outlet>
+      <SidebarProvider>
+        <AdminSidebar />
+        <main className="w-full p-3">
+          <SidebarTrigger />
+          <div className="bg-gray-100 p-5 rounded-md mt-2">
+            <Outlet></Outlet>
+          </div>
         </main>
-      </div>
+      </SidebarProvider>
     </>
   );
 }

@@ -46,7 +46,7 @@ export default function BLogPostList() {
           return (
             <div
               key={index}
-              className="flex justify-between items-center mb-8 bg-gray-100 p-4 rounded-md hover:shadow-xl hover:translate-0.5 transition-all"
+              className="flex justify-between items-center mb-8 bg-gray-50 p-4 rounded-md hover:shadow-xl hover:translate-0.5 transition-all"
             >
               <div className="flex items-center gap-5">
                 <img

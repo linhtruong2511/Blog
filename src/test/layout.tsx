@@ -1,6 +1,6 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "./app-sidebar"
-import { Outlet } from "react-router-dom"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "./app-sidebar";
+import { Outlet } from "react-router-dom";
 
 export default function LayoutTest() {
   return (
@@ -8,8 +8,10 @@ export default function LayoutTest() {
       <AppSidebar />
       <main>
         <SidebarTrigger />
-        <Outlet />
+        <div className="bg-gray-500">
+          <Outlet />
+        </div>
       </main>
     </SidebarProvider>
-  )
+  );
 }
