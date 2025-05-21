@@ -1,6 +1,4 @@
 import BlogPostCart from "../../components/blogPostCart/BlogPostCart";
-import HeroSection from "../../components/heroSection/HeroSection";
-import SideBar from "../../components/sideBar/SideBar";
 
 export default function Home() {
   return (
