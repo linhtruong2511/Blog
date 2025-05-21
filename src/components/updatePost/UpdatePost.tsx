@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
-import UploadWidgetCloudinary from "../createBlog/UploadWidgetCloudinary";
+import UploadWidgetCloudinary from "@/pages/admin/createBlog/UploadWidgetCloudinary";
 import Post from "../../types/Post";
 import { doc, updateDoc } from "firebase/firestore";
 import useDB from "../../hook/useDB";

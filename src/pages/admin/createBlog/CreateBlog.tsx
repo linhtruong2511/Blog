@@ -1,7 +1,6 @@
 import { useState } from "react";
-import Editor from "../editor/Editor";
-import UploadPost from "../uploadPost/UploadPost";
-import Draft from "../draftEdit/Draft";
+import Editor from "@/components/editor/Editor";
+import UploadPost from "@/components/uploadPost/UploadPost";
 
 export default function CreateBlog() {
   const [content, setContent] = useState<string>("");

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import Post from "../../types/Post";
-import Editor from "../editor/Editor";
+import Post from "@/types/Post";
+import Editor from "@/components/editor/Editor";
 import { doc, getDoc } from "firebase/firestore";
-import useDB from "../../hook/useDB";
+import useDB from "@/hook/useDB";
 import { useParams } from "react-router-dom";
-import UpdatePost from "../updatePost/UpdatePost";
+import UpdatePost from "@/components/updatePost/UpdatePost";
+import { getPost } from "@/service/postService";
 
 export default function EditBlog() {
   const [isSave, setIsSave] = useState<boolean>(false);
@@ -17,22 +18,8 @@ export default function EditBlog() {
   useEffect(() => {
     const fetchPost = async () => {
       if (postId) {
-        const postSnap = await getDoc(doc(db, "post", postId));
-        if (postSnap.exists()) {
-          setPost({
-            contentId: postSnap.get("contentId"),
-            createDate: postSnap.get("createDate"),
-            id: postSnap.id,
-            shortDesc: postSnap.get("shortDesc"),
-            status: postSnap.get("status"),
-            tags: postSnap.get("tags"),
-            thumbnailURL: postSnap.get("thumbnailURL"),
-            title: postSnap.get("title"),
-            view: postSnap.get("view"),
-          });
-        } else {
-          console.log("post id not exist");
-        }
+        const post = await getPost(postId);
+        if (post) setPost(post);
       } else {
         console.log("post id has error !!!");
       }

@@ -10,8 +10,8 @@ import Nopage from "./pages/nopage/Nopage";
 import Layout from "./components/layout/Layout";
 import Provider from "./contexts/Provider";
 import DashboardLayout from "./components/layout/DashboardLayout";
-import CreateBlog from "./components/createBlog/CreateBlog";
-import EditBlog from "./components/editBlog/EditBlog";
+import CreateBlog from "./pages/admin/createBlog/CreateBlog";
+import EditBlog from "./pages/admin/editBlog/EditBlog"; 
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import Draft from "./components/draftEdit/Draft";
 function App() {

@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../../components/comment/Comment";
-import BlogRelated from "../../components/blogRelated/BlogRelated";
 import { getPost } from "../../service/postService";
 import { getContent } from "../../service/contentService";
 import { FaEye } from "react-icons/fa";
+import { Skeleton } from "@/components/ui/skeleton";
 export default function BLog() {
   const { id } = useParams();
   const [post, setPost] = useState<Post>();
   const [content, setContent] = useState<string>();
   const navigate = useNavigate();
   const isLoaded = content && post ? true : false;
+  
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -78,7 +79,7 @@ export default function BLog() {
 
             <div className="grow">
               <div>Mục lục</div>
-              <BlogRelated />
+              {/* <BlogRelated /> */}
             </div>
           </div>
 
@@ -101,7 +102,9 @@ export default function BLog() {
           </div>
         </>
       ) : (
-        <div className="text-center text-3xl mt-32">Đang tải bài viết ...</div>
+        <div className="h-screen">
+          <Skeleton className="h-full w-full" />
+        </div>
       )}
     </div>
   );
