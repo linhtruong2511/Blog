@@ -1,4 +1,3 @@
-import Search from "../search/Search";
 import { Input } from "../ui/input";
 import Logo from "./Logo";
 

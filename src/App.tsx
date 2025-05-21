@@ -9,11 +9,13 @@ import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Nopage from "./pages/nopage/Nopage";
 import Layout from "./components/layout/Layout";
 import Provider from "./contexts/Provider";
-import DashboardLayout from "./components/layout/DashboardLayout";
+import AdminLayout from "./components/layout/AdminLayout";
 import CreateBlog from "./pages/admin/createBlog/CreateBlog";
-import EditBlog from "./pages/admin/editBlog/EditBlog"; 
+import EditBlog from "./pages/admin/editBlog/EditBlog";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import Draft from "./components/draftEdit/Draft";
+import AppTest from "./test/app";
+import LayoutTest from "./test/layout";
 function App() {
   return (
     <Provider>
@@ -27,11 +29,14 @@ function App() {
             <Route path="bloginfo/:id" element={<BlogInfor />} />
           </Route>
           <Route path="/adminlogin" element={<AdminLogin />} />
-          <Route path="/admin" element={<DashboardLayout />}>
+          <Route path="/admin" element={<AdminLayout />}>
             <Route path="" element={<Dashboard />} />
-            <Route path="draft" element={<Draft />}/>
+            <Route path="draft" element={<Draft />} />
             <Route path="createblog" element={<CreateBlog />} />
             <Route path="editblog/:postId" element={<EditBlog />} />
+          </Route>
+          <Route path="test" element={<LayoutTest />}>
+            <Route path="" element={<Dashboard />} />
           </Route>
           <Route path="/*" element={<Nopage />} />
         </Routes>

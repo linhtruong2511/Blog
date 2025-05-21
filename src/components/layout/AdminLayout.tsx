@@ -1,7 +1,7 @@
 import NavBar from "../../pages/admin/dashboard/NavBar";
 import { Outlet } from "react-router-dom";
 
-export default function DashboardLayout() {
+export default function AdminLayout() {
   return (
     <>
       <div className="flex items-start min-h-screen bg-white text-black">
