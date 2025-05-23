@@ -8,6 +8,8 @@ import {
 import { deleteContent } from "../../../service/contentService";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
 import Cart from "./Cart";
+import { toast } from "sonner"
+
 export default function BLogPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [_, setDeleteError] = useState<boolean>(false);
@@ -34,9 +36,9 @@ export default function BLogPostList() {
       })
     );
     if (isDone) {
-      console.log("show toast");
+      toast('Cập nhật thành công ')
     } else {
-      console.log("update error");
+      toast('cập nhật thất bại !!!')
     }
   };
 

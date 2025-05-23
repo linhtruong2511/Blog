@@ -7,6 +7,7 @@ import {
   getDocs,
   query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import useDB from "../hook/useDB";
 import Post from "../types/Post";
@@ -39,6 +40,14 @@ export const getAllPostNotDraft = async () => {
     console.log("get all post error: " + e);
   }
 };
+
+export const getAllDraft = async () : Promise<Post[]> => {
+  const q = query(collection(db, 'post'), where('isDraft', '==', true));
+  const draftSnap = await getDocs(q);
+  return (draftSnap).docs.map((draft) : Post => {
+    return convertPostSnap(draft);
+  })
+}
 
 export const getPost = async (id: string): Promise<Post | undefined> => {
   try {
