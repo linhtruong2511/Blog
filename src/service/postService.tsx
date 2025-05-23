@@ -6,12 +6,15 @@ import {
   getDoc,
   getDocs,
   query,
+  updateDoc,
 } from "firebase/firestore";
 import useDB from "../hook/useDB";
 import Post from "../types/Post";
 import { deleteContent } from "./contentService";
 import { convertPostSnap } from "../utils/convert";
+
 const db = useDB();
+
 export const getAllPost = async () => {
   try {
     const result = await getDocs(collection(db, "post"));
@@ -66,3 +69,13 @@ export const addPost = async (post: Post): Promise<string | undefined> => {
     console.log("error in add post");
   }
 };
+
+export const updatePost = async (id: string, data : object) : Promise<boolean> => {
+  try{
+    await updateDoc(doc(db, "post", id), data);
+    return true;
+  } catch(e) {
+    console.log(e);
+    return false;
+  }
+}

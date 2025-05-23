@@ -158,21 +158,6 @@ export default function Editor({ content, onSave }: Props) {
         </div>
       </div>
 
-      {showModalSaveDraft && (
-        <Modal
-          onCancel={() => setshowModalSaveDraft((e) => !e)}
-          onOk={handleOk}
-          title="Nhập tên bản nháp"
-        >
-          <input
-            placeholder="Tiêu đề"
-            type="text"
-            className="input"
-            value={draftTitle}
-            onChange={(e) => setDraftTitle(e.target.value)}
-          />
-        </Modal>
-      )}
     </>
   );
 }

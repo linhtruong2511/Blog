@@ -39,7 +39,7 @@ const items = [
   {
     id: 2,
     title: "Tạo bài viết",
-    url: "/admin/createblog",
+    url: "/admin/draft",
     icon: Inbox,
   },
 
