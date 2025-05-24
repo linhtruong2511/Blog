@@ -13,7 +13,7 @@ import AdminLayout from "./components/layout/AdminLayout";
 import CreateBlog from "./pages/admin/createBlog/CreateBlog";
 import EditBlog from "./pages/admin/editBlog/EditBlog";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
-import Draft from "./components/draftEdit/Draft";
+import Draft from "./pages/admin/draftEdit/Draft";
 import LayoutTest from "./test/layout";
 function App() {
   return (
