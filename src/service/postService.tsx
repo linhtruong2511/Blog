@@ -6,15 +6,20 @@ import {
   getDoc,
   getDocs,
   query,
+  updateDoc,
+  where,
 } from "firebase/firestore";
 import useDB from "../hook/useDB";
 import Post from "../types/Post";
 import { deleteContent } from "./contentService";
 import { convertPostSnap } from "../utils/convert";
+
 const db = useDB();
+
 export const getAllPost = async () => {
   try {
-    const result = await getDocs(collection(db, "post"));
+    const q = query(collection(db, "post"), where('isDraft', '==', false))
+    const result = await getDocs(q);
     const posts = result.docs.map((post): Post => {
       return convertPostSnap(post);
     });
@@ -24,18 +29,14 @@ export const getAllPost = async () => {
   }
 };
 
-export const getAllPostNotDraft = async () => {
-  try {
-    // const q = query()
-    const result = await getDocs(collection(db, "post"));
-    const posts = result.docs.map((post): Post => {
-      return convertPostSnap(post);
-    });
-    return posts;
-  } catch (e) {
-    console.log("get all post error: " + e);
-  }
-};
+
+export const getAllDraft = async () : Promise<Post[]> => {
+  const q = query(collection(db, 'post'), where('isDraft', '==', true));
+  const draftSnap = await getDocs(q);
+  return (draftSnap).docs.map((draft) : Post => {
+    return convertPostSnap(draft);
+  })
+}
 
 export const getPost = async (id: string): Promise<Post | undefined> => {
   try {
@@ -66,3 +67,13 @@ export const addPost = async (post: Post): Promise<string | undefined> => {
     console.log("error in add post");
   }
 };
+
+export const updatePost = async (id: string, data : object) : Promise<boolean> => {
+  try{
+    await updateDoc(doc(db, "post", id), data);
+    return true;
+  } catch(e) {
+    console.log(e);
+    return false;
+  }
+}

@@ -1,34 +1,83 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Post, { Status } from "../../../types/Post";
-import ModalConfirm from "../../../components/modalConfirm/ModalConfirm";
-import { FaEdit } from "react-icons/fa";
-import { FaTrash } from "react-icons/fa";
-import { deletePost, getAllPost } from "../../../service/postService";
+import { ChangeEvent, useEffect, useState } from "react";
+import Post from "../../../types/Post";
+import {
+  deletePost,
+  getAllPost,
+  updatePost,
+} from "../../../service/postService";
 import { deleteContent } from "../../../service/contentService";
+import { uploadToCloudinary } from "@/service/cloudinaryService";
+import Cart from "./Cart";
+import { toast } from "react-toastify";
+
 export default function BLogPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [_, setDeleteError] = useState<boolean>(false);
-  const [selectedPost, setSelectedPost] = useState<Post>();
-  const [showModalConfirm, setShowModalConfirm] = useState<boolean>(false);
-  const question = "Bạn có muốn xóa " + selectedPost?.title + " không?";
-  
-  const handleClickDelete = (id: string) => {
-    setSelectedPost(posts.find((post) => (post.id === id)));
-    setShowModalConfirm(true);
+  const [selectedPost, setSelectedPost] = useState<Post>(posts[0]);
+  const [postUpdate, setPostUpdate] = useState({});
+
+  const handleClickDelete = (id: string): void => {
+    setSelectedPost(posts.find((post) => post.id === id) || posts[0]);
   };
- 
-  const handleDelete = async () => {
+
+  const handleSaveEdit = async (): Promise<void> => {
+    if (!selectedPost?.id) return;
+    const isDone = await updatePost(selectedPost.id, postUpdate);
+    setPosts(
+      posts.map((post): Post => {
+        if (selectedPost.id === post.id) {
+          return {
+            ...post,
+            ...postUpdate,
+          };
+        } else {
+          return post;
+        }
+      })
+    );
+    if (isDone) {
+      toast.success('Cập nhật thành công')
+    } else {
+      toast.error('Cập nhật thất bại, vui lòng kiểm tra lại đường truyền !')
+    }
+  };
+
+  const handleEdit = (
+    val: string | number | boolean | string[],
+    name: string
+  ): void => {
+    setPostUpdate({
+      ...postUpdate,
+      [name]: val,
+    });
+  };
+
+  const handleUpdateThumbnail = async (
+    e: ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    const file: File | null | undefined = e.target.files?.item(0);
+    if (!file) return;
+
+    const url = await uploadToCloudinary(file);
+    if (!url) return;
+    handleEdit(url, "thumbnailURL");
+  };
+
+  const handleDelete = async (): Promise<void> => {
     if (!selectedPost) return;
-    
-    if (await deleteContent(selectedPost.contentId) && await deletePost(selectedPost)) {
+
+    if (
+      (await deleteContent(selectedPost.contentId)) &&
+      (await deletePost(selectedPost))
+    ) {
       setPosts(posts.filter((item) => item.id !== selectedPost.id));
-      setShowModalConfirm(false);
       setDeleteError(false);
     } else {
       setDeleteError(true);
     }
   };
+
+  const handleClickSetting = () => {};
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -44,60 +93,19 @@ export default function BLogPostList() {
       <div>
         {posts.map((cart, index) => {
           return (
-            <div
-              key={index}
-              className="flex justify-between items-center mb-8 bg-gray-100 p-4 rounded-md hover:shadow-xl hover:translate-0.5 transition-all"
-            >
-              <div className="flex items-center gap-5">
-                <img
-                  src={cart.thumbnailURL}
-                  alt=""
-                  className="h-32 object-cover w-44 rounded-md"
-                />
-                <div>
-                  <h2 className="text-xl">
-                    <b>{cart.title}</b>
-                  </h2>
-                  <div className="flex gap-4 text-gray-500">
-                    <p>
-                      Lượt xem: <b>{cart.view}</b>
-                    </p>
-                    <p className="flex items-center gap-2">
-                      Trạng thái: <b>{cart.status}</b>
-                      {cart.status === Status.show ? (
-                        <span className="h-3 w-3 inline-block rounded-full bg-green-400"></span>
-                      ) : (
-                        <span className="h-3 w-3 inline-block rounded-full bg-red-400"></span>
-                      )}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-7 mr-8 text-gray-500">
-                <Link to={"/admin/editblog/" + cart.id}>
-                  <button className="cursor-pointer hover:underline">
-                    <FaEdit size={20} />
-                  </button>
-                </Link>
-                <button
-                  onClick={() => handleClickDelete(cart.id as string)}
-                  className="cursor-pointer hover:underline"
-                >
-                  <FaTrash size={20} />
-                </button>
-              </div>
-            </div>
+            <Cart
+              cart={cart}
+              key={cart.id}
+              onClickDelete={handleClickDelete}
+              // onClickSetting={handleClickSetting}
+              onDelete={handleDelete}
+              onSaveEdit={handleSaveEdit}
+              onEdit={handleEdit}
+              onUpdateThumbnail={handleUpdateThumbnail}
+            />
           );
         })}
       </div>
-
-      {showModalConfirm && (
-        <ModalConfirm
-          question={question}
-          onConfirm={handleDelete}
-          onCancel={() => setShowModalConfirm(false)}
-        />
-      )}
     </>
   );
 }

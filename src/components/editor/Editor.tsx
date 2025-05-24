@@ -8,11 +8,40 @@ import Post, { Status } from "../../types/Post";
 import PostContent from "../../types/PostContent";
 import { createContent } from "../../service/contentService";
 import { getDateNow } from "../../utils/date";
-import Modal from "../modal/Modal";
+import { uploadToCloudinary } from "@/service/cloudinaryService";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { DialogFooter, DialogHeader } from "../ui/dialog";
+import { Input } from "../ui/input";
+import { BadgePlus, FlaskConical, Save, Upload } from "lucide-react";
+import { DialogDescription } from "@radix-ui/react-dialog";
 interface Props {
   content: string;
   onSave: (content: string) => void;
 }
+
+const toolbarOptions = [
+  ["bold", "italic", "underline", "strike"],
+  ["blockquote", "code-block"],
+  ["link", "image", "video", "formula"],
+  [{ header: 1 }, { header: 2 }],
+  [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
+  [{ script: "sub" }, { script: "super" }],
+  [{ indent: "-1" }, { indent: "+1" }],
+  [{ direction: "rtl" }],
+  [{ size: ["small", false, "large", "huge"] }],
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+  [{ color: [] }, { background: [] }],
+  [{ font: [] }],
+  [{ align: [] }],
+  ["clean"],
+];
 
 export default function Editor({ content, onSave }: Props) {
   const editorRef = useRef<HTMLDivElement | null>(null);
@@ -21,7 +50,6 @@ export default function Editor({ content, onSave }: Props) {
   const pathname: string = window.location.pathname;
   const isCreate = pathname.includes("createblog");
   const [draftTitle, setDraftTitle] = useState<string>("");
-  const [showModalSaveDraft, setshowModalSaveDraft] = useState<Boolean>(false);
   const handleSaveDraft = async (title: string): Promise<boolean> => {
     const dataQuill: string = quillRef.current?.root.innerHTML as string;
     if (title.trim() === "" || dataQuill.trim() === "") return false;
@@ -48,6 +76,7 @@ export default function Editor({ content, onSave }: Props) {
       title: title,
       view: 0,
     };
+    console.log(data);
     const id = await addPost(data);
 
     if (id) {
@@ -58,43 +87,6 @@ export default function Editor({ content, onSave }: Props) {
       return false;
     }
   };
-  const handleOk = async () => {
-    if (await handleSaveDraft(draftTitle)) {
-      setshowModalSaveDraft(false);
-    }
-  };
-  const uploadToCloudinary = async (file: File): Promise<string> => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "post-image");
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/" + "dgkgppcom" + "/upload",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const data = await res.json();
-    const url = data.url;
-    return url;
-  };
-
-  const toolbarOptions = [
-    ["bold", "italic", "underline", "strike"],
-    ["blockquote", "code-block"],
-    ["link", "image", "video", "formula"],
-    [{ header: 1 }, { header: 2 }],
-    [{ list: "ordered" }, { list: "bullet" }, { list: "check" }],
-    [{ script: "sub" }, { script: "super" }],
-    [{ indent: "-1" }, { indent: "+1" }],
-    [{ direction: "rtl" }],
-    [{ size: ["small", false, "large", "huge"] }],
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    [{ color: [] }, { background: [] }],
-    [{ font: [] }],
-    [{ align: [] }],
-    ["clean"],
-  ];
 
   const handleImage = useCallback(() => {
     const input = document.createElement("input");
@@ -130,6 +122,7 @@ export default function Editor({ content, onSave }: Props) {
       });
     }
   }, []);
+
   useEffect(() => {
     if (quillRef.current && content) {
       quillRef.current.clipboard.dangerouslyPasteHTML(content);
@@ -139,40 +132,50 @@ export default function Editor({ content, onSave }: Props) {
   return (
     <>
       <div className="prose">
-        <div ref={editorRef} style={{ height: "750px" }}></div>
+        <div ref={editorRef} style={{ height: "550px" }}></div>
         <div className="mt-5 flex gap-5 justify-end">
           {isCreate && (
-            <button
-              className="btn "
-              onClick={() => setshowModalSaveDraft(true)}
-            >
-              Lưu nháp
-            </button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <span>
+                  <Button variant={"secondary"}>
+                    Lưu bản nháp <FlaskConical />
+                  </Button>
+                </span>
+              </DialogTrigger>
+
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Nhập tên bản nháp</DialogTitle>
+                  <DialogDescription></DialogDescription>
+                </DialogHeader>
+
+                <Input
+                  type="text"
+                  placeholder="Tiêu đề"
+                  onChange={(e) => setDraftTitle(e.target.value)}
+                />
+
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button  onClick={() => handleSaveDraft(draftTitle)} variant={"default"} color="blue" size={"default"}>
+                      Lưu <Save />{" "}
+                    </Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           )}
-          <button
+          <Button
+            variant={"default"}
             className="btn btn-primary"
             onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
           >
             {isCreate ? "Tạo bài viết" : "Cập nhật"}
-          </button>
+            {isCreate ? <BadgePlus /> : <Upload />}
+          </Button>
         </div>
       </div>
-
-      {showModalSaveDraft && (
-        <Modal
-          onCancel={() => setshowModalSaveDraft((e) => !e)}
-          onOk={handleOk}
-          title="Nhập tên bản nháp"
-        >
-          <input
-            placeholder="Tiêu đề"
-            type="text"
-            className="input"
-            value={draftTitle}
-            onChange={(e) => setDraftTitle(e.target.value)}
-          />
-        </Modal>
-      )}
     </>
   );
 }

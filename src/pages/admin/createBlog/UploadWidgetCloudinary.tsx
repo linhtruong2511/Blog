@@ -1,6 +1,6 @@
 import { useState } from "react";
-import useCloudinary from "../../hook/useCloudinary";
-import CloudinaryUploadWidget from "../../components/cloudinaryUploadWidget/CloudinaryUploadWidget";
+import useCloudinary from "@/hook/useCloudinary";
+import CloudinaryUploadWidget from "@/components/cloudinaryUploadWidget/CloudinaryUploadWidget";
 import { AdvancedImage, placeholder, responsive } from "@cloudinary/react";
 interface Props {
   thumbnail: string;

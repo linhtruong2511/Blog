@@ -1,34 +1,40 @@
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
+import { DialogClose } from "@radix-ui/react-dialog";
+
 interface Props {
   question: string;
   onConfirm: () => void;
-  onCancel: () => void;
+  children: React.ReactNode;
 }
-export default function ModalConfirm({ question, onConfirm, onCancel }: Props) {
+export default function ModalConfirm({ children, question, onConfirm }: Props) {
   return (
     <>
-      <div
-        className="fixed top-0 left-0 h-full w-full flex items-center justify-center"
-        style={{}}
-      >
-        <div className="absolute top-0 left-0 h-full w-full bg-black opacity-60"></div>
-        <div className="p-5 rounded-md bg-white text-black z-10">
-          <h3 className="text-xl text-red-500">{question}</h3>
-          <div className="flex justify-end gap-5 mt-5">
-            <button
-              className="cursor-pointer border py-1 px-2 rounded-md"
-              onClick={onCancel}
-            >
-              Thoát
-            </button>
-            <button
-              className="cursor-pointer border py-1 px-2 rounded-md"
-              onClick={onConfirm}
-            >
+      <Dialog>
+        <DialogTrigger asChild>{children}</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Xác nhận</DialogTitle>
+          </DialogHeader>
+          <DialogDescription>{question}</DialogDescription>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant={"secondary"}>Thoát</Button>
+            </DialogClose>
+            <Button onClick={onConfirm} variant={"default"}>
               Xác nhận
-            </button>
-          </div>
-        </div>
-      </div>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
