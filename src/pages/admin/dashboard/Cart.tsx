@@ -35,7 +35,6 @@ export default function Cart({
   onDelete,
   onSaveEdit,
 }: Props) {
-  console.log(data);
   const [title, setTitle] = useState<string>(cart.title);
   const [isShowStatus, setIsShowStatus] = useState<boolean>(
     cart.status === Status.show
