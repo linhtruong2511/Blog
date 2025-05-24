@@ -1,4 +1,4 @@
-export enum status {
+export enum Status {
   show = "Công khai",
   hide = "Ẩn",
 }
@@ -9,9 +9,11 @@ interface Post {
   thumbnailURL: string;
   createDate: string;
   view: number;
-  status: status;
+  status: Status;
   tags: Array<string>;
   shortDesc: string;
+  lastUpdate: string;
+  isDraft: boolean;
 }
 
 export default Post;

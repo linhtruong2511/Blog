@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Post, { status } from "../../../types/Post";
+import Post, { Status } from "../../../types/Post";
 import ModalConfirm from "../../../components/modalConfirm/ModalConfirm";
 import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa";
 import { deletePost, getAllPost } from "../../../service/postService";
+import { deleteContent } from "../../../service/contentService";
 export default function BLogPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [_, setDeleteError] = useState<boolean>(false);
@@ -13,14 +14,14 @@ export default function BLogPostList() {
   const question = "Bạn có muốn xóa " + selectedPost?.title + " không?";
   
   const handleClickDelete = (id: string) => {
-    setSelectedPost(posts.find((post) => (post.id = id)));
+    setSelectedPost(posts.find((post) => (post.id === id)));
     setShowModalConfirm(true);
   };
  
   const handleDelete = async () => {
     if (!selectedPost) return;
     
-    if (await deletePost(selectedPost)) {
+    if (await deleteContent(selectedPost.contentId) && await deletePost(selectedPost)) {
       setPosts(posts.filter((item) => item.id !== selectedPost.id));
       setShowModalConfirm(false);
       setDeleteError(false);
@@ -63,7 +64,7 @@ export default function BLogPostList() {
                     </p>
                     <p className="flex items-center gap-2">
                       Trạng thái: <b>{cart.status}</b>
-                      {cart.status === status.show ? (
+                      {cart.status === Status.show ? (
                         <span className="h-3 w-3 inline-block rounded-full bg-green-400"></span>
                       ) : (
                         <span className="h-3 w-3 inline-block rounded-full bg-red-400"></span>

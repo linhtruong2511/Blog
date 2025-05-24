@@ -51,7 +51,7 @@ export default function BLog() {
             />
           </div>
 
-          <h1 className="text-4xl">
+          <h1 className="text-4xl font-[Montserrat]">
             <b>{post?.title}</b>
           </h1>
           <div className="flex gap-10 mb-5 mt-1">

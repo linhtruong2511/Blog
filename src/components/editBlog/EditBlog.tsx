@@ -11,6 +11,7 @@ export default function EditBlog() {
   const [content, setContent] = useState<string>("");
   const [post, setPost] = useState<Post>();
   const { postId } = useParams<string>();
+  console.log(postId)
   const db = useDB();
 
   useEffect(() => {
@@ -29,7 +30,6 @@ export default function EditBlog() {
             title: postSnap.get("title"),
             view: postSnap.get("view"),
           });
-          console.log(postSnap.id);
         } else {
           console.log("post id not exist");
         }
@@ -38,10 +38,8 @@ export default function EditBlog() {
       }
     };
     fetchPost();
-    console.log(post);
   }, [postId]);
   useEffect(() => {
-    console.log(post);
     const fetchContentData = async () => {
       if (!post) return;
       try {

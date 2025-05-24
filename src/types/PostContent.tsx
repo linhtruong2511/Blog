@@ -1,4 +1,4 @@
 export default interface PostContent {
-  createDate: Date;
+  createDate: string;
   data: string;
 }
