@@ -2,7 +2,6 @@ import {
   ChevronUp,
   Home,
   Inbox,
-  LayoutDashboard,
   Settings,
   User2,
 } from "lucide-react";

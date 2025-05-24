@@ -1,14 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { Edit, Upload } from "lucide-react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { getAllDraft } from "@/service/postService";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Post from "@/types/Post";
 import DraftTableRow from "./DraftTableRow";
 

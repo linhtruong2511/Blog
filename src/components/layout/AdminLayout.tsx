@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider} from "../ui/sidebar";
 import { AdminSidebar } from "../adminSidebar/AdminSideBar";
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { ToastContainer, Bounce } from 'react-toastify';
 export default function AdminLayout() {
   return (
     <>

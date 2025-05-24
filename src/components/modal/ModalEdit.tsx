@@ -8,7 +8,7 @@ interface Props {
   description: string;
 }
 
-export default function ModalEdit({description, children, title, onOk} : Props){
+export default function ModalEdit({description, children, title} : Props){
   return <>
     <Dialog>
       <DialogTrigger>

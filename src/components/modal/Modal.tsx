@@ -8,7 +8,6 @@ import {
   DialogClose,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
-import { DialogTrigger } from "@radix-ui/react-dialog";
 
 interface Props {
   children: ReactNode;
@@ -16,12 +15,10 @@ interface Props {
   title: string;
   description: string;
   buttonOkTitle: string;
-  close: () => void;
 }
 
 export default function Modal(props: Props) {
   const handleClickOK = () => {
-    props.close();
     props.onOk();
   };
 
