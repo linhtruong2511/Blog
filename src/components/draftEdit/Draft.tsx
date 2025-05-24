@@ -1,61 +1,116 @@
+import { getAllDraft } from "@/service/postService";
 import { useEffect, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../ui/button";
+import { SidebarTrigger } from "../ui/sidebar";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+} from "../ui/breadcrumb";
+import Post from "@/types/Post";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Edit, Upload } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export default function Draft() {
-  const [drafts, setDrafts] = useState([
-    {
-      name: "React cơ bản",
-      createAt: "20/5/2025",
-    },
-    {
-      name: "Vue cơ bản",
-      createAt: "20/5/2025",
-    },
-    {
-      name: "Angular cơ bản",
-      createAt: "20/5/2025",
-    },
-  ]);
+  const [drafts, setDrafts] = useState<Post[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("render");
+    const fetdata = async () => {
+      const data = await getAllDraft();
+      setDrafts(data);
+    };
+    fetdata();
   }, []);
   return (
     <>
-      <div className="flex item-center justify-between">
-        <h2 className="text-3xl font-bold ">Gần đây</h2>
-        <Link to={"/admin/createblog"}>
-          <button className="btn btn-primary">Thêm bài viết</button>
-        </Link>
-      </div>
+      <header>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="border-r" />
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbPage>Bài viết gần đây</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
 
-      <div className="mt-10">
-        <table className="w-full text-left ">
-          <thead className="text-lg text-gray-700">
+          <Link to={"/admin/createblog"}>
+            <Button variant={"default"}>Thêm bài viết mới</Button>
+          </Link>
+        </div>
+      </header>
+
+      <div className="relative overflow-x-auto">
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
-              <th className="border-b border-gray-200 py-1 px-2 w-8/12">Tên</th>
-              <th className="border-b border-gray-200 py-1 px-2 w-4/12">
-                Ngày sửa đổi
+              <th scope="col" className="px-6 py-3">
+                <Checkbox />
               </th>
-              <th className="border-b border-gray-200 py-1 px-2 w-4/12"></th>
+              <th scope="col" className="px-6 py-3">
+                Tiêu đề
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Ngày tạo
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Lần cuối cập nhật
+              </th>
+              <th scope="col" className="px-6 py-3">
+                Thao tác
+              </th>
             </tr>
           </thead>
           <tbody>
             {drafts.map((draft) => {
               return (
-                <tr key={draft.name} className="hover:bg-gray-100">
-                  <td className="border-b border-gray-200 py-2 px-2 w-8/12">
-                    {draft.name}
+                <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
+                  <td className="px-6 py-4">
+                    <Checkbox />
                   </td>
-                  <td className="border-b border-gray-200 py-2 px-2 w-8/12">
-                    {draft.createAt}
-                  </td>
-                  <td className="border-b border-gray-200 py-2 px-2 w-8/12">
-                    <div className="flex gap-4 text-gray-600">
-                      <FaEdit />
-                      <FaTrash />
-                    </div>
+                  <th
+                    scope="row"
+                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  >
+                    {draft.title}
+                  </th>
+                  <td className="px-6 py-4">{draft.createDate}</td>
+                  <td className="px-6 py-4">{draft.lastUpdate}</td>
+                  <td className="flex gap-4 items-center px-5 py-4">
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Edit
+                            className="cursor-pointer"
+                            onClick={() =>
+                              navigate("/admin/editblog/" + draft.id)
+                            }
+                            size={16}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>Viết tiếp bài viết</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Upload size={16} />
+                        </TooltipTrigger>
+                        <TooltipContent>Đăng tải bài viết</TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   </td>
                 </tr>
               );

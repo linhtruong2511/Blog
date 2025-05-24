@@ -18,7 +18,8 @@ const db = useDB();
 
 export const getAllPost = async () => {
   try {
-    const result = await getDocs(collection(db, "post"));
+    const q = query(collection(db, "post"), where('isDraft', '==', false))
+    const result = await getDocs(q);
     const posts = result.docs.map((post): Post => {
       return convertPostSnap(post);
     });
@@ -28,18 +29,6 @@ export const getAllPost = async () => {
   }
 };
 
-export const getAllPostNotDraft = async () => {
-  try {
-    // const q = query()
-    const result = await getDocs(collection(db, "post"));
-    const posts = result.docs.map((post): Post => {
-      return convertPostSnap(post);
-    });
-    return posts;
-  } catch (e) {
-    console.log("get all post error: " + e);
-  }
-};
 
 export const getAllDraft = async () : Promise<Post[]> => {
   const q = query(collection(db, 'post'), where('isDraft', '==', true));

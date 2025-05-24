@@ -33,7 +33,7 @@ export default function Cart({ cart }: { cart: Post }) {
         <small className="text-sm text-gray-500 block mb-4">
           <i>
             Ngày đăng:{" "}
-            {new Date(cart.createDate as string).toLocaleDateString()}
+            {cart.createDate}
           </i>
         </small>
         <div className="text-right">

@@ -14,7 +14,6 @@ import CreateBlog from "./pages/admin/createBlog/CreateBlog";
 import EditBlog from "./pages/admin/editBlog/EditBlog";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import Draft from "./components/draftEdit/Draft";
-import AppTest from "./test/app";
 import LayoutTest from "./test/layout";
 function App() {
   return (

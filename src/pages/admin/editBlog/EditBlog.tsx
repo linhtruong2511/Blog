@@ -3,17 +3,33 @@ import Post from "@/types/Post";
 import Editor from "@/components/editor/Editor";
 import { doc, getDoc } from "firebase/firestore";
 import useDB from "@/hook/useDB";
-import { useParams } from "react-router-dom";
-import UpdatePost from "@/components/updatePost/UpdatePost";
+import { useNavigate, useParams } from "react-router-dom";
 import { getPost } from "@/service/postService";
+import { getContent, updateContent } from "@/service/contentService";
+import { toast } from "react-toastify";
 
 export default function EditBlog() {
-  const [isSave, setIsSave] = useState<boolean>(false);
   const [content, setContent] = useState<string>("");
   const [post, setPost] = useState<Post>();
   const { postId } = useParams<string>();
-  console.log(postId)
   const db = useDB();
+  const navigate = useNavigate();
+
+  const handleUpdate = async (content: string) => {
+    if (!post) return;
+    const id = toast.loading("đang cập nhật bài viết");
+    const isSuccess = await updateContent(post, content);
+
+    toast.dismiss(id);
+    if (isSuccess) {
+      toast.info("Cập nhật thành công");
+      setTimeout(() => {
+        navigate("/admin/draft");
+      }, 2000);
+    } else {
+      toast.error("Cập nhật thất bại");
+    }
+  };
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -26,13 +42,14 @@ export default function EditBlog() {
     };
     fetchPost();
   }, [postId]);
+
   useEffect(() => {
     const fetchContentData = async () => {
       if (!post) return;
       try {
-        const contentRef = await getDoc(doc(db, "content", post.contentId));
-        if (contentRef.exists()) {
-          setContent(contentRef.get("data"));
+        const content = await getContent(post.contentId);
+        if (content) {
+          setContent(content.data);
         } else {
           console.log("content data not exist");
         }
@@ -42,18 +59,10 @@ export default function EditBlog() {
     };
     fetchContentData();
   }, [post]);
+
   return (
     <>
-      {!isSave ? (
-        <Editor content={content} onSave={() => setIsSave(true)} />
-      ) : (
-        <UpdatePost
-          post={post as Post}
-          setPost={setPost}
-          content={content}
-          onBackToEdit={() => setIsSave(false)}
-        />
-      )}
+      <Editor content={content} onSave={handleUpdate} />
     </>
   );
 }

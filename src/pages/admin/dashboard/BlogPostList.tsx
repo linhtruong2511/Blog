@@ -8,7 +8,7 @@ import {
 import { deleteContent } from "../../../service/contentService";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
 import Cart from "./Cart";
-import { toast } from "sonner"
+import { toast } from "react-toastify";
 
 export default function BLogPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -36,9 +36,9 @@ export default function BLogPostList() {
       })
     );
     if (isDone) {
-      toast('Cập nhật thành công ')
+      toast.success('Cập nhật thành công')
     } else {
-      toast('cập nhật thất bại !!!')
+      toast.error('Cập nhật thất bại, vui lòng kiểm tra lại đường truyền !')
     }
   };
 
