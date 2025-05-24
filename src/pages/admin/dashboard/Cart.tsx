@@ -35,6 +35,7 @@ export default function Cart({
   onDelete,
   onSaveEdit,
 }: Props) {
+  console.log(data);
   const [title, setTitle] = useState<string>(cart.title);
   const [isShowStatus, setIsShowStatus] = useState<boolean>(
     cart.status === Status.show
@@ -43,14 +44,9 @@ export default function Cart({
   const [tags, setTags] = useState<string[]>(
     data?.filter((item) => !selectedTags.includes(item))
   );
-  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
- 
-  const handleCloseModal = () => {
-    setIsOpenModal(false);
-  }
 
   const handleSelectedTagChange = (tag: string) => {
-    if (tag === 'default') return;
+    if (tag === "default") return;
     const newTags = [...selectedTags, tag];
     setSelectedTags(newTags);
     setTags(tags.filter((item) => item !== tag));
@@ -58,7 +54,7 @@ export default function Cart({
   };
 
   const handleDeleteSelectedTag = (tag: string) => {
-    const newTags = selectedTags.filter((item) => item !== tag)
+    const newTags = selectedTags.filter((item) => item !== tag);
     setTags([...tags, tag]);
     setSelectedTags(newTags);
     onEdit(newTags, "tags");
@@ -68,8 +64,6 @@ export default function Cart({
     onEdit(e.target.value, "title");
     setTitle(e.target.value);
   };
-
-  
 
   return (
     <>
@@ -106,7 +100,7 @@ export default function Cart({
             </button>
           </Link>
 
-          <Dialog >
+          <Dialog>
             <DialogTrigger asChild>
               <button
                 onClick={() => onClickDelete(cart.id as string)}
@@ -121,7 +115,6 @@ export default function Cart({
               description=""
               onOk={onSaveEdit}
               title={cart.title}
-              close={handleCloseModal}
             >
               <div className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
@@ -158,12 +151,9 @@ export default function Cart({
                     id="switch"
                     className="col-span-3"
                     onClick={() => {
-                      const newStatus = !isShowStatus
+                      const newStatus = !isShowStatus;
                       setIsShowStatus(newStatus);
-                      onEdit(
-                        newStatus ? Status.show : Status.hide,
-                        "status"
-                      );
+                      onEdit(newStatus ? Status.show : Status.hide, "status");
                     }}
                   />
                 </div>
@@ -179,10 +169,18 @@ export default function Cart({
                         <SelectValue placeholder="Tags" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="default">Lựa chọn thẻ tag</SelectItem>
-                        {tags.map((tag) => (
-                          <SelectItem key={tag} value={tag}>{tag}</SelectItem>
-                        ))}
+                        <SelectItem value="default">
+                          Lựa chọn thẻ tag
+                        </SelectItem>
+                        {tags.map((tag) => {
+                          return (
+                            <>
+                              <SelectItem key={tag} value={tag}>
+                                {tag}
+                              </SelectItem>
+                            </>
+                          );
+                        })}
                       </SelectContent>
                     </Select>
                     <div className="flex gap-2 mt-1 absolute overflow-auto">

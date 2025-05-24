@@ -77,7 +77,6 @@ export default function BLogPostList() {
     }
   };
 
-  const handleClickSetting = () => {};
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -91,7 +90,7 @@ export default function BLogPostList() {
   return (
     <>
       <div>
-        {posts.map((cart, index) => {
+        {posts.map((cart) => {
           return (
             <Cart
               cart={cart}

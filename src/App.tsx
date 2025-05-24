@@ -16,6 +16,12 @@ import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import Draft from "./pages/admin/draftEdit/Draft";
 import LayoutTest from "./test/layout";
 function App() {
+  const addTagsLocalStorage = () => {
+    localStorage.setItem('tags', 'react, vue, angular');
+  }
+
+  addTagsLocalStorage();
+  
   return (
     <Provider>
       <Router>

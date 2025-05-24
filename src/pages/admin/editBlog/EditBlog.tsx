@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import Post from "@/types/Post";
 import Editor from "@/components/editor/Editor";
-import { doc, getDoc } from "firebase/firestore";
-import useDB from "@/hook/useDB";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPost } from "@/service/postService";
 import { getContent, updateContent } from "@/service/contentService";
@@ -12,7 +10,6 @@ export default function EditBlog() {
   const [content, setContent] = useState<string>("");
   const [post, setPost] = useState<Post>();
   const { postId } = useParams<string>();
-  const db = useDB();
   const navigate = useNavigate();
 
   const handleUpdate = async (content: string) => {
