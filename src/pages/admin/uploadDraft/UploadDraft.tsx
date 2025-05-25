@@ -1,10 +1,10 @@
-import { addPost, getPost, updatePost } from "@/service/postService";
+import { getPost, updatePost } from "@/service/postService";
 import Post, { Status } from "@/types/Post";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, redirect, useParams } from "react-router-dom";
 import UploadPost from "../uploadPost/UploadPost";
 import PostContent from "@/types/PostContent";
-import { createContent, getContent, updateContent } from "@/service/contentService";
+import { getContent, updateContent } from "@/service/contentService";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,14 +15,12 @@ import {
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { toast } from "react-toastify";
 import { getDateNow } from "@/utils/date";
 
 export default function UploadDraft() {
   const { postId } = useParams();
-  const [post, setPost] = useState<Post> ();
+  const [post, setPost] = useState<Post>();
   const [content, setContent] = useState<PostContent>();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!postId) return;
@@ -35,17 +33,13 @@ export default function UploadDraft() {
     fetchPost();
   });
 
-  const handleBack = () => {
-    navigate("/admin/draft");
-  };
-
   const handleUpload = async (
     title: string,
     shortDecs: string,
     thumbnail: string
   ) => {
     if (!content || !post || !post.id) return;
-    if (!await updateContent(post, content.data)) return;
+    if (!(await updateContent(post, content.data))) return;
     await updatePost(post.id, {
       title: title,
       shortDesc: shortDecs,
@@ -87,7 +81,12 @@ export default function UploadDraft() {
       </header>
 
       {content?.data && (
-        <UploadPost onBack={handleBack} content={content?.data} onUpload={handleUpload}/>
+        <UploadPost
+          onBack={() => redirect("/admin/draft")}
+          content={content?.data}
+          onUpload={handleUpload}
+          linkAfterUploaded="/admin/draft"
+        />
       )}
     </>
   );

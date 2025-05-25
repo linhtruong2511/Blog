@@ -10,11 +10,11 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { createContent } from "@/service/contentService";
 import PostContent from "@/types/PostContent";
 import { getDateNow } from "@/utils/date";
-import { addPost, updatePost } from "@/service/postService";
+import { addPost } from "@/service/postService";
 import Post, { Status } from "@/types/Post";
 
 export default function CreateBlog() {
@@ -99,7 +99,7 @@ export default function CreateBlog() {
       </header>
 
       {isSave ? (
-        <UploadPost content={content} onBack={handleBackToEdit} onUpload={handleUpload} />
+        <UploadPost content={content} onBack={handleBackToEdit} onUpload={handleUpload} linkAfterUploaded='/admin'/>
       ) : (
         <div className="px-7">
           <Editor content={content} onSave={handleSave} />

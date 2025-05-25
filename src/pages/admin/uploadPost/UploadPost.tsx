@@ -2,17 +2,13 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import "@/assets/css/reset-tailwin.css";
 import "quill/dist/quill.snow.css";
 import UploadWidgetCloudinary from "@/pages/admin/createBlog/UploadWidgetCloudinary";
-import Post, { Status } from "../../../types/Post";
-import { addDoc, collection } from "firebase/firestore";
-import useDB from "../../../hook/useDB";
-import { useNavigate } from "react-router-dom";
-import PostContent from "../../../types/PostContent";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CloudUpload, Loader, Loader2, ShowerHead, Undo2 } from "lucide-react";
+import { CloudUpload, Loader2, Undo2 } from "lucide-react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   content: string;
@@ -22,15 +18,20 @@ interface Props {
     thumbnail: string
   ) => Promise<void>;
   onBack: () => void;
+  linkAfterUploaded: string;
 }
-export default function UploadPost({ content, onBack, onUpload }: Props) {
+export default function UploadPost({
+  content,
+  onBack,
+  onUpload,
+  linkAfterUploaded,
+}: Props) {
   const [thumbnail, setThumbnail] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   const title = useRef<string>("");
   const shortDecs = useRef<string>("");
   const preview = useRef<HTMLDivElement | null>(null);
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -42,9 +43,9 @@ export default function UploadPost({ content, onBack, onUpload }: Props) {
   const handlePost = async () => {
     setIsLoading(true);
     await onUpload(title.current, shortDecs.current, thumbnail);
-    setIsLoading(false);
     setTimeout(() => {
-      navigate("/admin/draft");
+      navigate(linkAfterUploaded);
+      setIsLoading(false);
       toast.success("Tạo bài viết thành công !!!");
     }, 1000);
   };
