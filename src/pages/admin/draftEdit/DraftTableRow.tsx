@@ -13,7 +13,9 @@ interface Props {
 }
 export default function DraftTableRow({ draft }: Props) {
   const navigate = useNavigate();
-
+  const handleUpload = (postId: string | null) => {
+    if (postId) navigate("upload/" + postId);
+  };
   return (
     <>
       <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">
@@ -45,7 +47,7 @@ export default function DraftTableRow({ draft }: Props) {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Upload size={16} />
+                <Upload size={16} onClick={() => handleUpload(draft.id)} />
               </TooltipTrigger>
               <TooltipContent>Đăng tải bài viết</TooltipContent>
             </Tooltip>

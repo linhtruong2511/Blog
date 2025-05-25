@@ -63,7 +63,7 @@ export default function CreateBlog() {
       </header>
 
       {isSave ? (
-        <UploadPost content={content} onBackToEdit={handleBackToEdit} />
+        <UploadPost content={content} onBack={handleBackToEdit} />
       ) : (
         <div className="px-7">
           <Editor content={content} onSave={handleSave} />

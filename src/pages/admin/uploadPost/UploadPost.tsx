@@ -16,9 +16,9 @@ import { toast } from "react-toastify";
 
 interface Props {
   content: string;
-  onBackToEdit: () => void;
+  onBack: () => void;
 }
-export default function UploadPost({ content, onBackToEdit }: Props) {
+export default function UploadPost({ content, onBack }: Props) {
   const [thumbnail, setThumbnail] = useState<string>("");
   const title = useRef<string>("");
   const shortDecs = useRef<string>("");
@@ -77,7 +77,7 @@ export default function UploadPost({ content, onBackToEdit }: Props) {
 
   return (
     <>
-      <Button variant={"secondary"} onClick={onBackToEdit} className="mb-4">
+      <Button variant={"secondary"} onClick={onBack} className="mb-4">
         Quay lại <Undo2 />
       </Button>
       <div className="flex flex-col gap-4">
