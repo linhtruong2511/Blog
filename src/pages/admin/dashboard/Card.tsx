@@ -3,7 +3,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Post, { Status } from "@/types/Post";
-import { Pencil, Settings2, Trash2 } from "lucide-react";
+import { EllipsisVertical, Pencil, Settings2, Trash2 } from "lucide-react";
 import { ChangeEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "@/components/modal/Modal";
@@ -27,7 +27,7 @@ interface Props {
 }
 const data: string[] = localStorage.getItem("tags")?.split(",") || [""];
 
-export default function Cart({
+export default function Card({
   cart,
   onClickDelete,
   onEdit,
@@ -71,13 +71,13 @@ export default function Cart({
           <img
             src={cart.thumbnailURL}
             alt=""
-            className="h-16 object-cover w-32 rounded-md"
+            className="h-16 object-cover w-32 rounded-md hidden sm:block"
           />
-          <div>
-            <h2 className="text-xl">
+          <div className="overflow-hidden">
+            <h2 className="lg:text-xl truncate">
               <b>{cart.title}</b>
             </h2>
-            <div className="flex gap-4 text-gray-500">
+            <div className="hidden gap-4 text-gray-500  lg:block">
               <p>
                 Lượt xem: <b>{cart.view}</b>
               </p>
@@ -92,7 +92,7 @@ export default function Cart({
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-5 mr-8 text-gray-500">
+        <div className="hidden items-center gap-5 mr-8 text-gray-500  lg:flex">
           <Link to={"/admin/editblog/" + cart.id}>
             <button className="cursor-pointer hover:underline border-r pr-4">
               <Pencil size={16} />
@@ -210,6 +210,10 @@ export default function Cart({
               <Trash2 size={16} />
             </button>
           </ModalConfirm>
+        </div>
+
+        <div className="lg:hidden">
+          <EllipsisVertical />
         </div>
       </div>
     </>

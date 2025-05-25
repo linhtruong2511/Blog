@@ -14,7 +14,6 @@ export default function BLog() {
   const [content, setContent] = useState<string>();
   const navigate = useNavigate();
   const isLoaded = content && post ? true : false;
-  
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -44,7 +43,8 @@ export default function BLog() {
           <span onClick={() => navigate(-1)} className="cursor-pointer">
             <FaArrowLeft className="inline mr-3" /> Quay lại danh sách bài viết
           </span>
-          <div className="h-[700px] my-10">
+          
+          <div className="lg:h-[700px]">
             <img
               src={post?.thumbnailURL}
               alt=""
@@ -52,9 +52,10 @@ export default function BLog() {
             />
           </div>
 
-          <h1 className="text-4xl font-[Montserrat]">
+          <h1 className="text-2xl lg:text-4xl font-[Montserrat]">
             <b>{post?.title}</b>
           </h1>
+
           <div className="flex gap-10 mb-5 mt-1">
             <p>Ngày tạo: {post?.createDate}</p>
             <p className="flex gap-2 items-center">
@@ -62,28 +63,21 @@ export default function BLog() {
               <FaEye className="inline" /> {post?.view}
             </p>
           </div>
-          <div>
-            <>
-              {post?.tags &&
-                post.tags.forEach((tag) => {
-                  return <span>{tag}</span>;
-                })}{" "}
-            </>
-          </div>
+
+
           <hr />
-          <div className="flex ">
+          <div className="flex flex-col-reverse lg:flex-row">
             <div
               className="flex-2/3 article-content"
               dangerouslySetInnerHTML={{ __html: content as string }}
             ></div>
 
-            <div className="grow">
+            <div className="grow hidden lg:block">
               <div>Mục lục</div>
-              {/* <BlogRelated /> */}
             </div>
           </div>
 
-          <div>
+          <div className="hidden">
             <h2>Bình luận</h2>
             <div>
               <div className="flex gap-5">

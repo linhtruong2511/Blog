@@ -7,7 +7,7 @@ import {
 } from "../../../service/postService";
 import { deleteContent } from "../../../service/contentService";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
-import Cart from "./Cart";
+import Card from "./Card";
 import { toast } from "react-toastify";
 
 export default function BLogPostList() {
@@ -91,7 +91,7 @@ export default function BLogPostList() {
       <div>
         {posts.map((cart) => {
           return (
-            <Cart
+            <Card
               cart={cart}
               key={cart.id}
               onClickDelete={handleClickDelete}

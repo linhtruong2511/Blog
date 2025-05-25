@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Cart from "./Cart";
+import Card from "./Card";
 import Post from "../../types/Post";
 import { getAllPost } from "../../service/postService";
 
-export default function BlogPostCart() {
+export default function BlogPostList() {
   const [carts, setCarts] = useState<Post[]>([]);
   useEffect(() => {
     const fetchPost = async () => {
@@ -18,7 +18,7 @@ export default function BlogPostCart() {
       <div className="h-full">
         <div className="">
           {carts.map((cart) => {
-            return <Cart key={cart.id} cart={cart} />;
+            return <Card key={cart.id} cart={cart} />;
           })}
         </div>
       </div>

@@ -14,7 +14,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { getDateNow } from "@/utils/date";
 
 export default function UploadDraft() {
@@ -73,10 +72,6 @@ export default function UploadDraft() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-
-          <Link to={"/admin/createblog"}>
-            <Button variant={"default"}>Thêm bài viết</Button>
-          </Link>
         </div>
       </header>
 

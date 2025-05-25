@@ -29,7 +29,7 @@ export default function UploadWidgetCloudinary({ setThumbnail }: Props) {
           setThumbnail={setThumbnail}
         />
       </div>
-      <div className="text-center w-96 h-auto mx-auto">
+      <div className="text-center w-70 md:w-96 h-auto mx-auto mt-4">
         {publicId && (
           <AdvancedImage
             cldImg={cld.image(publicId)}
