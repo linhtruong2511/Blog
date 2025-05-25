@@ -15,6 +15,7 @@ import EditBlog from "./pages/admin/editBlog/EditBlog";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import Draft from "./pages/admin/draftEdit/Draft";
 import LayoutTest from "./test/layout";
+import UploadDraft from "./pages/admin/uploadDraft/UploadDraft";
 function App() {
   const addTagsLocalStorage = () => {
     localStorage.setItem('tags', 'react, vue, angular');
@@ -37,6 +38,7 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="" element={<Dashboard />} />
             <Route path="draft" element={<Draft />} />
+            <Route path="draft/upload/:postId" element={<UploadDraft />} />
             <Route path="createblog" element={<CreateBlog />} />
             <Route path="editblog/:postId" element={<EditBlog />} />
           </Route>

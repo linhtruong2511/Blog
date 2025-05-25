@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 
 export default function BLogPostList() {
   const [posts, setPosts] = useState<Post[]>([]);
-  const [_, setDeleteError] = useState<boolean>(false);
   const [selectedPost, setSelectedPost] = useState<Post>(posts[0]);
   const [postUpdate, setPostUpdate] = useState({});
 
@@ -71,9 +70,9 @@ export default function BLogPostList() {
       (await deletePost(selectedPost))
     ) {
       setPosts(posts.filter((item) => item.id !== selectedPost.id));
-      setDeleteError(false);
+      toast.success('Xóa ' + selectedPost.title + ' thành công !')
     } else {
-      setDeleteError(true);
+      toast.error('Xóa ' + selectedPost.title + ' không thành công !')
     }
   };
 

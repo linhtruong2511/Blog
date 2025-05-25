@@ -46,7 +46,7 @@ export const deleteContent = async (id: string) => {
   }
 };
 
-export const updateContent = async (post: Post, content: string) => {
+export const updateContent = async (post: Post, contentData: string) => {
   try {
     if(!post || !post.id || !post.contentId) return;
 
@@ -54,7 +54,7 @@ export const updateContent = async (post: Post, content: string) => {
       lastUpdate: getDateNow()
     });
     await updateDoc(doc(db, "content", post.contentId), {
-      data: content
+      data: contentData
     });
     return true;
   } catch (e) {

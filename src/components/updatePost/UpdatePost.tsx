@@ -22,6 +22,7 @@ export default function UpdatePost({
   const navigate = useNavigate();
   const [currentThumbnail] = useState<string>(post.thumbnailURL);
   let thumbnailChanged = false;
+  
   if (currentThumbnail !== post.thumbnailURL) {
     thumbnailChanged = true;
   }
@@ -31,15 +32,16 @@ export default function UpdatePost({
     }
   }, [content, post]);
 
-  const handleUpdate = async () => {
+  const handleUpdate = () => {
     try {
-      await updateDoc(doc(db, "post", post.id as string), {
-        ...post,
-        lastUpdate: new Date().toLocaleString("vi-VN"),
-      });
-      setTimeout(() => {
+      setTimeout(async () => {
         navigate("/admin");
+        await updateDoc(doc(db, "post", post.id as string), {
+          ...post,
+          lastUpdate: new Date().toLocaleString("vi-VN"),
+        });
       }, 1000);
+      
     } catch (e) {
       console.log(e);
     }

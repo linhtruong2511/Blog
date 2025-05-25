@@ -14,14 +14,12 @@ export default function EditBlog() {
 
   const handleUpdate = async (content: string) => {
     if (!post) return;
-    const id = toast.loading("đang cập nhật bài viết");
+    navigate("/admin/draft");
     const isSuccess = await updateContent(post, content);
-
-    toast.dismiss(id);
+    
     if (isSuccess) {
       toast.info("Cập nhật thành công");
       setTimeout(() => {
-        navigate("/admin/draft");
       }, 2000);
     } else {
       toast.error("Cập nhật thất bại");

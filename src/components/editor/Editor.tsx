@@ -17,10 +17,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+
 import { DialogFooter, DialogHeader } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { BadgePlus, FlaskConical, Save, Upload } from "lucide-react";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { toast } from "react-toastify";
+
 interface Props {
   content: string;
   onSave: (content: string) => void;
@@ -50,9 +53,12 @@ export default function Editor({ content, onSave }: Props) {
   const pathname: string = window.location.pathname;
   const isCreate = pathname.includes("createblog");
   const [draftTitle, setDraftTitle] = useState<string>("");
-  const handleSaveDraft = async (title: string): Promise<boolean> => {
+  const handleSaveDraft = async (title: string): Promise<void> => {
+    const loadingId = toast.loading('Đang cập nhật !');
+    navigate('/admin/draft');
+
     const dataQuill: string = quillRef.current?.root.innerHTML as string;
-    if (title.trim() === "" || dataQuill.trim() === "") return false;
+    if (title.trim() === "" || dataQuill.trim() === "") return;
 
     const content: PostContent = {
       createDate: new Date().toLocaleDateString("vi-VN"),
@@ -61,7 +67,7 @@ export default function Editor({ content, onSave }: Props) {
 
     const iDContent = await createContent(content);
 
-    if (!iDContent) return false;
+    if (!iDContent) return;
 
     const data: Post = {
       contentId: iDContent,
@@ -76,15 +82,14 @@ export default function Editor({ content, onSave }: Props) {
       title: title,
       view: 0,
     };
-    console.log(data);
+
     const id = await addPost(data);
 
+    toast.dismiss(loadingId);
     if (id) {
-      navigate("/admin");
-      return true;
+      toast.success('Cập nhật thành công !')
     } else {
-      alert("Tạo bản nháp không thành công");
-      return false;
+      toast.error('Cập nhật không thành công !')
     }
   };
 
