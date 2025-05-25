@@ -11,6 +11,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Link } from "react-router-dom";
+import { createContent } from "@/service/contentService";
+import PostContent from "@/types/PostContent";
+import { getDateNow } from "@/utils/date";
+import { addPost, updatePost } from "@/service/postService";
+import Post, { Status } from "@/types/Post";
 
 export default function CreateBlog() {
   const [content, setContent] = useState<string>("");
@@ -19,9 +24,40 @@ export default function CreateBlog() {
     setIsSave(true);
     setContent(content);
   };
+
+  const handleUpload = async (
+    title: string,
+    shortDecs: string,
+    thumbnail: string
+  ) => {
+    if (!content) return;
+    const postContent: PostContent = {
+      createDate: getDateNow(),
+      data: content,
+    };
+    createContent(postContent).then((contentId) => {
+      if (!contentId) return;
+      const post: Post = {
+        title: title,
+        contentId: contentId,
+        shortDesc: shortDecs,
+        thumbnailURL: thumbnail,
+        isDraft: false,
+        createDate: getDateNow(),
+        lastUpdate: getDateNow(),
+        status: Status.show,
+        id: "",
+        tags: [],
+        view: 0,
+      };
+      addPost(post)
+    });
+  };
+
   const handleBackToEdit = () => {
     setIsSave(false);
   };
+
   return (
     <>
       <header>
@@ -41,7 +77,7 @@ export default function CreateBlog() {
                 <BreadcrumbItem>
                   {isSave ? (
                     <BreadcrumbLink asChild onClick={() => setIsSave(false)}>
-                      <Link to={''}>Tạo bài viết</Link>
+                      <Link to={""}>Tạo bài viết</Link>
                     </BreadcrumbLink>
                   ) : (
                     <BreadcrumbPage>Tạo bài viết</BreadcrumbPage>
@@ -63,7 +99,7 @@ export default function CreateBlog() {
       </header>
 
       {isSave ? (
-        <UploadPost content={content} onBack={handleBackToEdit} />
+        <UploadPost content={content} onBack={handleBackToEdit} onUpload={handleUpload} />
       ) : (
         <div className="px-7">
           <Editor content={content} onSave={handleSave} />

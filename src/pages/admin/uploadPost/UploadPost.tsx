@@ -11,60 +11,42 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CloudUpload, Loader, Loader2, Undo2 } from "lucide-react";
+import { CloudUpload, Loader, Loader2, ShowerHead, Undo2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 interface Props {
   content: string;
+  onUpload: (
+    title: string,
+    shortDecs: string,
+    thumbnail: string
+  ) => Promise<void>;
   onBack: () => void;
 }
-export default function UploadPost({ content, onBack }: Props) {
+export default function UploadPost({ content, onBack, onUpload }: Props) {
   const [thumbnail, setThumbnail] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const title = useRef<string>("");
   const shortDecs = useRef<string>("");
   const preview = useRef<HTMLDivElement | null>(null);
-  const db = useDB();
+
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (preview.current) {
       preview.current.innerHTML = content;
     }
-  });
+  }, []);
 
   const handlePost = async () => {
-    const postDataContent: PostContent = {
-      createDate: new Date().toLocaleDateString("vi-VN"),
-      data: content,
-    };
-    const contentId = await addDoc(collection(db, "content"), postDataContent);
-    const data: Post = {
-      id: "",
-      thumbnailURL: thumbnail,
-      contentId: contentId.id,
-      title: title.current,
-      createDate: new Date().toLocaleString("vi-VN"),
-      shortDesc: shortDecs.current,
-      status: Status.show,
-      tags: [],
-      view: 0,
-      isDraft: false,
-      lastUpdate: new Date().toLocaleDateString("vi-VN"),
-    };
-    try {
-      setIsLoading(true);
-      await addDoc(collection(db, "post"), {
-        ...data,
-      });
-      setTimeout(() => {
-        setIsLoading(false);
-        navigate("/admin");
-        toast.success('Tạo bài viết thành công !!!');
-      }, 1000);
-    } catch (e) {
-      console.log(e);
-    }
+    setIsLoading(true);
+    await onUpload(title.current, shortDecs.current, thumbnail);
+    setIsLoading(false);
+    setTimeout(() => {
+      navigate("/admin/draft");
+      toast.success("Tạo bài viết thành công !!!");
+    }, 1000);
   };
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
