@@ -60,7 +60,7 @@ export function AdminSidebar() {
       <SidebarHeader className="overflow-clip mt-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex gap-2 items-center">
-              <img src={Logo} alt="" className="w-10" /> <h2 className={"text-2xl font-bold " + hideHeader}>DevTruong</h2>
+              <img src={Logo} alt="" className="w-10" /> <h2 className={"text-2xl font-bold " + hideHeader}>CodeDump</h2>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

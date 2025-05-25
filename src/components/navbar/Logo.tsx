@@ -5,7 +5,7 @@ export default function Logo() {
     <>
       <Link to={"/"} className="flex items-center font-bold">
         <img src='./logo.png' alt="Logo" className="w-16" />
-        <h1 className="text-3xl">DevTruong</h1>
+        <h1 className="text-3xl">CodeDump</h1>
       </Link>
     </>
   );
