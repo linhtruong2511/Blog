@@ -1,4 +1,4 @@
-import BlogPostList from "../../components/blogPostList/BlogPostCard";
+import BlogPostList from "../../components/blogPostList/BlogPostList";
 
 export default function Home() {
   return (

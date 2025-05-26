@@ -8,9 +8,9 @@ export default function Card({ cart }: { cart: Post }) {
   return (
     <div
       onClick={() => navigate("/blog/" + cart.id)}
-      className="flex pb-2 mb-4 md:mb-8 border-b-gray-200 border-b gap-2 md:h-52 relative md:pointer-events-none"
+      className="flex pb-2 mb-4 md:mb-8 border-b-gray-200 border-b gap-2 md:h-52 relative "
     >
-      <div className="border border-gray-200  flex-4/12 rounded-xl overflow-hidden hidden md:block">
+      <div className="border border-gray-200  flex-4/12 rounded-xl overflow-hidden hidden md:block ">
         <img
           className="h-full w-full object-cover opacity-90 transition-transform hover:scale-125"
           src={cart.thumbnailURL}

@@ -40,11 +40,11 @@ export default function BLog() {
     <div className="container mx-auto my-5 max-w-[1120px]">
       {isLoaded ? (
         <>
-          <span onClick={() => navigate(-1)} className="cursor-pointer">
+          <span onClick={() => navigate('/')} className="cursor-pointer">
             <FaArrowLeft className="inline mr-3" /> Quay lại danh sách bài viết
           </span>
           
-          <div className="lg:h-[700px]">
+          <div className="lg:h-[700px] md:my-3">
             <img
               src={post?.thumbnailURL}
               alt=""
@@ -57,7 +57,7 @@ export default function BLog() {
           </h1>
 
           <div className="flex gap-10 mb-5 mt-1">
-            <p>Ngày tạo: {post?.createDate}</p>
+            <p>Lần cập nhật cuối: {post?.lastUpdate}</p>
             <p className="flex gap-2 items-center">
               {" "}
               <FaEye className="inline" /> {post?.view}

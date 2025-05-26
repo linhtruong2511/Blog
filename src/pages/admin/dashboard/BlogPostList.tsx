@@ -15,7 +15,7 @@ export default function BLogPostList() {
   const [selectedPost, setSelectedPost] = useState<Post>(posts[0]);
   const [postUpdate, setPostUpdate] = useState({});
 
-  const handleClickDelete = (id: string): void => {
+  const handleSelect = (id: string): void => {
     setSelectedPost(posts.find((post) => post.id === id) || posts[0]);
   };
 
@@ -76,7 +76,6 @@ export default function BLogPostList() {
     }
   };
 
-
   useEffect(() => {
     const fetchPost = async () => {
       const posts = await getAllPost();
@@ -89,13 +88,12 @@ export default function BLogPostList() {
   return (
     <>
       <div>
-        {posts.map((cart) => {
+        {posts.map((post) => {
           return (
             <Card
-              cart={cart}
-              key={cart.id}
-              onClickDelete={handleClickDelete}
-              // onClickSetting={handleClickSetting}
+              post={post}
+              key={post.id}
+              onSelect={handleSelect}
               onDelete={handleDelete}
               onSaveEdit={handleSaveEdit}
               onEdit={handleEdit}

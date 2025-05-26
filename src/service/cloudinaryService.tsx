@@ -10,6 +10,6 @@ export const uploadToCloudinary = async (file: File): Promise<string> => {
       }
     );
     const data = await res.json();
-    const url = data.url;
+    const url = data.secure_url;
     return url;
   };

@@ -1,4 +1,4 @@
-import BlogPostList from "../../components/blogPostList/BlogPostCard";
+import BlogPostList from "../../components/blogPostList/BlogPostList";
 import SideBar from "../../components/sideBar/SideBar";
 
 export default function AllBlog() {
