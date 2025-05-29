@@ -4,19 +4,38 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: PostType[] = [];
 
+type postUpdate = {
+  id: string;
+  newData: object;
+};
+
 export const postSlice = createSlice({
-  name: 'post',
+  name: "post",
   initialState: initialState,
   reducers: {
-    getAll: (state, action: PayloadAction<PostType[]>) => {
+    set: (_ , action: PayloadAction<PostType[]>) => {
       return action.payload;
-    }
+    },
+    remove: (state, action: PayloadAction<string>) => {
+      return state.filter((item) => item.id !== action.payload);
+    },
+    add: (state, action: PayloadAction<PostType>) => {
+      return [...state, action.payload];
+    },
+    update: (state, action: PayloadAction<postUpdate>) => {
+      return state.map((item) => {
+        if (item.id === action.payload.id) {
+          return {
+            ...item,
+            ...action.payload.newData,
+          };
+        }
+        return item;
+      });
+    },
   },
-  extraReducers: (builder) => {
+});
 
-  }
-})
-
-export const PostStore = (state : RootState ) => state.postReducer;
-export const { getAll } = postSlice.actions;
+export const PostStore = (state: RootState) => state.postReducer;
+export const { set, add, update, remove } = postSlice.actions;
 export default postSlice.reducer;

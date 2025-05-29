@@ -18,7 +18,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import InitApp from "./components/initApp/InitApp";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
-import SignUp from "./pages/admin/signup/Signup";
+import SignUp from "./pages/admin/signup/SignUp";
 function App() {
   return (
     <Provider store={store}>
@@ -61,6 +61,7 @@ function App() {
           </Route> */}
 
           <Route path="/*" element={<Nopage />} />
+          
         </Routes>
       </Router>
     </Provider>
