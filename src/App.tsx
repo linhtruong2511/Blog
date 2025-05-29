@@ -4,7 +4,7 @@ import Home from "./pages/home/Home";
 import BLog from "./pages/blog/Blog";
 import AllBlog from "./pages/allBlog/AllBlog";
 import BlogInfor from "./pages/blogInfo/BlogInfor";
-import Login from "./pages/admin/adminLogin/Login";
+import Login from "./pages/admin/login/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Nopage from "./pages/nopage/Nopage";
 import Layout from "./components/layout/Layout";
@@ -18,6 +18,7 @@ import store from "./store";
 import { Provider } from "react-redux";
 import InitApp from "./components/initApp/InitApp";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
+import SignUp from "./pages/admin/signup/Signup";
 function App() {
   return (
     <Provider store={store}>
@@ -35,6 +36,7 @@ function App() {
           </Route>
 
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
 
           {/* protected */}
 
