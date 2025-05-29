@@ -1,4 +1,4 @@
-import { loginSuccess, logout } from "@/reducer/authReducer";
+import { loadingFinish, loginSuccess, logout } from "@/reducer/authReducer";
 import { getAll } from "@/reducer/postReducer";
 import { getAllPost } from "@/service/postService";
 import { useAppDispatch } from "@/store/hook";
@@ -11,8 +11,11 @@ export default function InitApp() {
   const auth = getAuth();
 
   useEffect(() => {
-    initUser();
+
+    const unsubcribe = initUser();
     initPosts();
+    return () => unsubcribe();
+
   }, [dispath]);
 
   const initPosts = async () => {
@@ -20,19 +23,23 @@ export default function InitApp() {
     if (posts) dispath(getAll(posts));
   };
 
-  const initUser = async () => {
-    onAuthStateChanged(auth, user => {
+  const initUser = () => {
+    const unsubcribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispath(loginSuccess({
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email
-        }))
+        dispath(loadingFinish())
+        dispath(
+          loginSuccess({
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+          })
+        );
       } else {
-        dispath(logout())
+        dispath(logout());
       }
-    })
-  }
+    });
+    return unsubcribe;
+  };
 
   return <></>;
 }

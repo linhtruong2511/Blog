@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import Logo from '../../assets/logox.png';
+import { getAuth, signOut } from "firebase/auth";
 // Menu items.
 const items = [
   {
@@ -55,6 +56,13 @@ export function AdminSidebar() {
   const { open } = useSidebar();
   const hideHeader = !open ? "hidden" : "auto";
   const navigate = useNavigate();
+  const auth = getAuth();
+  
+
+  const handleLogout = async () => {
+    await signOut(auth);
+  }
+
   return (
     <Sidebar collapsible="icon" className="overflow-clip">
       <SidebarHeader className="overflow-clip mt-2">
@@ -98,6 +106,9 @@ export function AdminSidebar() {
               >
                 <DropdownMenuItem>
                   <span>Tài khoản</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/")}>
+                  <span>Thoát</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/")}>
                   <span>Thoát</span>
