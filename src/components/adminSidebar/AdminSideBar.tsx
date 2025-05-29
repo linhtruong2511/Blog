@@ -1,10 +1,4 @@
-import {
-  ChevronUp,
-  Home,
-  Inbox,
-  Settings,
-  User2,
-} from "lucide-react";
+import { ChevronUp, Home, Inbox, Settings, User2 } from "lucide-react";
 
 import {
   Sidebar,
@@ -26,8 +20,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
-import Logo from '../../assets/logox.png';
+import Logo from "../../assets/logox.png";
 import { getAuth, signOut } from "firebase/auth";
+import { useAppDispatch } from "@/store/hook";
+import { logout } from "@/reducer/authReducer";
 // Menu items.
 const items = [
   {
@@ -42,13 +38,6 @@ const items = [
     url: "/admin/draft",
     icon: Inbox,
   },
-
-  {
-    id: 3,
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
 ];
 
 export function AdminSidebar() {
@@ -57,18 +46,21 @@ export function AdminSidebar() {
   const hideHeader = !open ? "hidden" : "auto";
   const navigate = useNavigate();
   const auth = getAuth();
-  
+  const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
     await signOut(auth);
-  }
+    dispatch(logout());
+    navigate("/");
+  };
 
   return (
     <Sidebar collapsible="icon" className="overflow-clip">
       <SidebarHeader className="overflow-clip mt-2">
         <SidebarMenu>
           <SidebarMenuItem className="flex gap-2 items-center">
-              <img src={Logo} alt="" className="w-10" /> <h2 className={"text-2xl font-bold " + hideHeader}>CodeDump</h2>
+            <img src={Logo} alt="" className="w-10" />{" "}
+            <h2 className={"text-2xl font-bold " + hideHeader}>CodeDump</h2>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -79,7 +71,11 @@ export function AdminSidebar() {
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild isActive={item.id === selectedMenuItem} onClick={() => setSelectedMenuItem(item.id)}>
+              <SidebarMenuButton
+                asChild
+                isActive={item.id === selectedMenuItem}
+                onClick={() => setSelectedMenuItem(item.id)}
+              >
                 <Link to={item.url}>
                   <item.icon />
                   <span>{item.title}</span>
@@ -96,7 +92,7 @@ export function AdminSidebar() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
-                  <User2 /> Admin
+                  <User2 /> {auth.currentUser?.email}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
@@ -107,8 +103,8 @@ export function AdminSidebar() {
                 <DropdownMenuItem>
                   <span>Tài khoản</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/")}>
-                  <span>Thoát</span>
+                <DropdownMenuItem onClick={handleLogout}>
+                  <span>Đăng xuất</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/")}>
                   <span>Thoát</span>
