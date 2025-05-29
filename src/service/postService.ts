@@ -77,3 +77,16 @@ export const updatePost = async (id: string, data : object) : Promise<boolean> =
     return false;
   }
 }
+
+export const searchPost = async (name: string) : Promise<PostType[] | undefined> => {
+  try{
+    const q = query(collection(db, 'post'), where('title', 'in', name))
+    const snaps = await getDocs(q);
+    return snaps.docs.map(snap => {
+      return convertPostSnap(snap);
+    })
+  } catch(e) {
+    console.log(e);
+    return undefined;
+  }
+}

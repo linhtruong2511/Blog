@@ -15,6 +15,9 @@ interface PostType {
   shortDesc: string;
   lastUpdate: string;
   isDraft: boolean;
+
+  authorId: string,
+  vote: number, 
 }
 
 export default PostType;
