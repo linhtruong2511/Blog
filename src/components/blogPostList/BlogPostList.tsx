@@ -4,12 +4,12 @@ import Post from "../../types/Post";
 import { getAllPost } from "../../service/postService";
 
 export default function BlogPostList() {
-  const [carts, setCarts] = useState<Post[]>([]);
+  const [cards, setCards] = useState<Post[]>([]);
   useEffect(() => {
     const fetchPost = async () => {
       const posts = await getAllPost();
       if (!posts) return;
-      setCarts(posts);
+      setCards(posts);
     };
     fetchPost();
   }, []);
@@ -17,8 +17,8 @@ export default function BlogPostList() {
     <>
       <div className="h-full">
         <div className="">
-          {carts.map((cart) => {
-            return <Card key={cart.id} cart={cart} />;
+          {cards.map((card) => {
+            return <Card key={card.id} card={card} />;
           })}
         </div>
       </div>

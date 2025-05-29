@@ -34,7 +34,7 @@ function App() {
             <Route path="blogs" element={<AllBlog />} />
             <Route path="bloginfo/:id" element={<BlogInfor />} />
           </Route>
-          <Route path="/adminlogin" element={<AdminLogin />} />
+          <Route path="/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="" element={<Dashboard />} />
             <Route path="draft" element={<Draft />} />
