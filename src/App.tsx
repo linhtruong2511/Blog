@@ -8,33 +8,36 @@ import Login from "./pages/admin/adminLogin/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Nopage from "./pages/nopage/Nopage";
 import Layout from "./components/layout/Layout";
-import Provider from "./contexts/Provider";
 import AdminLayout from "./components/layout/AdminLayout";
 import CreateBlog from "./pages/admin/createBlog/CreateBlog";
 import EditBlog from "./pages/admin/editBlog/EditBlog";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import Draft from "./pages/admin/draftEdit/Draft";
-import LayoutTest from "./test/layout";
 import UploadDraft from "./pages/admin/uploadDraft/UploadDraft";
+import store from "./store";
+import { Provider } from "react-redux";
+import InitApp from "./components/initApp/InitApp";
 function App() {
-  const addTagsLocalStorage = () => {
-    localStorage.setItem('tags', 'react, vue, angular');
-  }
-
-  addTagsLocalStorage();
-  
   return (
-    <Provider>
+    <Provider store={store}>
       <Router>
+        
+        <InitApp />
         <ScrollToTop />
+
         <Routes>
+          
+          {/* public  */}
           <Route path="/" element={<Layout />}>
             <Route path="" element={<Home />} />
             <Route path="blog/:id" element={<BLog />} />
             <Route path="blogs" element={<AllBlog />} />
             <Route path="bloginfo/:id" element={<BlogInfor />} />
           </Route>
+
           <Route path="/login" element={<Login />} />
+          
+          {/* protected */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="" element={<Dashboard />} />
             <Route path="draft" element={<Draft />} />
@@ -42,9 +45,11 @@ function App() {
             <Route path="createblog" element={<CreateBlog />} />
             <Route path="editblog/:postId" element={<EditBlog />} />
           </Route>
-          <Route path="test" element={<LayoutTest />}>
+
+          {/* <Route path="test" element={<LayoutTest />}>
             <Route path="" element={<Dashboard />} />
-          </Route>
+          </Route> */}
+          
           <Route path="/*" element={<Nopage />} />
         </Routes>
       </Router>

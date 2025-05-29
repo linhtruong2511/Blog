@@ -6,9 +6,9 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import useDB from "../hook/useDB";
-import PostContent from "../types/PostContent";
-import Post from "@/types/Post";
+import useDB from "../hooks/useDB";
+import PostContent from "../types/PostContentType";
+import PostType from "@/types/PostType";
 import { getDateNow } from "@/utils/date";
 const db = useDB();
 export const getContent = async (
@@ -46,7 +46,7 @@ export const deleteContent = async (id: string) => {
   }
 };
 
-export const updateContent = async (post: Post, contentData: string) => {
+export const updateContent = async (post: PostType, contentData: string) => {
   try {
     if(!post || !post.id || !post.contentId) return;
 

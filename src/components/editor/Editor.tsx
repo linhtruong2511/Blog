@@ -4,8 +4,8 @@ import "quill/dist/quill.snow.css";
 import "./editor.css";
 import { useNavigate } from "react-router-dom";
 import { addPost } from "../../service/postService";
-import Post, { Status } from "../../types/Post";
-import PostContent from "../../types/PostContent";
+import PostType, { StatusPost } from "../../types/PostType";
+import PostContent from "../../types/PostContentType";
 import { createContent } from "../../service/contentService";
 import { getDateNow } from "../../utils/date";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
@@ -69,14 +69,14 @@ export default function Editor({ content, onSave }: Props) {
 
     if (!iDContent) return;
 
-    const data: Post = {
+    const data: PostType = {
       contentId: iDContent,
       createDate: getDateNow(),
       id: "",
       isDraft: true,
       lastUpdate: getDateNow(),
       shortDesc: "",
-      status: Status.hide,
+      status: StatusPost.hide,
       tags: [],
       thumbnailURL: "",
       title: title,

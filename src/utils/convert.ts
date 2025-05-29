@@ -1,7 +1,7 @@
 import { DocumentSnapshot } from "firebase/firestore";
-import Post from "../types/Post";
+import PostType from "../types/PostType";
 
-export const convertPostSnap = (post: DocumentSnapshot): Post => {
+export const convertPostSnap = (post: DocumentSnapshot): PostType => {
   return {
     title: post.get("title"),
     contentId: post.get("contentId"),

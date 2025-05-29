@@ -1,7 +1,7 @@
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Post, { Status } from "@/types/Post";
+import PostType, { StatusPost } from "@/types/PostType";
 import { Settings2 } from "lucide-react";
 import { ChangeEvent, useRef, useState } from "react";
 import Modal from "@/components/modal/Modal";
@@ -18,7 +18,7 @@ import { Badge } from "@/components/ui/badge";
 const data: string[] = localStorage.getItem("tags")?.split(",").map(item => item.trim()) || [];
 
 interface Props {
-  post: Post;
+  post: PostType;
   onEdit: (val: string | number | boolean | string[], name: string) => void;
   onUpdateThumbnail: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
   onSaveEdit: () => void;
@@ -33,7 +33,7 @@ export default function UpdatePostButton({
   onSaveEdit,
 }: Props) {
   const [isShowStatus, setIsShowStatus] = useState<boolean>(
-    post.status === Status.show
+    post.status === StatusPost.show
   );
   const [title, setTitle] = useState<string>(post.title);
   const [selectedTags, setSelectedTags] = useState<string[]>(post.tags.map(item => item.trim()));
@@ -114,7 +114,7 @@ export default function UpdatePostButton({
               onClick={() => {
                 const newStatus = !isShowStatus;
                 setIsShowStatus(newStatus);
-                onEdit(newStatus ? Status.show : Status.hide, "status");
+                onEdit(newStatus ? StatusPost.show : StatusPost.hide, "status");
               }}
             />
           </div>

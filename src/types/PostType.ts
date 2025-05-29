@@ -1,19 +1,20 @@
-export enum Status {
+export enum StatusPost {
   show = "Công khai",
   hide = "Ẩn",
 }
-interface Post {
+
+interface PostType {
   id: string | null;
   title: string;
   contentId: string;
   thumbnailURL: string;
   createDate: string;
   view: number;
-  status: Status;
+  status: StatusPost;
   tags: Array<string>;
   shortDesc: string;
   lastUpdate: string;
   isDraft: boolean;
 }
 
-export default Post;
+export default PostType;

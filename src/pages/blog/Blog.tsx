@@ -1,5 +1,5 @@
 import { FaArrowLeft } from "react-icons/fa";
-import Post from "../../types/Post";
+import PostType from "../../types/PostType";
 import { useEffect, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import { FaEye } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton";
 export default function BLog() {
   const { id } = useParams();
-  const [post, setPost] = useState<Post>();
+  const [post, setPost] = useState<PostType>();
   const [content, setContent] = useState<string>();
   const navigate = useNavigate();
   const isLoaded = content && post ? true : false;

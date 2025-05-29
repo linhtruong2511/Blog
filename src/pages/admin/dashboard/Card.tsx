@@ -1,12 +1,12 @@
 import ModalConfirm from "@/components/modalConfirm/ModalConfirm";
-import Post, { Status } from "@/types/Post";
+import PostType, { StatusPost } from "@/types/PostType";
 import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import { ChangeEvent } from "react";
 import { Link } from "react-router-dom";
 import UpdatePostButton from "@/components/updatePostButton/UpdatePostButton";
 
 interface Props {
-  post: Post;
+  post: PostType;
   onSelect: (id: string) => void;
   onEdit: (val: string | number | boolean | string[], name: string) => void;
   onUpdateThumbnail: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
@@ -41,7 +41,7 @@ export default function Card({
               </p>
               <p className="flex items-center gap-2">
                 Trạng thái: <b>{post.status}</b>
-                {post.status === Status.show ? (
+                {post.status === StatusPost.show ? (
                   <span className="h-3 w-3 inline-block rounded-full bg-green-400"></span>
                 ) : (
                   <span className="h-3 w-3 inline-block rounded-full bg-red-400"></span>

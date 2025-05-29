@@ -1,24 +1,14 @@
-import { useEffect, useState } from "react";
 import Card from "./Card";
-import Post from "../../types/Post";
-import { getAllPost } from "../../service/postService";
+import { useAppSelector } from "@/store/hook";
 
 export default function BlogPostList() {
-  const [cards, setCards] = useState<Post[]>([]);
-  useEffect(() => {
-    const fetchPost = async () => {
-      const posts = await getAllPost();
-      if (!posts) return;
-      setCards(posts);
-    };
-    fetchPost();
-  }, []);
+  const posts = useAppSelector((state) => state.postReducer); 
   return (
     <>
       <div className="h-full">
         <div className="">
-          {cards.map((card) => {
-            return <Card key={card.id} card={card} />;
+          {posts.map((post) => {
+            return <Card key={post.id} post={post} />;
           })}
         </div>
       </div>

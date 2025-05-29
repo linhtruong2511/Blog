@@ -1,4 +1,4 @@
-export interface CardType {
+export type CardType = {
   title: string;
   shortDecs: string;
   dateCreate: string;

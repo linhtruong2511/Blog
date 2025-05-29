@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from "react";
-import Post from "../../../types/Post";
+import PostType from "../../../types/PostType";
 import {
   deletePost,
   getAllPost,
@@ -11,8 +11,8 @@ import Card from "./Card";
 import { toast } from "react-toastify";
 
 export default function BLogPostList() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedPost, setSelectedPost] = useState<Post>(posts[0]);
+  const [posts, setPosts] = useState<PostType[]>([]);
+  const [selectedPost, setSelectedPost] = useState<PostType>(posts[0]);
   const [postUpdate, setPostUpdate] = useState({});
 
   const handleSelect = (id: string): void => {
@@ -23,7 +23,7 @@ export default function BLogPostList() {
     if (!selectedPost?.id) return;
     const isDone = await updatePost(selectedPost.id, postUpdate);
     setPosts(
-      posts.map((post): Post => {
+      posts.map((post): PostType => {
         if (selectedPost.id === post.id) {
           return {
             ...post,

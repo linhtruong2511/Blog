@@ -9,8 +9,8 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import useDB from "../hook/useDB";
-import Post from "../types/Post";
+import useDB from "../hooks/useDB";
+import PostType from "../types/PostType";
 import { deleteContent } from "./contentService";
 import { convertPostSnap } from "../utils/convert";
 
@@ -20,7 +20,7 @@ export const getAllPost = async () => {
   try {
     const q = query(collection(db, "post"), where('isDraft', '==', false))
     const result = await getDocs(q);
-    const posts = result.docs.map((post): Post => {
+    const posts = result.docs.map((post): PostType => {
       return convertPostSnap(post);
     });
     return posts;
@@ -30,15 +30,15 @@ export const getAllPost = async () => {
 };
 
 
-export const getAllDraft = async () : Promise<Post[]> => {
+export const getAllDraft = async () : Promise<PostType[]> => {
   const q = query(collection(db, 'post'), where('isDraft', '==', true));
   const draftSnap = await getDocs(q);
-  return (draftSnap).docs.map((draft) : Post => {
+  return (draftSnap).docs.map((draft) : PostType => {
     return convertPostSnap(draft);
   })
 }
 
-export const getPost = async (id: string): Promise<Post | undefined> => {
+export const getPost = async (id: string): Promise<PostType | undefined> => {
   try {
     const post = await getDoc(doc(db, "post", id));
     if (!post) return undefined;
@@ -48,7 +48,7 @@ export const getPost = async (id: string): Promise<Post | undefined> => {
   }
 };
 
-export const deletePost = async (post: Post) => {
+export const deletePost = async (post: PostType) => {
   try {
     await deleteDoc(doc(db, "post", post.id as string));
     if (await deleteContent(post.contentId)) return true;
@@ -59,7 +59,7 @@ export const deletePost = async (post: Post) => {
   }
 };
 
-export const addPost = async (post: Post): Promise<string | undefined> => {
+export const addPost = async (post: PostType): Promise<string | undefined> => {
   try { 
     const postRef = await addDoc(collection(db, "post"), post);
     return postRef.id as string;
