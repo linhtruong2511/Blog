@@ -4,7 +4,7 @@ import Home from "./pages/home/Home";
 import BLog from "./pages/blog/Blog";
 import AllBlog from "./pages/allBlog/AllBlog";
 import BlogInfor from "./pages/blogInfo/BlogInfor";
-import AdminLogin from "./pages/admin/adminLogin/AdminLogin";
+import Login from "./pages/admin/adminLogin/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Nopage from "./pages/nopage/Nopage";
 import Layout from "./components/layout/Layout";
@@ -34,7 +34,7 @@ function App() {
             <Route path="blogs" element={<AllBlog />} />
             <Route path="bloginfo/:id" element={<BlogInfor />} />
           </Route>
-          <Route path="/login" element={<AdminLogin />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="" element={<Dashboard />} />
             <Route path="draft" element={<Draft />} />
