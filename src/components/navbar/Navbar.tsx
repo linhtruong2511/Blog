@@ -11,7 +11,7 @@ export default function Navbar() {
         <Logo />
         <Input placeholder="Tìm kiếm" className="w-4/12 hidden lg:block"/>
         {/* <div className="basis-xl hidden md:flex items-center justify-between gap-4 "> */}
-        <Button onClick={() => navigate('/login')} className="hidden md:block">Codedump console</Button>
+        <Button onClick={() => navigate('/admin')} className="hidden md:block">Codedump console</Button>
         {/* </div> */}
       </header>
     </div>

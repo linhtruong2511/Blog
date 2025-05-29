@@ -1,4 +1,4 @@
-import Card from "./Card";
+import PostCard from "./PostCard";
 import { useAppSelector } from "@/store/hook";
 
 export default function BlogPostList() {
@@ -8,7 +8,7 @@ export default function BlogPostList() {
       <div className="h-full">
         <div className="">
           {posts.map((post) => {
-            return <Card key={post.id} post={post} />;
+            return <PostCard key={post.id} post={post} />;
           })}
         </div>
       </div>

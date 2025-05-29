@@ -3,7 +3,7 @@ import PostType from "../../types/PostType";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 
-export default function Card({ post }: { post: PostType }) {
+export default function PostCard({ post }: { post: PostType }) {
   const navigate = useNavigate();
   return (
     <div

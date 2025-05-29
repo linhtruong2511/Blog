@@ -17,16 +17,15 @@ import UploadDraft from "./pages/admin/uploadDraft/UploadDraft";
 import store from "./store";
 import { Provider } from "react-redux";
 import InitApp from "./components/initApp/InitApp";
+import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 function App() {
   return (
     <Provider store={store}>
       <Router>
-        
         <InitApp />
         <ScrollToTop />
 
         <Routes>
-          
           {/* public  */}
           <Route path="/" element={<Layout />}>
             <Route path="" element={<Home />} />
@@ -36,9 +35,18 @@ function App() {
           </Route>
 
           <Route path="/login" element={<Login />} />
-          
+
           {/* protected */}
-          <Route path="/admin" element={<AdminLayout />}>
+
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="" element={<Dashboard />} />
             <Route path="draft" element={<Draft />} />
             <Route path="draft/upload/:postId" element={<UploadDraft />} />
@@ -49,7 +57,7 @@ function App() {
           {/* <Route path="test" element={<LayoutTest />}>
             <Route path="" element={<Dashboard />} />
           </Route> */}
-          
+
           <Route path="/*" element={<Nopage />} />
         </Routes>
       </Router>
