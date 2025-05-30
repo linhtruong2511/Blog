@@ -1,12 +1,12 @@
 import useDB from "@/hooks/useDB";
 import { UserType } from "@/types/UserType";
 import { convertUserSnap } from "@/utils/convert";
-import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 const db = useDB();
 
 export const createUser = async (user: UserType) => {
   try {
-    await addDoc(collection(db, "user"), {
+    await setDoc(doc(db, "user", user.uid), {
       user,
     });
   } catch (e) {
@@ -28,7 +28,7 @@ export const getUser = async (
 export const updateUser = async (newProfile: object): Promise<boolean> => {
   try {
     await updateDoc(doc(db, "user"), {
-      ...newProfile
+      ...newProfile,
     });
     return true;
   } catch (e) {

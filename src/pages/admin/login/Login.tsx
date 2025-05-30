@@ -8,7 +8,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { loginSuccess } from "@/reducer/authReducer";
+import { getUser } from "@/service/userService";
 import { useAppDispatch } from "@/store/hook";
+import { Role } from "@/types/UserType";
 import { Label } from "@radix-ui/react-label";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FormEvent, useState } from "react";
@@ -19,8 +21,9 @@ export default function Login() {
   const [password, setPassword] = useState<string>("");
   const dispath = useAppDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState<boolean>(false);
 
-  const handleLogin = async (e : FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const auth = getAuth();
     try {
@@ -29,15 +32,24 @@ export default function Login() {
         email,
         password
       );
-      const user = userCredential.user;
-      dispath(loginSuccess({
-        name: user.displayName,
-        email: user.email,
-      }));
-      navigate('/admin');
-    } catch (e : any) {
+      const user = await getUser(userCredential.user.uid);
+      
+      if (!user){
+        console.log('error: User cannot be found but is still logged in')
+        return;
+      }
+
+      dispath(loginSuccess(user));
+
+      if (user?.role === Role.ADMIN) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    } catch (e: any) {
       console.log("code: ", e.code);
       console.log("message: ", e.message);
+      setError(true);
     }
   };
 
@@ -49,9 +61,7 @@ export default function Login() {
             <Card>
               <CardHeader>
                 <CardTitle className="text-2xl">Welcome Back</CardTitle>
-                <CardDescription>
-                  Đăng nhập để trở thành nhà sáng tác nội dung tại Codedump
-                </CardDescription>
+                <CardDescription></CardDescription>
               </CardHeader>
               <CardContent>
                 <form onSubmit={(e) => handleLogin(e)}>
@@ -85,10 +95,12 @@ export default function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </div>
-                    <Button
-                      type="submit"
-                      className="w-full"
-                    >
+                    {error && (
+                      <p className="text-red-500">
+                        Tài khoản hoặc mật khẩu của bạn chưa chính xác !
+                      </p>
+                    )}
+                    <Button type="submit" className="w-full">
                       Login
                     </Button>
                     <Button variant="outline" className="w-full">

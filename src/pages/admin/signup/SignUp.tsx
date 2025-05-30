@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { createUser } from "@/service/userService";
-import { UserType } from "@/types/UserType";
+import { Role, UserType } from "@/types/UserType";
 import { getDateNow } from "@/utils/date";
 import { Label } from "@radix-ui/react-label";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import { FormEvent, FormEventHandler, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -48,12 +48,13 @@ export default function SignUp() {
         name: user.displayName || "",
         photoURL: user.photoURL || "",
         providerId: user.providerId || "",
+        uid: user.uid,
+        role: Role.USER,
 
         follower: 0,
         following: 0,
         numberOfPost: 0,
         numberOfVote: 0,
-        uid: user.uid,
         viewOfPost: 0,
       };
 
