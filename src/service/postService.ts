@@ -18,7 +18,7 @@ const db = useDB();
 
 export const getAllPost = async () => {
   try {
-    const q = query(collection(db, "post"), where('isDraft', '==', false))
+    const q = query(collection(db, "post"), where("isDraft", "==", false));
     const result = await getDocs(q);
     const posts = result.docs.map((post): PostType => {
       return convertPostSnap(post);
@@ -29,14 +29,13 @@ export const getAllPost = async () => {
   }
 };
 
-
-export const getAllDraft = async () : Promise<PostType[]> => {
-  const q = query(collection(db, 'post'), where('isDraft', '==', true));
+export const getAllDraft = async (): Promise<PostType[]> => {
+  const q = query(collection(db, "post"), where("isDraft", "==", true));
   const draftSnap = await getDocs(q);
-  return (draftSnap).docs.map((draft) : PostType => {
+  return draftSnap.docs.map((draft): PostType => {
     return convertPostSnap(draft);
-  })
-}
+  });
+};
 
 export const getPost = async (id: string): Promise<PostType | undefined> => {
   try {
@@ -60,7 +59,7 @@ export const deletePost = async (post: PostType) => {
 };
 
 export const addPost = async (post: PostType): Promise<string | undefined> => {
-  try { 
+  try {
     const postRef = await addDoc(collection(db, "post"), post);
     return postRef.id as string;
   } catch (e) {
@@ -68,25 +67,36 @@ export const addPost = async (post: PostType): Promise<string | undefined> => {
   }
 };
 
-export const updatePost = async (id: string, data : object) : Promise<boolean> => {
-  try{
+export const updatePost = async (
+  id: string,
+  data: object
+): Promise<boolean> => {
+  try {
     await updateDoc(doc(db, "post", id), data);
     return true;
-  } catch(e) {
+  } catch (e) {
     console.log(e);
     return false;
   }
-}
+};
 
-export const searchPost = async (name: string) : Promise<PostType[] | undefined> => {
-  try{
-    const q = query(collection(db, 'post'), where('title', 'in', name))
+export const searchPost = async (
+  keyword: string
+): Promise<PostType[] | undefined> => {
+  try {
+    const q = query(
+      collection(db, "post"),
+      where("isDraft", "==", false),
+      where("title", ">=", keyword),
+      where("title", "<=", keyword + '\uf8ff')
+    );
     const snaps = await getDocs(q);
-    return snaps.docs.map(snap => {
+    console.log(keyword);
+    return snaps.docs.map((snap) => {
       return convertPostSnap(snap);
-    })
-  } catch(e) {
+    });
+  } catch (e) {
     console.log(e);
     return undefined;
   }
-}
+};

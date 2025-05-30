@@ -21,7 +21,7 @@ export default function BLog() {
       setPost(post);
     };
     fetchPost();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const fetchContent = async () => {
