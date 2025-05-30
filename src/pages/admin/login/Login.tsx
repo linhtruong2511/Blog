@@ -32,13 +32,15 @@ export default function Login() {
         email,
         password
       );
+
       const user = await getUser(userCredential.user.uid);
       
       if (!user){
         console.log('error: User cannot be found but is still logged in')
         return;
       }
-
+      console.log('user:', user);
+      
       dispath(loginSuccess(user));
 
       if (user?.role === Role.ADMIN) {

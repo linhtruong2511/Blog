@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { SidebarProvider } from "../ui/sidebar";
 import { AdminSidebar } from "../adminSidebar/AdminSideBar";
-import { ToastContainer, Bounce } from "react-toastify";
 import { useEffect, useState } from "react";
 import LoaderScreen from "../loader/LoaderScreen";
 export default function AdminLayout() {

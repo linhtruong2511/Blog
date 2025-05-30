@@ -6,9 +6,7 @@ const db = useDB();
 
 export const createUser = async (user: UserType) => {
   try {
-    await setDoc(doc(db, "user", user.uid), {
-      user,
-    });
+    await setDoc(doc(db, "user", user.uid), user);
   } catch (e) {
     console.log(e);
   }
@@ -19,7 +17,9 @@ export const getUser = async (
 ): Promise<UserType | undefined> => {
   try {
     const userSnap = await getDoc(doc(db, "user", userId));
-    return convertUserSnap(userSnap);
+    if (userSnap.exists()) {
+      return convertUserSnap(userSnap);
+    }
   } catch (e) {
     console.log(e);
   }

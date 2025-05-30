@@ -1,6 +1,7 @@
 import { loadingFinish, loginSuccess, logout } from "@/reducer/authReducer";
 import { set } from "@/reducer/postReducer";
 import { getAllPost } from "@/service/postService";
+import { getUser } from "@/service/userService";
 import { useAppDispatch } from "@/store/hook";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
@@ -10,11 +11,9 @@ export default function InitApp() {
   const auth = getAuth();
 
   useEffect(() => {
-
     const unsubcribe = initUser();
     initPosts();
     return () => unsubcribe();
-
   }, [dispath]);
 
   const initPosts = async () => {
@@ -23,16 +22,20 @@ export default function InitApp() {
   };
 
   const initUser = () => {
-    const unsubcribe = onAuthStateChanged(auth, (user) => {
+    const unsubcribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        dispath(loadingFinish())
-        dispath(
-          loginSuccess({
-            uid: user.uid,
-            name: user.displayName,
-            email: user.email,
-          })
-        );
+        // lấy người dùng đã lưu trừ firestore
+        const userStore = await getUser(user.uid);
+        
+        if (!userStore) {
+          console.log("init user fail");
+          return;
+        }
+        
+        dispath(loginSuccess(userStore));
+
+        // thể hiện trạng thái đang load user
+        dispath(loadingFinish());
       } else {
         dispath(logout());
       }

@@ -1,22 +1,76 @@
-import react from "../../assets/react-thumbnail-test.webp";
+import { Button } from "../ui/button";
+import { Search } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "../ui/input";
+import PostType from "@/types/PostType";
+import { searchPost } from "@/service/postService";
+import SearchItem from "../search/SearchItem";
+import { ScrollArea } from "../ui/scroll-area";
+import { useNavigate } from "react-router-dom";
+import { DialogClose } from "@radix-ui/react-dialog";
+
 export default function SearchDiaglog() {
+  const [keyword, setKeyword] = useState<string>("");
+  const [postSearch, setPostSearch] = useState<PostType[]>([]);
+  const navigate = useNavigate();
+  const handleSelect = (blogId: string) => {
+    setKeyword("");
+    navigate("/blog/" + blogId);
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const posts =
+        keyword?.trim() !== "" ? await searchPost(keyword || "") : [];
+      setPostSearch(posts || []);
+    };
+    fetchData();
+  }, [keyword]);
   return (
-    <div className="p-5 border rounded-xl border-gray-600">
-      <input
-        type="text"
-        className="bg-gray-400 focus:bg-gray-100 border py-2 px-2 rounded-md outline-none text-black mx-2 transition-colors"
-        placeholder="Search"
-      />
-      <div className="mt-4">
-        <div className="flex items-center gap-5 h-16 overflow-hidden mb-5 p-2 hover:-translate-y-1/12 transition-transform">
-          <img src={react} alt="" className="h-full object-cover w-24" />
-          <h3>React jfldsjflkdjsfk jsdlkafjl sdjflsjflk</h3>
+    <Dialog>
+      <DialogTrigger asChild>
+        <div>
+          <Button className="hidden md:flex">
+            <Search /> Tìm kiếm
+          </Button>
         </div>
-        <div className="flex items-center gap-5 h-16 overflow-hidden mb-5 p-2 hover:-translate-y-1/12 transition-transform">
-          <img src={react} alt="" className="h-full object-cover w-24" />
-          <h3>React jfldsjflkdjsfk jsdlkafjl sdjflsjflk</h3>
-        </div>
-      </div>
-    </div>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Tìm kiếm</DialogTitle>
+          <DialogDescription asChild>
+            <Input
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="Nhập từ khóa của bạn"
+              type="search"
+            ></Input>
+          </DialogDescription>
+        </DialogHeader>
+
+        <ScrollArea>
+          {postSearch.map((item) => {
+            return (
+              <DialogClose asChild>
+                <div>
+                  <SearchItem
+                    post={item}
+                    key={item.id}
+                    onSelect={handleSelect}
+                  />
+                </div>
+              </DialogClose>
+            );
+          })}
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -34,5 +34,7 @@ export const convertUserSnap = (snap: DocumentSnapshot): UserType => {
     photoURL: snap.get('photoURL'),
     providerId: snap.get('providerId'),
     viewOfPost: snap.get('viewOfPost'),
+
+    role: snap.get('role')
   };
 };

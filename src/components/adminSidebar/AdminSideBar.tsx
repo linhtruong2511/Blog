@@ -48,11 +48,6 @@ export function AdminSidebar() {
   const auth = getAuth();
   const dispatch = useAppDispatch();
 
-  const handleLogout = async () => {
-    await signOut(auth);
-    dispatch(logout());
-    navigate("/");
-  };
 
   return (
     <Sidebar collapsible="icon" className="overflow-clip">
@@ -102,9 +97,6 @@ export function AdminSidebar() {
               >
                 <DropdownMenuItem>
                   <span>Tài khoản</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={handleLogout}>
-                  <span>Đăng xuất</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => navigate("/")}>
                   <span>Thoát</span>
