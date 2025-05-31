@@ -25,9 +25,9 @@ export const getUser = async (
   }
 };
 
-export const updateUser = async (newProfile: object): Promise<boolean> => {
+export const updateUser = async (newProfile: object, uid: string): Promise<boolean> => {
   try {
-    await updateDoc(doc(db, "user"), {
+    await updateDoc(doc(db, "user", uid), {
       ...newProfile,
     });
     return true;
