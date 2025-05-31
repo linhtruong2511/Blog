@@ -19,6 +19,8 @@ import { Provider } from "react-redux";
 import InitApp from "./components/initApp/InitApp";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import SignUp from "./pages/admin/signup/SignUp";
+import Account from "./pages/account/Account";
+import UserPost from "./userPost/UserPost";
 function App() {
   return (
     <Provider store={store}>
@@ -33,13 +35,15 @@ function App() {
             <Route path="blog/:id" element={<BLog />} />
             <Route path="blogs" element={<AllBlog />} />
             <Route path="bloginfo/:id" element={<BlogInfor />} />
+            <Route path="account" element={<Account />}>
+              <Route path="" element={<UserPost />} />
+            </Route>
           </Route>
 
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
 
           {/* protected */}
-
 
           <Route
             path="/admin"
@@ -61,7 +65,6 @@ function App() {
           </Route> */}
 
           <Route path="/*" element={<Nopage />} />
-          
         </Routes>
       </Router>
     </Provider>

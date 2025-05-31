@@ -149,5 +149,10 @@ h1,h2,h3 {
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
+}
+
+.active {
+  color: var(--color-blue-500);
 }
 
