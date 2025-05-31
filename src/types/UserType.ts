@@ -5,9 +5,11 @@ export enum Role {
 
 export type UserType = {
   uid: string;
+  email: string;
+
   photoURL: string;
   name: string;
-  email: string;
+  
   providerId: string;
   creationTime: string;
   lastSignIn: string;
