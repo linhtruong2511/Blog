@@ -1,6 +1,5 @@
 export const createToc = (content: HTMLDivElement, toc: HTMLUListElement) => {
   const headings = content.querySelectorAll("h1, h2, h3");
-  console.log("heading finding");
   for (let i = 0; i < headings.length; i++) {
     const li = document.createElement("li");
     const id = headings[i].id || "toc-" + i;

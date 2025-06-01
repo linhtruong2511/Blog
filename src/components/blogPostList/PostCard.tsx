@@ -2,12 +2,19 @@ import { Link, useNavigate } from "react-router-dom";
 import PostType from "../../types/PostType";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function PostCard({ post }: { post: PostType }) {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
+  const handleClickBlogCard = () => {
+    if (isMobile) {
+      navigate("/blog/" + post.id);
+    }
+  }
   return (
     <div
-      onClick={() => navigate("/blog/" + post.id)}
+      onClick={handleClickBlogCard}
       className="flex pb-2 mb-4 md:mb-8 border-b-gray-200 border-b gap-2 md:h-52 relative "
     >
       <div className="border border-gray-200  flex-4/12 rounded-xl overflow-hidden hidden md:block ">
