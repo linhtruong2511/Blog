@@ -54,7 +54,7 @@ const AvatarButton = () => {
         <DropdownMenuItem onClick={() => navigate("account")}>
           Tài khoản
         </DropdownMenuItem>
-        <DropdownMenuItem>Viết bài</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => navigate('/edit')}>Viết bài</DropdownMenuItem>
         {user.role === Role.ADMIN && (
           <DropdownMenuItem onClick={() => navigate("/admin")}>
             Console

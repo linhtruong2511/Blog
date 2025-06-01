@@ -21,6 +21,7 @@ import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import SignUp from "./pages/admin/signup/SignUp";
 import Account from "./pages/account/Account";
 import UserPost from "./userPost/UserPost";
+import Edit from "./pages/edit/Edit";
 function App() {
   return (
     <Provider store={store}>
@@ -35,6 +36,7 @@ function App() {
             <Route path="blog/:id" element={<BLog />} />
             <Route path="blogs" element={<AllBlog />} />
             <Route path="bloginfo/:id" element={<BlogInfor />} />
+            <Route path="edit" element={<Edit />} />
             <Route path="account" element={<Account />}>
               <Route path="" element={<UserPost />} />
             </Route>

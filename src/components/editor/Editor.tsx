@@ -5,7 +5,7 @@ import "./editor.css";
 import { useNavigate } from "react-router-dom";
 import { addPost } from "../../service/postService";
 import PostType, { StatusPost } from "../../types/PostType";
-import PostContent from "../../types/PostContentType";
+import { PostContentType } from "@/types/PostContentType";
 import { createContent } from "../../service/contentService";
 import { getDateNow } from "../../utils/date";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
@@ -23,6 +23,10 @@ import { Input } from "../ui/input";
 import { BadgePlus, FlaskConical, Save, Upload } from "lucide-react";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { toast } from "react-toastify";
+import { useAppSelector } from "@/store/hook";
+import MarkdownShortcuts from 'quill-markdown-shortcuts';
+
+Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
 
 interface Props {
   content: string;
@@ -53,14 +57,16 @@ export default function Editor({ content, onSave }: Props) {
   const pathname: string = window.location.pathname;
   const isCreate = pathname.includes("createblog");
   const [draftTitle, setDraftTitle] = useState<string>("");
+  const { user } = useAppSelector((s) => s.authReducer);
+
   const handleSaveDraft = async (title: string): Promise<void> => {
-    const loadingId = toast.loading('Đang cập nhật !');
-    navigate('/admin/draft');
+    const loadingId = toast.loading("Đang cập nhật !");
+    navigate("/admin/draft");
 
     const dataQuill: string = quillRef.current?.root.innerHTML as string;
     if (title.trim() === "" || dataQuill.trim() === "") return;
 
-    const content: PostContent = {
+    const content: PostContentType = {
       createDate: new Date().toLocaleDateString("vi-VN"),
       data: dataQuill,
     };
@@ -81,15 +87,17 @@ export default function Editor({ content, onSave }: Props) {
       thumbnailURL: "",
       title: title,
       view: 0,
+      authorId: user?.uid as string,
+      vote: 0,
     };
 
     const id = await addPost(data);
 
     toast.dismiss(loadingId);
     if (id) {
-      toast.success('Cập nhật thành công !')
+      toast.success("Cập nhật thành công !");
     } else {
-      toast.error('Cập nhật không thành công !')
+      toast.error("Cập nhật không thành công !");
     }
   };
 
@@ -117,6 +125,7 @@ export default function Editor({ content, onSave }: Props) {
         image: handleImage,
       },
     },
+    markdownShortcuts: {}
   };
 
   useEffect(() => {
@@ -163,7 +172,12 @@ export default function Editor({ content, onSave }: Props) {
 
                 <DialogFooter>
                   <DialogClose asChild>
-                    <Button  onClick={() => handleSaveDraft(draftTitle)} variant={"default"} color="blue" size={"default"}>
+                    <Button
+                      onClick={() => handleSaveDraft(draftTitle)}
+                      variant={"default"}
+                      color="blue"
+                      size={"default"}
+                    >
                       Lưu <Save />{" "}
                     </Button>
                   </DialogClose>
