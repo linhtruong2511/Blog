@@ -9,9 +9,11 @@ import { getContent } from "../../service/contentService";
 import { FaEye } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton";
 import { update } from "@/reducer/postReducer";
-import { useAppDispatch } from "@/store/hook";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { createToc } from "@/utils/toc";
 import "./Blog.css";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function BLog() {
   const { id } = useParams();
@@ -22,6 +24,8 @@ export default function BLog() {
   const dispath = useAppDispatch();
   const article = useRef<HTMLDivElement | null>(null);
   const toc = useRef<HTMLUListElement | null>(null);
+  const {user} = useAppSelector(s => s.authReducer);
+  const [comment, setComment] = useState<string> ('');
 
   useEffect(() => {
     const getAndUpdatePost = async () => {
@@ -103,19 +107,21 @@ export default function BLog() {
             </div>
           </div>
 
-          <div className="hidden">
-            <h2>Bình luận</h2>
+          <div className="">
+            <h2 className="text-2xl font-medium">Bình luận</h2>
             <div>
-              <div className="flex gap-5">
-                <img src="" className="h-16 w-16 rounded-full" alt="" />
-                <textarea
+              <div className="flex gap-5 mt-2">
+                <img src={user?.photoURL} className="h-12 w-12 rounded-full" alt="" />
+                <Textarea
                   className="grow border border-gray-400 h-32"
                   name="comment"
                   id=""
-                ></textarea>
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                ></Textarea>
               </div>
               <div className="text-right mt-5">
-                <button className="btn ">Gửi bình luận</button>
+                <Button disabled={comment === ''}>Gửi bình luận</Button>
               </div>
             </div>
             <Comment />
