@@ -12,19 +12,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import User from "@/assets/user.svg";
 import { logout } from "@/reducer/authReducer";
+import { Role } from "@/types/UserType";
 const AvatarButton = () => {
   const auth = getAuth();
   const { user } = useAppSelector((s) => s.authReducer);
   const dispath = useAppDispatch();
   const navigate = useNavigate();
-  
-  const handleLogout = () => {
+
+  const handleLogout = async () => {
     try {
-      signOut(auth);
+      await signOut(auth);
     } catch (e) {
       console.log(e);
     }
     dispath(logout());
+    navigate("/");
   };
 
   if (!user)
@@ -53,6 +55,11 @@ const AvatarButton = () => {
           Tài khoản
         </DropdownMenuItem>
         <DropdownMenuItem>Viết bài</DropdownMenuItem>
+        {user.role === Role.ADMIN && (
+          <DropdownMenuItem onClick={() => navigate("/admin")}>
+            Console
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem onClick={handleLogout}>Đăng xuất</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
