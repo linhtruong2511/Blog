@@ -1,0 +1,87 @@
+import ModalConfirm from "@/components/modalConfirm/ModalConfirm";
+import PostType, { StatusPost } from "@/types/PostType";
+import { EllipsisVertical, Pencil, Trash2 } from "lucide-react";
+import { ChangeEvent } from "react";
+import { Link } from "react-router-dom";
+import UpdatePostButton from "@/components/updatePostButton/UpdatePostButton";
+
+interface Props {
+  post: PostType;
+  onSelect: (id: string) => void;
+  onEdit: (val: string | number | boolean | string[], name: string) => void;
+  onUpdateThumbnail: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
+  onSaveEdit: () => void;
+  onDelete: () => Promise<void>;
+}
+
+export default function Card({
+  post,
+  onSelect,
+  onEdit,
+  onUpdateThumbnail,
+  onDelete,
+  onSaveEdit,
+}: Props) {
+  return (
+    <>
+      <div className="flex justify-between items-center mb-3 bg-gray-50 p-4 rounded-md hover:shadow-md hover:translate-[1px] transition-all">
+        <div className="flex items-center gap-5">
+          <img
+            src={post.thumbnailURL}
+            alt=""
+            className="h-16 object-cover w-32 rounded-md hidden sm:block"
+          />
+          <div className="overflow-hidden">
+            <h2 className="lg:text-xl truncate">
+              <b>{post.title}</b>
+            </h2>
+            <div className="hidden gap-4 text-gray-500  lg:block">
+              <p>
+                Lượt xem: <b>{post.view}</b>
+              </p>
+              <p className="flex items-center gap-2">
+                Trạng thái: <b>{post.status}</b>
+                {post.status === StatusPost.show ? (
+                  <span className="h-3 w-3 inline-block rounded-full bg-green-400"></span>
+                ) : (
+                  <span className="h-3 w-3 inline-block rounded-full bg-red-400"></span>
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="hidden items-center gap-5 mr-8 text-gray-500  lg:flex">
+          <Link to={"/admin/editblog/" + post.id}>
+            <button className="cursor-pointer hover:underline border-r pr-4">
+              <Pencil size={16} />
+            </button>
+          </Link>
+
+          <UpdatePostButton
+            onEdit={onEdit}
+            onSaveEdit={onSaveEdit}
+            onSelect={onSelect}
+            onUpdateThumbnail={onUpdateThumbnail}
+            post={post}
+          />
+
+          <ModalConfirm
+            question={"Bạn có muốn xóa " + post.title + " không?"}
+            onConfirm={onDelete}
+          >
+            <button
+              onClick={() => onSelect(post.id as string)}
+              className="cursor-pointer hover:underline"
+            >
+              <Trash2 size={16} />
+            </button>
+          </ModalConfirm>
+        </div>
+
+        <div className="lg:hidden">
+          <EllipsisVertical />
+        </div>
+      </div>
+    </>
+  );
+}

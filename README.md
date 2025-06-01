@@ -24,6 +24,7 @@ Dự án đã được triển khai trực tuyến tại:
 | React         | Firebase Auth     | Firestore      |
 | Shadcn UI     |                   |                |
 | React Router  |                   |                |
+| Redux toolkit |                   |                |
 
 
 ## 📦 Cài đặt và chạy thử

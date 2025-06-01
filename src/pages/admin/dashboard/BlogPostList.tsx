@@ -1,44 +1,39 @@
-import { ChangeEvent, useEffect, useState } from "react";
-import Post from "../../../types/Post";
+import { ChangeEvent,  useState } from "react";
+import PostType from "../../../types/PostType";
 import {
   deletePost,
-  getAllPost,
   updatePost,
 } from "../../../service/postService";
 import { deleteContent } from "../../../service/contentService";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
-import Cart from "./Cart";
+import Card from "./Card";
 import { toast } from "react-toastify";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { remove, update } from "@/reducer/postReducer";
 
 export default function BLogPostList() {
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedPost, setSelectedPost] = useState<Post>(posts[0]);
+  const posts = useAppSelector((s) => s.postReducer);
+  const [selectedPost, setSelectedPost] = useState<PostType>(posts[0]);
   const [postUpdate, setPostUpdate] = useState({});
+  const dispath = useAppDispatch();
 
-  const handleClickDelete = (id: string): void => {
+  const handleSelect = (id: string): void => {
     setSelectedPost(posts.find((post) => post.id === id) || posts[0]);
   };
 
   const handleSaveEdit = async (): Promise<void> => {
     if (!selectedPost?.id) return;
-    const isDone = await updatePost(selectedPost.id, postUpdate);
-    setPosts(
-      posts.map((post): Post => {
-        if (selectedPost.id === post.id) {
-          return {
-            ...post,
-            ...postUpdate,
-          };
-        } else {
-          return post;
-        }
+
+    dispath(
+      update({
+        id: selectedPost.id,
+        newData: postUpdate,
       })
     );
-    if (isDone) {
-      toast.success('Cập nhật thành công')
-    } else {
-      toast.error('Cập nhật thất bại, vui lòng kiểm tra lại đường truyền !')
-    }
+
+    (await updatePost(selectedPost.id, postUpdate))
+      ? toast.success("Cập nhật thành công")
+      : toast.error("Cập nhật thất bại, vui lòng kiểm tra lại đường truyền !");
   };
 
   const handleEdit = (
@@ -58,44 +53,36 @@ export default function BLogPostList() {
     if (!file) return;
 
     const url = await uploadToCloudinary(file);
-    if (!url) return;
-    handleEdit(url, "thumbnailURL");
+    if (url) {
+      handleEdit(url, "thumbnailURL");
+    }
   };
 
   const handleDelete = async (): Promise<void> => {
-    if (!selectedPost) return;
+    if (!selectedPost || !selectedPost.id) return;
 
     if (
       (await deleteContent(selectedPost.contentId)) &&
       (await deletePost(selectedPost))
     ) {
-      setPosts(posts.filter((item) => item.id !== selectedPost.id));
-      toast.success('Xóa ' + selectedPost.title + ' thành công !')
+
+      dispath(remove(selectedPost.id))
+      toast.success("Xóa " + selectedPost.title + " thành công !");
+
     } else {
-      toast.error('Xóa ' + selectedPost.title + ' không thành công !')
+      toast.error("Xóa " + selectedPost.title + " không thành công !");
     }
   };
-
-
-  useEffect(() => {
-    const fetchPost = async () => {
-      const posts = await getAllPost();
-      if (!posts) return;
-      setPosts(posts);
-    };
-    fetchPost();
-  }, []);
 
   return (
     <>
       <div>
-        {posts.map((cart) => {
+        {posts.map((post) => {
           return (
-            <Cart
-              cart={cart}
-              key={cart.id}
-              onClickDelete={handleClickDelete}
-              // onClickSetting={handleClickSetting}
+            <Card
+              post={post}
+              key={post.id}
+              onSelect={handleSelect}
               onDelete={handleDelete}
               onSaveEdit={handleSaveEdit}
               onEdit={handleEdit}

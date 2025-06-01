@@ -1,9 +1,9 @@
 import { getPost, updatePost } from "@/service/postService";
-import Post, { Status } from "@/types/Post";
+import PostType, { StatusPost } from "@/types/PostType";
 import { useEffect, useState } from "react";
 import { Link, redirect, useParams } from "react-router-dom";
 import UploadPost from "../uploadPost/UploadPost";
-import PostContent from "@/types/PostContent";
+import PostContent from "@/types/PostContentType";
 import { getContent, updateContent } from "@/service/contentService";
 import {
   Breadcrumb,
@@ -14,12 +14,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
 import { getDateNow } from "@/utils/date";
 
 export default function UploadDraft() {
   const { postId } = useParams();
-  const [post, setPost] = useState<Post>();
+  const [post, setPost] = useState<PostType>();
   const [content, setContent] = useState<PostContent>();
 
   useEffect(() => {
@@ -47,7 +46,7 @@ export default function UploadDraft() {
       isDraft: false,
       createDate: getDateNow(),
       lastUpdate: getDateNow(),
-      status: Status.show,
+      status: StatusPost.show,
     });
   };
 
@@ -73,10 +72,6 @@ export default function UploadDraft() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-
-          <Link to={"/admin/createblog"}>
-            <Button variant={"default"}>Thêm bài viết</Button>
-          </Link>
         </div>
       </header>
 

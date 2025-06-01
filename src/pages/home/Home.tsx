@@ -1,4 +1,4 @@
-import BlogPostCart from "../../components/blogPostCart/BlogPostCart";
+import BlogPostList from "../../components/blogPostList/BlogPostList";
 
 export default function Home() {
   return (
@@ -6,7 +6,7 @@ export default function Home() {
       {/* <HeroSection /> */}
       <main className="container flex gap-10 px-10 my-20 max-w-[1220px]">
         <div className="flex-8/12">
-          <BlogPostCart />
+          <BlogPostList />
         </div>
       </main>
     </div>

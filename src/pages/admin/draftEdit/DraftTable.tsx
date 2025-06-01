@@ -1,11 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { getAllDraft } from "@/service/postService";
 import { useEffect, useState } from "react";
-import Post from "@/types/Post";
+import PostType from "@/types/PostType";
 import DraftTableRow from "./DraftTableRow";
 
 export default function DraftTable() {
-  const [drafts, setDrafts] = useState<Post[]>([]);
+  const [drafts, setDrafts] = useState<PostType[]>([]);
 
   useEffect(() => {
     const fetdata = async () => {

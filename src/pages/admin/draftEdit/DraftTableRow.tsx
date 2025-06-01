@@ -1,4 +1,4 @@
-import Post from "@/types/Post";
+import PostType from "@/types/PostType";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Edit, Upload } from "lucide-react";
 import {
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useNavigate } from "react-router-dom";
 interface Props {
-  draft: Post;
+  draft: PostType;
 }
 export default function DraftTableRow({ draft }: Props) {
   const navigate = useNavigate();

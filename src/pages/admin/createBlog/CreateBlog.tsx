@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Link} from "react-router-dom";
 import { createContent } from "@/service/contentService";
-import PostContent from "@/types/PostContent";
+import { PostContent } from "@/types/PostContentType";
 import { getDateNow } from "@/utils/date";
 import { addPost } from "@/service/postService";
-import Post, { Status } from "@/types/Post";
+import PostType, { StatusPost } from "@/types/PostType";
 
 export default function CreateBlog() {
   const [content, setContent] = useState<string>("");
@@ -37,7 +37,7 @@ export default function CreateBlog() {
     };
     createContent(postContent).then((contentId) => {
       if (!contentId) return;
-      const post: Post = {
+      const post: PostType = {
         title: title,
         contentId: contentId,
         shortDesc: shortDecs,
@@ -45,7 +45,7 @@ export default function CreateBlog() {
         isDraft: false,
         createDate: getDateNow(),
         lastUpdate: getDateNow(),
-        status: Status.show,
+        status: StatusPost.show,
         id: "",
         tags: [],
         view: 0,

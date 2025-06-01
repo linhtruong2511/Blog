@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Post from "@/types/Post";
+import PostType from "@/types/PostType";
 import Editor from "@/components/editor/Editor";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPost } from "@/service/postService";
@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 export default function EditBlog() {
   const [content, setContent] = useState<string>("");
-  const [post, setPost] = useState<Post>();
+  const [post, setPost] = useState<PostType>();
   const { postId } = useParams<string>();
   const navigate = useNavigate();
 
