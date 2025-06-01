@@ -1,0 +1,8 @@
+.toc a:hover{
+  color: var(--color-blue-500);
+  scroll-behavior: smooth;
+}
+
+html {
+  scroll-behavior: smooth;
+}

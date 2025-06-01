@@ -1,26 +1,40 @@
 import { FaArrowLeft } from "react-icons/fa";
 import PostType from "../../types/PostType";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Comment from "../../components/comment/Comment";
-import { getPost } from "../../service/postService";
+import { getPost, updatePost } from "../../service/postService";
 import { getContent } from "../../service/contentService";
 import { FaEye } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton";
+import { update } from "@/reducer/postReducer";
+import { useAppDispatch } from "@/store/hook";
+import { createToc } from "@/utils/toc";
+import "./Blog.css";
+
 export default function BLog() {
   const { id } = useParams();
   const [post, setPost] = useState<PostType>();
   const [content, setContent] = useState<string>();
   const navigate = useNavigate();
   const isLoaded = content && post ? true : false;
+  const dispath = useAppDispatch();
+  const article = useRef<HTMLDivElement | null>(null);
+  const toc = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
-    const fetchPost = async () => {
+    const getAndUpdatePost = async () => {
       const post = await getPost(id as string);
       setPost(post);
+
+      // Tăng view lên 1 và cập nhật post trong store
+      await updatePost(id as string, { view: post?.view || 0 + 1 });
+      dispath(
+        update({ id: id as string, newData: { view: post?.view || 0 + 1 } })
+      );
     };
-    fetchPost();
+    getAndUpdatePost();
   }, [id]);
 
   useEffect(() => {
@@ -29,21 +43,24 @@ export default function BLog() {
         const content = await getContent(post?.contentId);
         if (!content) return;
         setContent(content.data);
-      } else {
-        console.log("post is " + post);
       }
     };
     fetchContent();
   }, [post]);
 
+  useEffect(() => {
+    if (!article.current || !toc.current) return;
+    createToc(article.current, toc.current);
+  }, [content]);
+
   return (
     <div className="container mx-auto my-5 max-w-[1120px]">
       {isLoaded ? (
         <>
-          <span onClick={() => navigate('/')} className="cursor-pointer">
+          <span onClick={() => navigate("/")} className="cursor-pointer">
             <FaArrowLeft className="inline mr-3" /> Quay lại danh sách bài viết
           </span>
-          
+
           <div className="lg:h-[700px] md:my-3">
             <img
               src={post?.thumbnailURL}
@@ -64,16 +81,25 @@ export default function BLog() {
             </p>
           </div>
 
-
           <hr />
-          <div className="flex flex-col-reverse lg:flex-row">
+          <div className=" flex flex-col-reverse lg:flex-row gap-5" style={{
+            scrollBehavior: 'smooth'
+          }}>
             <div
-              className="flex-2/3 article-content"
+              ref={article}
+              className="flex-5/6 article-content"
               dangerouslySetInnerHTML={{ __html: content as string }}
             ></div>
 
-            <div className="grow hidden lg:block">
-              <div>Mục lục</div>
+            <div className="hidden lg:block relative">
+              <ul
+                ref={toc}
+                className="toc sticky top-5 border-b border max-h-[600px] p-2 rounded-sm mt-5  overflow-y-auto list-disc"
+              >
+                <span className="text-xl font-bold block border-b">
+                  Mục lục:
+                </span>
+              </ul>
             </div>
           </div>
 
