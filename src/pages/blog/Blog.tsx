@@ -58,7 +58,7 @@ export default function BLog() {
   }, [content]);
 
   return (
-    <div className="container mx-auto my-5 max-w-[1120px]">
+    <div className="container mx-auto my-5 max-w-[1120px] px-2 md:px-0">
       {isLoaded ? (
         <>
           <span onClick={() => navigate("/")} className="cursor-pointer">
@@ -111,7 +111,7 @@ export default function BLog() {
             <h2 className="text-2xl font-medium">Bình luận</h2>
             <div>
               <div className="flex gap-5 mt-2">
-                <img src={user?.photoURL} className="h-12 w-12 rounded-full" alt="" />
+                <img src={user?.photoURL} className="h-8 w-8 md:h-12 md:w-12 rounded-full" alt="" />
                 <Textarea
                   className="grow border border-gray-400 h-32"
                   name="comment"

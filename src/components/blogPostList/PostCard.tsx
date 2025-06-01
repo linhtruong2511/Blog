@@ -10,6 +10,8 @@ export default function PostCard({ post }: { post: PostType }) {
   const handleClickBlogCard = () => {
     if (isMobile) {
       navigate("/blog/" + post.id);
+    } else {
+      console.log(isMobile);
     }
   }
   return (

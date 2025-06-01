@@ -16,10 +16,13 @@ import { PostContentType } from "@/types/PostContentType";
 import { getDateNow } from "@/utils/date";
 import { addPost } from "@/service/postService";
 import PostType, { StatusPost } from "@/types/PostType";
+import { useAppSelector } from "@/store/hook";
 
 export default function CreateBlog() {
   const [content, setContent] = useState<string>("");
   const [isSave, setIsSave] = useState<boolean>(false);
+  const { user } = useAppSelector(s => s.authReducer);
+
   const handleSave = (content: string) => {
     setIsSave(true);
     setContent(content);
@@ -48,7 +51,9 @@ export default function CreateBlog() {
         status: StatusPost.show,
         id: "",
         tags: [],
-        view: 0,
+        view: 0,  
+        authorId: user?.uid as string,
+        vote: 0,
       };
       addPost(post)
     });

@@ -20,7 +20,7 @@ import InitApp from "./components/initApp/InitApp";
 import ProtectedRoute from "./components/protectedRoute/ProtectedRoute";
 import SignUp from "./pages/admin/signup/SignUp";
 import Account from "./pages/account/Account";
-import UserPost from "./userPost/UserPost";
+import UserPost from "./components/userPost/UserPost";
 import Edit from "./pages/edit/Edit";
 function App() {
   return (
