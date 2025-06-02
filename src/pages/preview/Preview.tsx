@@ -1,18 +1,64 @@
+import { Button } from "@/components/ui/button";
 import { useEditContext } from "@/context/EditContext";
+import { add } from "@/reducer/postReducer";
+import { createContent } from "@/service/contentService";
+import { addPost } from "@/service/postService";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import PostType, { StatusPost } from "@/types/PostType";
 import { getDateNow } from "@/utils/date";
 import { createToc } from "@/utils/toc";
-import  { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { FaArrowLeft, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Preview = () => {
-  const { content, setContent, thumbnail, title } = useEditContext();
+  const { content, desc, thumbnail, title, setContent } = useEditContext();
   const navigate = useNavigate();
-  // const dispath = useAppDispatch();
+  const dispath = useAppDispatch();
   const article = useRef<HTMLDivElement | null>(null);
   const toc = useRef<HTMLUListElement | null>(null);
-  // const { user } = useAppSelector((s) => s.authReducer);
-  // const [comment, setComment] = useState<string>("");
+  const { user } = useAppSelector((s) => s.authReducer);
+
+  const handleUpload = async () => {
+    const tId = toast.loading("Đang tải lên");
+
+    const contentId = (await createContent({
+      createDate: getDateNow(),
+      data: content,
+    })) as string;
+
+    const post: PostType = {
+      authorId: user?.uid as string,
+      contentId: contentId,
+      createDate: getDateNow(),
+      id: "",
+      isDraft: false,
+      lastUpdate: getDateNow(),
+      shortDesc: desc,
+      status: StatusPost.pending,
+      tags: [],
+      thumbnailURL: thumbnail,
+      title: title,
+      view: 0,
+      vote: 0,
+    };
+
+    const id = await addPost(post);
+
+    toast.dismiss(tId);
+    toast.success(
+      "Bài của bạn đã đăng tải thành công, admin sẽ duyệt bài trong thời gian sớm nhất !"
+    );
+
+    dispath(
+      add({
+        ...post,
+        id: id as string,
+      })
+    );
+    navigate("/account");
+  };
 
   useEffect(() => {
     if (!article.current || !toc.current) return;
@@ -81,6 +127,11 @@ const Preview = () => {
             <span className="text-xl font-bold block border-b">Mục lục:</span>
           </ul>
         </div>
+      </div>
+
+      {/* Đăng bài viết */}
+      <div className="text-right" onClick={handleUpload}>
+        <Button>Đăng bài viết</Button>
       </div>
     </div>
   );

@@ -29,6 +29,16 @@ export const getAllPost = async () => {
   }
 };
 
+export const getPostAuthor = async (authorId: string) => {
+  try {
+    const q = query(collection(db, "post"), where("authorId", "==", authorId));
+    const snaps = await getDocs(q);
+    return snaps.docs.map((snap) => convertPostSnap(snap));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getAllDraft = async (): Promise<PostType[]> => {
   const q = query(collection(db, "post"), where("isDraft", "==", true));
   const draftSnap = await getDocs(q);
@@ -88,7 +98,7 @@ export const searchPost = async (
       collection(db, "post"),
       where("isDraft", "==", false),
       where("title", ">=", keyword),
-      where("title", "<=", keyword + '\uf8ff')
+      where("title", "<=", keyword + "\uf8ff")
     );
     const snaps = await getDocs(q);
     console.log(keyword);

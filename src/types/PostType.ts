@@ -1,6 +1,7 @@
 export enum StatusPost {
   show = "Công khai",
   hide = "Ẩn",
+  pending = "Chưa duyệt",
 }
 
 interface PostType {
@@ -16,8 +17,8 @@ interface PostType {
   lastUpdate: string;
   isDraft: boolean;
 
-  authorId: string,
-  vote: number, 
+  authorId: string;
+  vote: number;
 }
 
 export default PostType;

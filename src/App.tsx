@@ -44,6 +44,7 @@ function App() {
             <Route path="blogs" element={<AllBlog />} />
             <Route path="bloginfo/:id" element={<BlogInfor />} />
 
+            {/* Bọc Edit và Preview vào 1 context */}
             <Route
               element={
                 <PostEditProvider>
