@@ -29,9 +29,11 @@ export default function ModalConfirm({ children, question, onConfirm }: Props) {
             <DialogClose asChild>
               <Button variant={"secondary"}>Thoát</Button>
             </DialogClose>
-            <Button onClick={onConfirm} variant={"default"}>
-              Xác nhận
-            </Button>
+            <DialogClose>
+              <Button onClick={onConfirm} variant={"default"}>
+                Xác nhận
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

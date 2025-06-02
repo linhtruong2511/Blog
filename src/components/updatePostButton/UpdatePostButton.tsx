@@ -14,8 +14,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { useAppSelector } from "@/store/hook";
 
-const data: string[] = localStorage.getItem("tags")?.split(",").map(item => item.trim()) || [];
+const data: string[] =
+  localStorage
+    .getItem("tags")
+    ?.split(",")
+    .map((item) => item.trim()) || [];
 
 interface Props {
   post: PostType;
@@ -36,10 +41,13 @@ export default function UpdatePostButton({
     post.status === StatusPost.show
   );
   const [title, setTitle] = useState<string>(post.title);
-  const [selectedTags, setSelectedTags] = useState<string[]>(post.tags.map(item => item.trim()));
+  const [selectedTags, setSelectedTags] = useState<string[]>(
+    post.tags.map((item) => item.trim())
+  );
   const [tags, setTags] = useState<string[]>(
     data?.filter((item) => !selectedTags.includes(item))
   );
+  const { user } = useAppSelector((s) => s.authReducer);
 
   const handleSelectedTagChange = (tag: string) => {
     if (tag === "default") return;
@@ -103,21 +111,26 @@ export default function UpdatePostButton({
               onChange={onUpdateThumbnail}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="switch" className="text-right col-span-1">
-              Công khai
-            </Label>
-            <Switch
-              checked={isShowStatus}
-              id="switch"
-              className="col-span-3"
-              onClick={() => {
-                const newStatus = !isShowStatus;
-                setIsShowStatus(newStatus);
-                onEdit(newStatus ? StatusPost.show : StatusPost.hide, "status");
-              }}
-            />
-          </div>
+          {post.status !== StatusPost.pending && (
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="switch" className="text-right col-span-1">
+                Công khai
+              </Label>
+              <Switch
+                checked={isShowStatus}
+                id="switch"
+                className="col-span-3"
+                onClick={() => {
+                  const newStatus = !isShowStatus;
+                  setIsShowStatus(newStatus);
+                  onEdit(
+                    newStatus ? StatusPost.show : StatusPost.hide,
+                    "status"
+                  );
+                }}
+              />
+            </div>
+          )}
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="tags" className="text-right col-span-1">
               Tags
