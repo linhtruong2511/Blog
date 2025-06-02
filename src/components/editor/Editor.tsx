@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import "./editor.css";
@@ -24,13 +24,14 @@ import { BadgePlus, FlaskConical, Save, Upload } from "lucide-react";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { toast } from "react-toastify";
 import { useAppSelector } from "@/store/hook";
-import MarkdownShortcuts from 'quill-markdown-shortcuts';
+import MarkdownShortcuts from "quill-markdown-shortcuts";
 
-Quill.register('modules/markdownShortcuts', MarkdownShortcuts);
+Quill.register("modules/markdownShortcuts", MarkdownShortcuts);
 
 interface Props {
   content: string;
   onSave: (content: string) => void;
+  children: ReactNode | null;
 }
 
 const toolbarOptions = [
@@ -50,7 +51,7 @@ const toolbarOptions = [
   ["clean"],
 ];
 
-export default function Editor({ content, onSave }: Props) {
+export default function Editor({ content, onSave, children }: Props) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
   const navigate = useNavigate();
@@ -125,7 +126,7 @@ export default function Editor({ content, onSave }: Props) {
         image: handleImage,
       },
     },
-    markdownShortcuts: {}
+    markdownShortcuts: {},
   };
 
   useEffect(() => {
@@ -147,53 +148,57 @@ export default function Editor({ content, onSave }: Props) {
     <>
       <div className="prose">
         <div ref={editorRef} style={{ height: "550px" }}></div>
-        <div className="mt-5 flex gap-5 justify-end">
-          {isCreate && (
-            <Dialog>
-              <DialogTrigger asChild>
-                <span>
-                  <Button variant={"secondary"}>
-                    Lưu bản nháp <FlaskConical />
-                  </Button>
-                </span>
-              </DialogTrigger>
-
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Nhập tên bản nháp</DialogTitle>
-                  <DialogDescription></DialogDescription>
-                </DialogHeader>
-
-                <Input
-                  type="text"
-                  placeholder="Tiêu đề"
-                  onChange={(e) => setDraftTitle(e.target.value)}
-                />
-
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button
-                      onClick={() => handleSaveDraft(draftTitle)}
-                      variant={"default"}
-                      color="blue"
-                      size={"default"}
-                    >
-                      Lưu <Save />{" "}
+        {children ? (
+          <div className="mt-5 flex gap-5 justify-end">
+            {isCreate && (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <span>
+                    <Button variant={"secondary"}>
+                      Lưu bản nháp <FlaskConical />
                     </Button>
-                  </DialogClose>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
-          )}
-          <Button
-            variant={"default"}
-            className="btn btn-primary"
-            onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
-          >
-            {isCreate ? "Tạo bài viết" : "Cập nhật"}
-            {isCreate ? <BadgePlus /> : <Upload />}
-          </Button>
-        </div>
+                  </span>
+                </DialogTrigger>
+
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Nhập tên bản nháp</DialogTitle>
+                    <DialogDescription></DialogDescription>
+                  </DialogHeader>
+
+                  <Input
+                    type="text"
+                    placeholder="Tiêu đề"
+                    onChange={(e) => setDraftTitle(e.target.value)}
+                  />
+
+                  <DialogFooter>
+                    <DialogClose asChild>
+                      <Button
+                        onClick={() => handleSaveDraft(draftTitle)}
+                        variant={"default"}
+                        color="blue"
+                        size={"default"}
+                      >
+                        Lưu <Save />{" "}
+                      </Button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+            )}
+            <Button
+              variant={"default"}
+              className="btn btn-primary"
+              onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
+            >
+              {isCreate ? "Tạo bài viết" : "Cập nhật"}
+              {isCreate ? <BadgePlus /> : <Upload />}
+            </Button>
+          </div>
+        ) : (
+          <>{children}</>
+        )}
       </div>
     </>
   );
