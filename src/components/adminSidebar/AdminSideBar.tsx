@@ -1,4 +1,4 @@
-import { ChevronUp, Home, Inbox, Settings, User2 } from "lucide-react";
+import { ChevronUp, Home, Inbox, User2 } from "lucide-react";
 
 import {
   Sidebar,
@@ -21,9 +21,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useState } from "react";
 import Logo from "../../assets/logox.png";
-import { getAuth, signOut } from "firebase/auth";
-import { useAppDispatch } from "@/store/hook";
-import { logout } from "@/reducer/authReducer";
+import { getAuth } from "firebase/auth";
+// import { useAppDispatch } from "@/store/hook";
+// import { logout } from "@/reducer/authReducer";
 // Menu items.
 const items = [
   {
@@ -46,8 +46,7 @@ export function AdminSidebar() {
   const hideHeader = !open ? "hidden" : "auto";
   const navigate = useNavigate();
   const auth = getAuth();
-  const dispatch = useAppDispatch();
-
+  // const dispatch = useAppDispatch();
 
   return (
     <Sidebar collapsible="icon" className="overflow-clip">

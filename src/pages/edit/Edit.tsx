@@ -1,11 +1,10 @@
 import Editor from "@/components/editor/Editor";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEditContext } from "@/context/EditContext";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
 import { Label } from "@radix-ui/react-label";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Edit = () => {
@@ -17,7 +16,6 @@ const Edit = () => {
     desc,
     setDesc,
     setThumbnail,
-    thumbnail,
   } = useEditContext();
 
   const navigate = useNavigate();
@@ -57,7 +55,7 @@ const Edit = () => {
           }}
         ></Input>
       </Label>
-      <Editor children content={content} onSave={handleSave}></Editor>
+      <Editor buttonSaveTitle="Preview" children content={content} onSave={handleSave}></Editor>
     </div>
   );
 };

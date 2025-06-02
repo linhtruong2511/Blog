@@ -3,7 +3,7 @@ import PostType, { StatusPost } from "@/types/PostType";
 import { useEffect, useState } from "react";
 import { Link, redirect, useParams } from "react-router-dom";
 import UploadPost from "../uploadPost/UploadPost";
-import PostContent from "@/types/PostContentType";
+// import { PostContentType } from "@/types/PostContentType";
 import { getContent, updateContent } from "@/service/contentService";
 import {
   Breadcrumb,
@@ -15,11 +15,12 @@ import {
 } from "@/components/ui/breadcrumb";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { getDateNow } from "@/utils/date";
+import { PostContentType } from "@/types/PostContentType";
 
 export default function UploadDraft() {
   const { postId } = useParams();
   const [post, setPost] = useState<PostType>();
-  const [content, setContent] = useState<PostContent>();
+  const [content, setContent] = useState<PostContentType>();
 
   useEffect(() => {
     if (!postId) return;

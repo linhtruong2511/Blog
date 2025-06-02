@@ -107,7 +107,7 @@ export default function CreateBlog() {
         <UploadPost content={content} onBack={handleBackToEdit} onUpload={handleUpload} linkAfterUploaded='/admin'/>
       ) : (
         <div className="px-7">
-          <Editor content={content} onSave={handleSave} />
+          <Editor buttonSaveTitle="Tạo mới" children content={content} onSave={handleSave} />
         </div>
       )}
     </>

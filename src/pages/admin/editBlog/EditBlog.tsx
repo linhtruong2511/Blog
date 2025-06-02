@@ -57,7 +57,7 @@ export default function EditBlog() {
 
   return (
     <>
-      <Editor content={content} onSave={handleUpdate} />
+      <Editor buttonSaveTitle="Cập nhật " children content={content} onSave={handleUpdate} />
     </>
   );
 }

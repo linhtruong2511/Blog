@@ -1,9 +1,8 @@
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import UserPhoto from "@/assets/user.svg";
-import { AvatarFallback } from "@radix-ui/react-avatar";
 import { Edit, Loader2, Settings } from "lucide-react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import General from "@/components/general/General";
 import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";

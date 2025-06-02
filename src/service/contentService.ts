@@ -7,13 +7,13 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import useDB from "../hooks/useDB";
-import PostContent from "../types/PostContentType";
+import { PostContentType } from "@/types/PostContentType";
 import PostType from "@/types/PostType";
 import { getDateNow } from "@/utils/date";
 const db = useDB();
 export const getContent = async (
   id: string
-): Promise<PostContent | undefined> => {
+): Promise<PostContentType | undefined> => {
   try {
     const result = await getDoc(doc(db, "content", id));
     return {
@@ -26,7 +26,7 @@ export const getContent = async (
 };
 
 export const createContent = async (
-  content: PostContent
+  content: PostContentType
 ): Promise<string | undefined> => {
   try {
     const refContent = await addDoc(collection(db, "content"), content);

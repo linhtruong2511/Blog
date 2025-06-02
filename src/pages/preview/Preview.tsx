@@ -1,27 +1,24 @@
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { useEditContext } from "@/context/EditContext";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { getDateNow } from "@/utils/date";
 import { createToc } from "@/utils/toc";
-import React, { useEffect, useRef, useState } from "react";
+import  { useEffect, useRef } from "react";
 import { FaArrowLeft, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const Preview = () => {
-  const { content, setContent, desc, thumbnail, title } = useEditContext();
+  const { content, setContent, thumbnail, title } = useEditContext();
   const navigate = useNavigate();
-  const dispath = useAppDispatch();
+  // const dispath = useAppDispatch();
   const article = useRef<HTMLDivElement | null>(null);
   const toc = useRef<HTMLUListElement | null>(null);
-  const { user } = useAppSelector((s) => s.authReducer);
-  const [comment, setComment] = useState<string>("");
+  // const { user } = useAppSelector((s) => s.authReducer);
+  // const [comment, setComment] = useState<string>("");
 
   useEffect(() => {
     if (!article.current || !toc.current) return;
     createToc(article.current, toc.current);
 
-    window.addEventListener("beforeunload", (e) => {
+    window.addEventListener("beforeunload", () => {
       setContent(content);
     });
 

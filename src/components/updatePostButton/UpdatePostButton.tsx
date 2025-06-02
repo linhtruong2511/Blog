@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import PostType, { StatusPost } from "@/types/PostType";
 import { Settings2 } from "lucide-react";
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import Modal from "@/components/modal/Modal";
 import { Switch } from "@/components/ui/switch";
 import {

@@ -17,7 +17,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-
 import { DialogFooter, DialogHeader } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { BadgePlus, FlaskConical, Save, Upload } from "lucide-react";
@@ -32,6 +31,7 @@ interface Props {
   content: string;
   onSave: (content: string) => void;
   children: ReactNode | null;
+  buttonSaveTitle: string
 }
 
 const toolbarOptions = [
@@ -51,7 +51,7 @@ const toolbarOptions = [
   ["clean"],
 ];
 
-export default function Editor({ content, onSave, children }: Props) {
+export default function Editor({ content, onSave, children, buttonSaveTitle }: Props) {
   const editorRef = useRef<HTMLDivElement | null>(null);
   const quillRef = useRef<Quill | null>(null);
   const navigate = useNavigate();
@@ -192,8 +192,9 @@ export default function Editor({ content, onSave, children }: Props) {
               className="btn btn-primary"
               onClick={() => onSave(quillRef.current?.root.innerHTML as string)}
             >
-              {isCreate ? "Tạo bài viết" : "Cập nhật"}
-              {isCreate ? <BadgePlus /> : <Upload />}
+              {/* {isCreate ? "Tạo bài viết" : "Cập nhật"}
+              {isCreate ? <BadgePlus /> : <Upload />} */}
+              {buttonSaveTitle}
             </Button>
           </div>
         ) : (

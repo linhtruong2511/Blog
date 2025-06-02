@@ -1,7 +1,6 @@
 import { AuthState } from "@/types/AuthState";
 import { UserType } from "@/types/UserType";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { userInfo } from "os";
 
 const initialState: AuthState = {
   isAuthenticated: false,
