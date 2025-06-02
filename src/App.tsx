@@ -1,5 +1,10 @@
 import "./App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Outlet,
+} from "react-router-dom";
 import Home from "./pages/home/Home";
 import BLog from "./pages/blog/Blog";
 import AllBlog from "./pages/allBlog/AllBlog";
@@ -22,6 +27,8 @@ import SignUp from "./pages/admin/signup/SignUp";
 import Account from "./pages/account/Account";
 import UserPost from "./components/userPost/UserPost";
 import Edit from "./pages/edit/Edit";
+import PostEditProvider from "./context/EditContext";
+import Preview from "./pages/preview/Preview";
 function App() {
   return (
     <Provider store={store}>
@@ -36,7 +43,18 @@ function App() {
             <Route path="blog/:id" element={<BLog />} />
             <Route path="blogs" element={<AllBlog />} />
             <Route path="bloginfo/:id" element={<BlogInfor />} />
-            <Route path="edit" element={<Edit />} />
+
+            <Route
+              element={
+                <PostEditProvider>
+                  <Outlet />
+                </PostEditProvider>
+              }
+            >
+              <Route path="edit" element={<Edit />} />
+              <Route path="preview" element={<Preview />} />
+            </Route>
+
             <Route path="account" element={<Account />}>
               <Route path="" element={<UserPost />} />
             </Route>
