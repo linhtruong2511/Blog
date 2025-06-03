@@ -10,12 +10,14 @@ import Card from "./Card";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { remove, update } from "@/reducer/postReducer";
+import { useNavigate } from "react-router-dom";
 
 export default function BLogPostList() {
   const posts = useAppSelector((s) => s.postReducer);
   const [selectedPost, setSelectedPost] = useState<PostType>(posts[0]);
   const [postUpdate, setPostUpdate] = useState({});
   const dispath = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSelect = (id: string): void => {
     setSelectedPost(posts.find((post) => post.id === id) || posts[0]);
@@ -80,6 +82,7 @@ export default function BLogPostList() {
         {posts.map((post) => {
           return (
             <Card
+              onUpdate={() => {navigate('/admin/editBlog/' + post.id)}}
               post={post}
               key={post.id}
               onSelect={handleSelect}

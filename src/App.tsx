@@ -29,6 +29,7 @@ import UserPost from "./components/userPost/UserPost";
 import Edit from "./pages/edit/Edit";
 import PostEditProvider from "./context/EditContext";
 import Preview from "./pages/preview/Preview";
+import PendingPost from "./pages/admin/pendingPost/PendingPost";
 function App() {
   return (
     <Provider store={store}>
@@ -53,6 +54,7 @@ function App() {
               }
             >
               <Route path="edit" element={<Edit />} />
+              <Route path="edit/:id" element={<Edit />} />
               <Route path="preview" element={<Preview />} />
             </Route>
 
@@ -76,6 +78,7 @@ function App() {
           >
             <Route path="" element={<Dashboard />} />
             <Route path="draft" element={<Draft />} />
+            <Route path="pending-post" element={<PendingPost />} />
             <Route path="draft/upload/:postId" element={<UploadDraft />} />
             <Route path="createblog" element={<CreateBlog />} />
             <Route path="editblog/:postId" element={<EditBlog />} />

@@ -185,7 +185,7 @@ const Account = () => {
         ))}
       </div>
 
-      <div className="mx-auto max-w-[1120px] my-5 flex justify-between">
+      <div className="mx-auto max-w-[1120px] my-5 flex items-start justify-between">
         <div className="flex-7/12">
           <Outlet></Outlet>
         </div>

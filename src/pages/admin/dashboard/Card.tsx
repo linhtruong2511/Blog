@@ -12,6 +12,7 @@ interface Props {
   onUpdateThumbnail: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
   onSaveEdit: () => void;
   onDelete: () => Promise<void>;
+  onUpdate: (id: string) => void;
 }
 
 export default function Card({
@@ -21,6 +22,7 @@ export default function Card({
   onUpdateThumbnail,
   onDelete,
   onSaveEdit,
+  onUpdate,
 }: Props) {
   return (
     <>
@@ -51,11 +53,9 @@ export default function Card({
           </div>
         </div>
         <div className="hidden items-center gap-5 mr-8 text-gray-500  lg:flex">
-          <Link to={"/admin/editblog/" + post.id}>
-            <button className="cursor-pointer hover:underline border-r pr-4">
-              <Pencil size={16} />
-            </button>
-          </Link>
+          <button className="cursor-pointer hover:underline border-r pr-4" onClick={() => onUpdate(post.id as string)}>
+            <Pencil size={16} />
+          </button>
 
           <UpdatePostButton
             onEdit={onEdit}

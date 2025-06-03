@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEditContext } from "@/context/EditContext";
+import { setUserPosts } from "@/reducer/authReducer";
 import { add } from "@/reducer/postReducer";
 import { createContent } from "@/service/contentService";
 import { addPost } from "@/service/postService";
@@ -18,7 +19,7 @@ const Preview = () => {
   const dispath = useAppDispatch();
   const article = useRef<HTMLDivElement | null>(null);
   const toc = useRef<HTMLUListElement | null>(null);
-  const { user } = useAppSelector((s) => s.authReducer);
+  const { user, posts } = useAppSelector((s) => s.authReducer);
 
   const handleUpload = async () => {
     const tId = toast.loading("Đang tải lên");
@@ -52,10 +53,13 @@ const Preview = () => {
     );
 
     dispath(
-      add({
-        ...post,
-        id: id as string,
-      })
+      setUserPosts([
+        ...posts,
+        {
+          ...post,
+          id: id as string,
+        },
+      ])
     );
     navigate("/account");
   };

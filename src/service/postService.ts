@@ -67,7 +67,6 @@ export const getPost = async (id: string): Promise<PostType | undefined> => {
     const post = await getDoc(doc(db, "post", id));
     if (!post) return undefined;
     const currentPost = convertPostSnap(post);
-    if (currentPost.status === StatusPost.pending) return;
     return currentPost;
   } catch (e) {
     console.log("get post error: " + e);

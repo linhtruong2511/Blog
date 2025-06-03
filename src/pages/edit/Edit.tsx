@@ -3,14 +3,17 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useEditContext } from "@/context/EditContext";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
+import { getContent } from "@/service/contentService";
+import { getPost } from "@/service/postService";
 import { Label } from "@radix-ui/react-label";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Edit = () => {
   const { content, setContent, title, setTitle, desc, setDesc, setThumbnail } =
     useEditContext();
+  const { id } = useParams();
 
   const navigate = useNavigate();
   const hanlePreview = (content: string) => {
@@ -40,6 +43,19 @@ const Edit = () => {
       window.removeEventListener("beforeunload", handleReload);
     };
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (id) {
+        const post = await getPost(id);
+        const content = await getContent(post?.contentId as string);
+        setContent(content?.data || "");
+        setTitle(post?.title || "");
+        setDesc(post?.shortDesc || "");
+      }
+    };
+    fetchData();
+  }, [id]);
 
   return (
     <div className=" p-5 max-w-[1120px] mx-auto flex flex-col gap-5">

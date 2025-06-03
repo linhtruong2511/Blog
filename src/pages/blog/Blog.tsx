@@ -30,12 +30,14 @@ export default function BLog() {
   useEffect(() => {
     const getAndUpdatePost = async () => {
       const post = await getPost(id as string);
-      setPost(post);
+      if (!post) return;
 
+
+      setPost(post);
       // Tăng view lên 1 và cập nhật post trong store
-      await updatePost(id as string, { view: post?.view || 0 + 1 });
+      await updatePost(id as string, { view: post?.view + 1 || 0 + 1 });
       dispath(
-        update({ id: id as string, newData: { view: post?.view || 0 + 1 } })
+        update({ id: id as string, newData: { view: post?.view + 1|| 0 + 1 } })
       );
     };
     getAndUpdatePost();

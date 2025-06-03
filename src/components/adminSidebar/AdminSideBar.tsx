@@ -38,10 +38,16 @@ const items = [
     url: "/admin/draft",
     icon: Inbox,
   },
+  {
+    id: 3,
+    title: "Bài viết mới",
+    url: "/admin/pending-post",
+    icon: Inbox,
+  },
 ];
 
 export function AdminSidebar() {
-  const [selectedMenuItem, setSelectedMenuItem] = useState<number>(1);
+  const [selectedMenuItem, setSelectedMenuItem] = useState<number>();
   const { open } = useSidebar();
   const hideHeader = !open ? "hidden" : "auto";
   const navigate = useNavigate();

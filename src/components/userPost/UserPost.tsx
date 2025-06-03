@@ -13,12 +13,14 @@ import { toast } from "react-toastify";
 import { remove, update } from "@/reducer/postReducer";
 import { deleteContent } from "@/service/contentService";
 import PostType from "@/types/PostType";
+import { useNavigate } from "react-router-dom";
 
 const UserPost = () => {
   const { user, posts } = useAppSelector((s) => s.authReducer);
   const dispath = useAppDispatch();
   const [selectedPost, setSelectedPost] = useState<PostType>(posts[0]);
   const [postUpdate, setPostUpdate] = useState({});
+  const navigate = useNavigate();
 
   const handleSelect = (id: string): void => {
     setSelectedPost(posts.find((post) => post.id === id) || posts[0]);
@@ -75,6 +77,10 @@ const UserPost = () => {
     }
   };
 
+  const handleUpdate = (id: string) => {
+    navigate("/edit/" + id);
+  };
+
   useEffect(() => {
     const fetchPost = async () => {
       const posts = await getPostAuthor(user?.uid as string);
@@ -91,6 +97,7 @@ const UserPost = () => {
           {posts.map((post) => {
             return (
               <Card
+                onUpdate={handleUpdate}
                 onDelete={handleDelete}
                 onSaveEdit={handleSaveEdit}
                 onSelect={handleSelect}
