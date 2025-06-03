@@ -56,10 +56,19 @@ export const getPendingPost = async (): Promise<PostType[]> => {
     collection(db, "post"),
     where("status", "==", StatusPost.pending)
   );
-  const draftSnap = await getDocs(q);
-  return draftSnap.docs.map((draft): PostType => {
-    return convertPostSnap(draft);
+  const snaps = await getDocs(q);
+  return snaps.docs.map((snap): PostType => {
+    return convertPostSnap(snap);
   });
+};
+
+export const countPendingPost = async (): Promise<Number> => {
+  const q = query(
+    collection(db, "post"),
+    where("status", "==", StatusPost.pending)
+  );
+  const snaps = await getDocs(q);
+  return snaps.docs.length;
 };
 
 export const getPost = async (id: string): Promise<PostType | undefined> => {

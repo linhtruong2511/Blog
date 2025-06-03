@@ -2,10 +2,8 @@ import { getPendingPost, updatePost } from "@/service/postService";
 import PostType, { StatusPost } from "@/types/PostType";
 import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
-import { Checkbox } from "@radix-ui/react-checkbox";
-
 import PendingPostRow from "./PendingPostRow";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const PendingPostTable = () => {
   const [pendingPost, setPendingPost] = useState<PostType[]>();

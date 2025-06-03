@@ -1,4 +1,4 @@
-import { ChevronUp, Home, Inbox, User2 } from "lucide-react";
+import { BellPlus, ChevronUp, Home, Inbox, User2 } from "lucide-react";
 
 import {
   Sidebar,
@@ -19,32 +19,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../../assets/logox.png";
 import { getAuth } from "firebase/auth";
+import { Badge } from "../ui/badge";
+import { countPendingPost } from "@/service/postService";
 // import { useAppDispatch } from "@/store/hook";
 // import { logout } from "@/reducer/authReducer";
 // Menu items.
-const items = [
-  {
-    id: 1,
-    title: "Trang chủ",
-    url: "/admin",
-    icon: Home,
-  },
-  {
-    id: 2,
-    title: "Tạo bài viết",
-    url: "/admin/draft",
-    icon: Inbox,
-  },
-  {
-    id: 3,
-    title: "Bài viết mới",
-    url: "/admin/pending-post",
-    icon: Inbox,
-  },
-];
 
 export function AdminSidebar() {
   const [selectedMenuItem, setSelectedMenuItem] = useState<number>();
@@ -52,7 +34,38 @@ export function AdminSidebar() {
   const hideHeader = !open ? "hidden" : "auto";
   const navigate = useNavigate();
   const auth = getAuth();
+  const [countPP, setCountPP] = useState<Number>(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const count = await countPendingPost();
+      setCountPP(count);
+    };
+    fetchData();
+  }, []);
   // const dispatch = useAppDispatch();
+
+  const items = [
+    {
+      id: 1,
+      title: "Trang chủ",
+      url: "/admin",
+      icon: Home,
+    },
+    {
+      id: 2,
+      title: "Tạo bài viết",
+      url: "/admin/draft",
+      icon: Inbox,
+    },
+    {
+      id: 3,
+      title: "Bài viết mới",
+      url: "/admin/pending-post",
+      icon: BellPlus,
+      badge: countPP,
+    },
+  ];
 
   return (
     <Sidebar collapsible="icon" className="overflow-clip">
@@ -76,9 +89,19 @@ export function AdminSidebar() {
                 isActive={item.id === selectedMenuItem}
                 onClick={() => setSelectedMenuItem(item.id)}
               >
-                <Link to={item.url}>
+                <Link to={item.url} className="flex items-center">
                   <item.icon />
-                  <span>{item.title}</span>
+                  <span className="flex justify-between grow">
+                    {item.title}{" "}
+                    {item.badge && (
+                      <Badge
+                        variant={"destructive"}
+                        className="rounded-full h-5 w-5"
+                      >
+                        {item.badge}
+                      </Badge>
+                    )}
+                  </span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
