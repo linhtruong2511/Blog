@@ -58,7 +58,7 @@ function App() {
               <Route path="preview" element={<Preview />} />
             </Route>
 
-            <Route path="account" element={<Account />}>
+            <Route path="account/:id" element={<Account />}>
               <Route path="" element={<UserPost />} />
             </Route>
           </Route>

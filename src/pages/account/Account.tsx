@@ -2,18 +2,21 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import UserPhoto from "@/assets/user.svg";
 import { Edit, Loader2, Settings } from "lucide-react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import General from "@/components/general/General";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { updateUser } from "@/service/userService";
+import { getUser, updateUser } from "@/service/userService";
 import { toast } from "react-toastify";
 import { updateAuthUser } from "@/reducer/authReducer";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
+import { UserType } from "@/types/UserType";
 
 const Account = () => {
   const { user } = useAppSelector((s) => s.authReducer);
+  const [author, setAuthor] = useState<UserType>();
+  const { id } = useParams();
 
   const menuItem = [
     {
@@ -55,7 +58,7 @@ const Account = () => {
   ];
 
   const [isEditName, setIsEditName] = useState<boolean>(false);
-  const [name, setName] = useState<string | undefined>(user?.name || "No name");
+  const [name, setName] = useState<string | undefined>(author?.name || "No name");
   const dispath = useAppDispatch();
   const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
 
@@ -106,6 +109,17 @@ const Account = () => {
     }
   };
 
+  useEffect(() => {
+    setTimeout(async () => {
+      if (!id) {
+        console.log("id author invalid:", id);
+        return;
+      }
+      const author = await getUser(id);
+      setAuthor(author);
+    }, 0);
+  }, [id]);
+
   return (
     <div className=" my-5">
       <div className="max-w-[1120px]  mx-auto flex items-center gap-4">
@@ -117,7 +131,7 @@ const Account = () => {
                 size={50}
               />
             ) : (
-              <AvatarImage src={user?.photoURL || UserPhoto}></AvatarImage>
+              <AvatarImage src={author?.photoURL || UserPhoto}></AvatarImage>
             )}
           </Avatar>
           <label htmlFor="photoURL">
@@ -151,7 +165,7 @@ const Account = () => {
                   size={"sm"}
                   onClick={() => {
                     setIsEditName(false);
-                    setName(user?.name || "No name");
+                    setName(author?.name || "No name");
                   }}
                 >
                   Thoát
@@ -159,12 +173,12 @@ const Account = () => {
               </div>
             ) : (
               <>
-                <h2>{user?.name || "No name"}</h2>
+                <h2>{author?.name || "No name"}</h2>
                 <Edit size={14} onClick={() => setIsEditName(true)} />
               </>
             )}
           </div>
-          <h3 className="text-gray-500">{user?.email}</h3>
+          <h3 className="text-gray-500">{author?.email}</h3>
         </div>
       </div>
 

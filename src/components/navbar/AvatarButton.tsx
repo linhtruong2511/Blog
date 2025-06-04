@@ -45,13 +45,13 @@ const AvatarButton = () => {
           ) : (
             <AvatarImage src={User} />
           )}
-          <AvatarFallback>User</AvatarFallback>
+          <AvatarFallback>{user.name}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-2">
         <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate("account")}>
+        <DropdownMenuItem onClick={() => navigate("account/" + user.uid)}>
           Tài khoản
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => navigate('/edit')}>Viết bài</DropdownMenuItem>
