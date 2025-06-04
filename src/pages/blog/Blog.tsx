@@ -2,7 +2,7 @@ import { FaArrowLeft } from "react-icons/fa";
 import PostType from "../../types/PostType";
 import { useEffect, useRef, useState } from "react";
 import "../../assets/css/reset-tailwin.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Comment from "../../components/comment/Comment";
 import { getPost, updatePost } from "../../service/postService";
 import { getContent } from "../../service/contentService";
@@ -14,6 +14,10 @@ import { createToc } from "@/utils/toc";
 import "./Blog.css";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
+import { UserType } from "@/types/UserType";
+import { getUser } from "@/service/userService";
+import { ArrowUp } from "lucide-react";
 
 export default function BLog() {
   const { id } = useParams();
@@ -24,23 +28,27 @@ export default function BLog() {
   const dispath = useAppDispatch();
   const article = useRef<HTMLDivElement | null>(null);
   const toc = useRef<HTMLUListElement | null>(null);
-  const {user} = useAppSelector(s => s.authReducer);
-  const [comment, setComment] = useState<string> ('');
+  const [author, setAuthor] = useState<UserType>();
+  const { user } = useAppSelector((s) => s.authReducer);
+  const [comment, setComment] = useState<string>("");
 
   useEffect(() => {
-    const getAndUpdatePost = async () => {
+    const fetchData = async () => {
       const post = await getPost(id as string);
       if (!post) return;
 
-
       setPost(post);
+
       // Tăng view lên 1 và cập nhật post trong store
       await updatePost(id as string, { view: post?.view + 1 || 0 + 1 });
       dispath(
-        update({ id: id as string, newData: { view: post?.view + 1|| 0 + 1 } })
+        update({ id: id as string, newData: { view: post?.view + 1 || 0 + 1 } })
       );
+
+      const user = await getUser(post?.authorId as string);
+      setAuthor(user);
     };
-    getAndUpdatePost();
+    fetchData();
   }, [id]);
 
   useEffect(() => {
@@ -75,22 +83,50 @@ export default function BLog() {
             />
           </div>
 
-          <h1 className="text-2xl lg:text-4xl font-[Montserrat]">
-            <b>{post?.title}</b>
-          </h1>
+          <div className="flex justify-between ">
+            <div className="flex gap-5">
+              <div>
+                <Avatar>
+                  <AvatarImage
+                    src={author?.photoURL}
+                    className="h-16 w-16 object-cover rounded-full"
+                  />
+                </Avatar>
+              </div>
+              <div>
+                <h1 className="text-2xl lg:text-4xl font-[Montserrat]">
+                  <b>{post?.title}</b>
+                </h1>
 
-          <div className="flex gap-10 mb-5 mt-1">
-            <p>Lần cập nhật cuối: {post?.lastUpdate}</p>
-            <p className="flex gap-2 items-center">
-              {" "}
-              <FaEye className="inline" /> {post?.view}
-            </p>
+                <div className="flex gap-10 mt-1">
+                  <p>Lần cập nhật cuối: {post?.lastUpdate}</p>
+                  <p className="flex gap-2 items-center">
+                    {" "}
+                    <FaEye className="inline" /> {post?.view}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="text-right">
+              Tác giả:{" "}
+              <Link to={"#"}>
+                <span
+                  style={{ fontStyle: "italic" }}
+                  className="mb-5 text-blue-500 hover:text-blue-600 active:text-blue-700"
+                >
+                  {author?.name}
+                </span>
+              </Link>
+            </div>
           </div>
 
           <hr />
-          <div className=" flex flex-col-reverse lg:flex-row gap-5" style={{
-            scrollBehavior: 'smooth'
-          }}>
+          <div
+            className=" flex flex-col-reverse lg:flex-row gap-5"
+            style={{
+              scrollBehavior: "smooth",
+            }}
+          >
             <div
               ref={article}
               className="flex-5/6 article-content"
@@ -113,7 +149,9 @@ export default function BLog() {
             <h2 className="text-2xl font-medium">Bình luận</h2>
             <div>
               <div className="flex gap-5 mt-2">
-                <img src={user?.photoURL} className="h-8 w-8 md:h-12 md:w-12 rounded-full" alt="" />
+                <Avatar>
+                  <AvatarImage src={user?.photoURL} className="h-14 w-14 rounded-full"/>
+                </Avatar>
                 <Textarea
                   className="grow border border-gray-400 h-32"
                   name="comment"
@@ -123,7 +161,7 @@ export default function BLog() {
                 ></Textarea>
               </div>
               <div className="text-right mt-5">
-                <Button disabled={comment === ''}>Gửi bình luận</Button>
+                <Button disabled={comment === ""}>Gửi bình luận</Button>
               </div>
             </div>
             <Comment />
@@ -134,6 +172,15 @@ export default function BLog() {
           <Skeleton className="h-full w-full" />
         </div>
       )}
+
+      <div
+        onClick={() => {
+          window.scrollTo({ behavior: "smooth", left: 0, top: 0 });
+        }}
+        className="fixed bottom-10 right-10 bg-gray-600 cursor-pointer text-white p-3 rounded-full"
+      >
+        <ArrowUp />
+      </div>
     </div>
   );
 }
