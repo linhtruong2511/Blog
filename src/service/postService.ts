@@ -126,7 +126,6 @@ export const searchPost = async (
       where("title", "<=", keyword + "\uf8ff")
     );
     const snaps = await getDocs(q);
-    console.log(keyword);
     return snaps.docs.map((snap) => {
       return convertPostSnap(snap);
     });

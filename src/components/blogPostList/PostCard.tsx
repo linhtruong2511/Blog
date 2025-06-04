@@ -27,7 +27,7 @@ export default function PostCard({ post }: { post: PostType }) {
         />
       </div>
       <div className="flex-8/12 flex flex-col justify-between p-5 ">
-        <div>
+        <div className="max-w-[480px]">
           <div className="flex flex-wrap gap-2 mb-3 absolute -top-2">
             {post.tags.map((tag) => {
               return (
@@ -37,7 +37,7 @@ export default function PostCard({ post }: { post: PostType }) {
               );
             })}
           </div>
-          <h2 className="text-2xl font-semibold mb-2">{post.title}</h2>
+          <h2 className="text-2xl font-semibold mb-2 text-nowrap truncate">{post.title}</h2>
           <p className="text-gray-400 mb-2 line-clamp-2">{post.shortDesc}</p>
           <small className="text-sm text-gray-500 block mb-4">
             <i>Ngày đăng: {post.createDate}</i>

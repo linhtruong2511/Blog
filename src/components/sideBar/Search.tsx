@@ -1,9 +1,15 @@
-import { useRef } from "react";
+import { set } from "@/reducer/postReducer";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import PostType from "@/types/PostType";
+import { useEffect, useRef, useState } from "react";
 import { LiaSearchSolid } from "react-icons/lia";
 
 export default function Search() {
   const iconRef = useRef<HTMLSpanElement | null>(null);
-  
+  const posts = useAppSelector((s) => s.postReducer);
+  const [postSearch, setPostSearch] = useState<PostType[]>([]);
+  const dispath = useAppDispatch();
+
   const handleFocusInput = () => {
     iconRef.current?.classList.add("translate-0.5");
   };
@@ -11,6 +17,20 @@ export default function Search() {
   const handleBlurInput = () => {
     iconRef.current?.classList.remove("translate-0.5");
   };
+
+  const handleSearch = (keyword: string) => {
+    dispath(
+      set(
+        postSearch.filter((item) =>
+          item.title.toLowerCase().includes(keyword.toLowerCase())
+        )
+      )
+    );
+  };
+
+  useEffect(() => {
+    setPostSearch(posts);
+  }, [posts]);
 
   return (
     <form className="w-full relative focus:translate-0.5">
@@ -23,6 +43,7 @@ export default function Search() {
         placeholder="Search..."
         onFocus={handleFocusInput}
         onBlur={handleBlurInput}
+        onChange={(e) => handleSearch(e.target.value)}
       />
       <span
         className="absolute text-black top-3 right-2 cursor-pointer transition-all"

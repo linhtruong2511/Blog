@@ -30,6 +30,7 @@ import Edit from "./pages/edit/Edit";
 import PostEditProvider from "./context/EditContext";
 import Preview from "./pages/preview/Preview";
 import PendingPost from "./pages/admin/pendingPost/PendingPost";
+import AccountContextProvider from "./context/AccountContext";
 function App() {
   return (
     <Provider store={store}>
@@ -58,7 +59,14 @@ function App() {
               <Route path="preview" element={<Preview />} />
             </Route>
 
-            <Route path="account/:id" element={<Account />}>
+            <Route
+              path="account/:id"
+              element={
+                <AccountContextProvider>
+                  <Account />
+                </AccountContextProvider>
+              }
+            >
               <Route path="" element={<UserPost />} />
             </Route>
           </Route>

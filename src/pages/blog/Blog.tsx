@@ -109,7 +109,7 @@ export default function BLog() {
             </div>
             <div className="text-right">
               Tác giả:{" "}
-              <Link to={"#"}>
+              <Link to={"/account/" + author?.uid}>
                 <span
                   style={{ fontStyle: "italic" }}
                   className="mb-5 text-blue-500 hover:text-blue-600 active:text-blue-700"

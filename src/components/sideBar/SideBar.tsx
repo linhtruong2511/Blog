@@ -1,12 +1,14 @@
-import Search from "../search/Search";
-import Trending from "../trending/Trending";
+import Authors from "./Authors";
+import Search from "./Search";
+import Trending from "./Trending";
 
 export default function SideBar() {
   return (
-    <div className="flex flex-col gap-16 h-full rounded-xl p-5">
+    <div className="flex flex-col gap-8 h-full rounded-xl p-5">
       <Search />
       {/* <About /> */}
       <Trending />
+      <Authors />
     </div>
   );
 }

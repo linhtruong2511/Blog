@@ -12,55 +12,58 @@ import { toast } from "react-toastify";
 import { updateAuthUser } from "@/reducer/authReducer";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
 import { UserType } from "@/types/UserType";
-
+import PostType from "@/types/PostType";
+import { getPostAuthor } from "@/service/postService";
+import { useAccountContext } from "@/context/AccountContext";
+const menuItem = [
+  {
+    id: 0,
+    name: "Bài viết",
+    link: "",
+    onClick: () => {},
+  },
+  {
+    id: 1,
+    name: "Series",
+    link: "a",
+    onClick: () => {},
+  },
+  {
+    id: 2,
+    name: "Bookmark",
+    link: "b",
+    onClick: () => {},
+  },
+  {
+    id: 3,
+    name: "Đang theo dõi",
+    link: "c",
+    onClick: () => {},
+  },
+  {
+    id: 4,
+    link: "d",
+    name: "Người theo dõi",
+    onClick: () => {},
+  },
+  {
+    id: 5,
+    link: "d",
+    name: "Thông tin tài khoản",
+    onClick: () => {},
+  },
+];
 const Account = () => {
   const { user } = useAppSelector((s) => s.authReducer);
   const [author, setAuthor] = useState<UserType>();
+  const [posts, setPosts] = useState<PostType[]>([]);
   const { id } = useParams();
-
-  const menuItem = [
-    {
-      id: 0,
-      name: "Bài viết",
-      link: "",
-      onClick: () => {},
-    },
-    {
-      id: 0,
-      name: "Series",
-      link: "a",
-      onClick: () => {},
-    },
-    {
-      id: 0,
-      name: "Bookmark",
-      link: "b",
-      onClick: () => {},
-    },
-    {
-      id: 0,
-      name: "Đang theo dõi",
-      link: "c",
-      onClick: () => {},
-    },
-    {
-      id: 0,
-      link: "d",
-      name: "Người theo dõi",
-      onClick: () => {},
-    },
-    {
-      id: 0,
-      link: "d",
-      name: "Thông tin tài khoản",
-      onClick: () => {},
-    },
-  ];
-
+  const accContext = useAccountContext();
   const [isEditName, setIsEditName] = useState<boolean>(false);
-  const [name, setName] = useState<string | undefined>(author?.name || "No name");
+  const [name, setName] = useState<string | undefined>(author?.name);
   const dispath = useAppDispatch();
   const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
+  const itMe = user?.uid === author?.uid;
 
   const handleSaveName = async () => {
     setIsEditName(false);
@@ -117,7 +120,15 @@ const Account = () => {
       }
       const author = await getUser(id);
       setAuthor(author);
+
+      const posts = (await getPostAuthor(id)) || [];
+      setPosts(posts);
+
+      // đặt tác giả và post vào context
+      accContext.setAuthor(author);
+      accContext.setPosts(posts);
     }, 0);
+    setName(author?.name);
   }, [id]);
 
   return (
@@ -134,12 +145,14 @@ const Account = () => {
               <AvatarImage src={author?.photoURL || UserPhoto}></AvatarImage>
             )}
           </Avatar>
-          <label htmlFor="photoURL">
-            <Settings
-              className="absolute hidden group-hover:block top-10/12 left-2/3 z-10 hover:text-blue-500"
-              size={20}
-            />
-          </label>
+          {itMe && (
+            <label htmlFor="photoURL">
+              <Settings
+                className="absolute hidden group-hover:block top-10/12 left-2/3 z-10 hover:text-blue-500"
+                size={20}
+              />
+            </label>
+          )}
 
           <input
             type="file"
@@ -174,7 +187,7 @@ const Account = () => {
             ) : (
               <>
                 <h2>{author?.name || "No name"}</h2>
-                <Edit size={14} onClick={() => setIsEditName(true)} />
+                {itMe && <Edit size={14} onClick={() => setIsEditName(true)} />}
               </>
             )}
           </div>
@@ -186,16 +199,14 @@ const Account = () => {
 
       <div className=" flex items-center gap-10 text-gray-600 shadow-sm lg:px-50 overflow-auto">
         {menuItem.map((item) => (
-          <>
-            <NavLink
-              to={item.link}
-              className="p-2 hover:text-blue-500 transition-colors cursor-pointer text-nowrap"
-              onClick={item.onClick}
-              key={item.id}
-            >
-              {item.name}
-            </NavLink>
-          </>
+          <NavLink
+            to={item.link}
+            className="p-2 hover:text-blue-500 transition-colors cursor-pointer text-nowrap"
+            onClick={item.onClick}
+            key={item.id}
+          >
+            {item.name}
+          </NavLink>
         ))}
       </div>
 
@@ -205,7 +216,7 @@ const Account = () => {
         </div>
 
         {/* Bảng thông số chung */}
-        <General />
+        <General posts={posts} />
       </div>
     </div>
   );

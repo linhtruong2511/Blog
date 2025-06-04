@@ -1,9 +1,7 @@
-import { useAppSelector } from "@/store/hook";
+import PostType from "@/types/PostType";
 
-const General = () => {
-  const { posts } = useAppSelector((s) => s.authReducer);
+const General = ({ posts }: { posts: PostType[] }) => {
   const sumPosts = posts.length;
-  
   let sumView = 0;
   posts.forEach((item) => (sumView += item.view));
 
