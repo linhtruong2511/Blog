@@ -98,7 +98,7 @@ export function AdminSidebar() {
                         variant={"destructive"}
                         className="rounded-full h-5 w-5"
                       >
-                        {item.badge}
+                        {Number(item.badge)}
                       </Badge>
                     )}
                   </span>

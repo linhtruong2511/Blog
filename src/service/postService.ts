@@ -1,5 +1,6 @@
 import {
   addDoc,
+  and,
   collection,
   deleteDoc,
   doc,
@@ -20,8 +21,7 @@ export const getAllPost = async () => {
   try {
     const q = query(
       collection(db, "post"),
-      where("isDraft", "==", false),
-      where("status", "!=", StatusPost.pending)
+      where("status", "==", StatusPost.show),
     );
     const result = await getDocs(q);
     const posts = result.docs.map((post): PostType => {

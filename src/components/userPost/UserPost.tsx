@@ -6,11 +6,9 @@ import {
 import { deletePost, getPostAuthor, updatePost } from "@/service/postService";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { ChangeEvent, useEffect, useState } from "react";
-import PostCard from "../blogPostList/PostCard";
 import Card from "@/pages/admin/dashboard/Card";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
 import { toast } from "react-toastify";
-import { remove, update } from "@/reducer/postReducer";
 import { deleteContent } from "@/service/contentService";
 import PostType from "@/types/PostType";
 import { useNavigate } from "react-router-dom";
