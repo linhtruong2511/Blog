@@ -38,7 +38,13 @@ export default function Card({
           />
           <div className="overflow-hidden">
             <h2 className="lg:text-xl truncate">
-              <b>{post.title}</b>
+              <b
+                style={{
+                  color: post.status === StatusPost.hide ? "red" : "",
+                }}
+              >
+                {post.title}
+              </b>
             </h2>
             <div className="hidden gap-4 text-gray-500  lg:block">
               <p>

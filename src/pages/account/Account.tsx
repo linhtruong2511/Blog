@@ -15,6 +15,7 @@ import { UserType } from "@/types/UserType";
 import PostType from "@/types/PostType";
 import { getPostAuthor } from "@/service/postService";
 import { useAccountContext } from "@/context/AccountContext";
+import LoaderScreen from "@/components/loader/LoaderScreen";
 const menuItem = [
   {
     id: 0,
@@ -64,7 +65,7 @@ const Account = () => {
   const dispath = useAppDispatch();
   const [isLoadingUploadPhoto, setIsLoadingUploadPhoto] = useState(false);
   const itMe = user?.uid === author?.uid;
-
+  const isLoading = !posts || !author;
   const handleSaveName = async () => {
     setIsEditName(false);
 
@@ -130,6 +131,10 @@ const Account = () => {
     }, 0);
     setName(author?.name);
   }, [id]);
+
+  if (isLoading) {
+    return <LoaderScreen />;
+  }
 
   return (
     <div className=" my-5">

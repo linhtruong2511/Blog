@@ -32,19 +32,22 @@ export default function BLog() {
   const { user } = useAppSelector((s) => s.authReducer);
   const [comment, setComment] = useState<string>("");
 
+  // tăng thêm 1 view sau 3 phút đọc
+  useEffect(() => {
+    const timeoutId = setTimeout(async () => {
+      if (!post || !id) return;
+      await updatePost(id, { view: post.view + 1 });
+      dispath(update({ id, newData: { view: post.view + 1 } }));
+    }, 1000 * 60);
+
+    return () => clearTimeout(timeoutId);
+  }, [post]);
+
   useEffect(() => {
     const fetchData = async () => {
       const post = await getPost(id as string);
       if (!post) return;
-
       setPost(post);
-
-      // Tăng view lên 1 và cập nhật post trong store
-      await updatePost(id as string, { view: post?.view + 1 || 0 + 1 });
-      dispath(
-        update({ id: id as string, newData: { view: post?.view + 1 || 0 + 1 } })
-      );
-
       const user = await getUser(post?.authorId as string);
       setAuthor(user);
     };
@@ -59,6 +62,7 @@ export default function BLog() {
         setContent(content.data);
       }
     };
+    if (!post) return;
     fetchContent();
   }, [post]);
 
@@ -150,7 +154,10 @@ export default function BLog() {
             <div>
               <div className="flex gap-5 mt-2">
                 <Avatar>
-                  <AvatarImage src={user?.photoURL} className="h-14 w-14 rounded-full"/>
+                  <AvatarImage
+                    src={user?.photoURL}
+                    className="h-14 w-14 rounded-full"
+                  />
                 </Avatar>
                 <Textarea
                   className="grow border border-gray-400 h-32"

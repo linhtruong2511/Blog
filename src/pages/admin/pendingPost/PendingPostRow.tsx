@@ -1,24 +1,18 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { updatePost } from "@/service/postService";
-import PostType, { StatusPost } from "@/types/PostType";
-import { Diff, Divide, Eye, Minus, Plus } from "lucide-react";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import PostType from "@/types/PostType";
+import ShowPostButton from "./ShowPostButton";
+import CheckedButton from "./CheckedButton";
+import RejectButton from "./RejectButton";
 
 const PendingPostRow = ({
   pp,
   onChecked,
+  onReject,
 }: {
   pp: PostType;
   onChecked: (id: string) => void;
+  onReject: (post: PostType) => void;
 }) => {
-  const navigate = useNavigate();
   return (
     <tr
       key={pp.id}
@@ -37,37 +31,9 @@ const PendingPostRow = ({
       <td className="px-6 py-4">{pp.authorId}</td>
       <td className="px-6 py-4 text-red-500">{pp.status}</td>
       <td className="flex gap-4 items-center px-5 py-4">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Eye
-                className="cursor-pointer"
-                onClick={() => navigate("/blog/" + pp.id)}
-                size={16}
-              />
-            </TooltipTrigger>
-            <TooltipContent>Xem bài viết</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Plus size={16} onClick={() => onChecked(pp.id as string)} />
-            </TooltipTrigger>
-            <TooltipContent>Duyệt bài viết</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Minus   size={16} onClick={() => onChecked(pp.id as string)} />
-            </TooltipTrigger>
-            <TooltipContent>Từ chối</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-        
+        <ShowPostButton post={pp} />
+        <CheckedButton onChecked={() => onChecked(pp.id as string)} />
+        <RejectButton onReject={() => onReject(pp)}/>
       </td>
     </tr>
   );
