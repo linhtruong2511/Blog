@@ -12,6 +12,9 @@ import { useEffect, useRef } from "react";
 import { FaArrowLeft, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Thumbnail from "../article/Thumbnail";
+import ArticleInformation from "../article/ArticleInformation";
+import MainContent from "../article/MainContent";
 
 const Preview = () => {
   const { content, desc, thumbnail, title, setContent } = useEditContext();
@@ -21,6 +24,22 @@ const Preview = () => {
   const toc = useRef<HTMLUListElement | null>(null);
   const { user, posts } = useAppSelector((s) => s.authReducer);
 
+  let post: PostType = {
+    authorId: user?.uid as string,
+    contentId: "",
+    createDate: getDateNow(),
+    id: "",
+    isDraft: false,
+    lastUpdate: getDateNow(),
+    shortDesc: desc,
+    status: StatusPost.pending,
+    tags: [],
+    thumbnailURL: thumbnail,
+    title: title,
+    view: 0,
+    vote: 0,
+  };
+
   const handleUpload = async () => {
     const tId = toast.loading("Đang tải lên");
 
@@ -28,23 +47,7 @@ const Preview = () => {
       createDate: getDateNow(),
       data: content,
     })) as string;
-
-    const post: PostType = {
-      authorId: user?.uid as string,
-      contentId: contentId,
-      createDate: getDateNow(),
-      id: "",
-      isDraft: false,
-      lastUpdate: getDateNow(),
-      shortDesc: desc,
-      status: StatusPost.pending,
-      tags: [],
-      thumbnailURL: thumbnail,
-      title: title,
-      view: 0,
-      vote: 0,
-    };
-
+    post = { ...post, contentId: contentId };
     const id = await addPost(post);
 
     toast.dismiss(tId);
@@ -64,6 +67,9 @@ const Preview = () => {
     navigate("/account");
   };
 
+  /**
+   * Tạo mục lục và gán sự kiện load để tránh người dùng reload lại thì sẽ biến mất hết nội dung và thông tin của bài viết
+   */
   useEffect(() => {
     if (!article.current || !toc.current) return;
     createToc(article.current, toc.current);
@@ -86,26 +92,13 @@ const Preview = () => {
       <span onClick={() => navigate("/edit")} className="cursor-pointer">
         <FaArrowLeft className="inline mr-3" /> Quay lại Editor
       </span>
-
-      {/* anh bia */}
-      <div className="lg:h-[700px] md:my-3">
-        <img src={thumbnail} alt="" className="w-full h-full object-contain" />
-      </div>
-
-      {/* tieu de */}
-      <h1 className="text-2xl lg:text-4xl font-[Montserrat]">
-        <b>{title}</b>
-      </h1>
-
-      {/* meta data */}
-      <div className="flex gap-10 mb-5 mt-1">
-        <p>Lần cập nhật cuối: {getDateNow()}</p>
-        <p className="flex gap-2 items-center">
-          {" "}
-          <FaEye className="inline" /> {0}
-        </p>
-      </div>
-
+      <Thumbnail thumbnailURL={thumbnail} />
+      {posts && user && (
+        <ArticleInformation
+          author={user}
+          post={post}
+        />
+      )}
       <hr />
 
       {/* Noi dung chinh */}
@@ -133,10 +126,13 @@ const Preview = () => {
         </div>
       </div>
 
+      <MainContent content={content} />
+
       {/* Đăng bài viết */}
       <div className="text-right" onClick={handleUpload}>
         <Button>Đăng bài viết</Button>
       </div>
+      
     </div>
   );
 };

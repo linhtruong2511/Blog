@@ -6,9 +6,7 @@ import {
   Outlet,
 } from "react-router-dom";
 import Home from "./pages/home/Home";
-import BLog from "./pages/blog/Blog";
-import AllBlog from "./pages/allBlog/AllBlog";
-import BlogInfor from "./pages/blogInfo/BlogInfor";
+import Article from "./pages/article/Article";
 import Login from "./pages/admin/login/Login";
 import Dashboard from "./pages/admin/dashboard/Dashboard";
 import Nopage from "./pages/nopage/Nopage";
@@ -42,9 +40,7 @@ function App() {
           {/* public  */}
           <Route path="/" element={<Layout />}>
             <Route path="" element={<Home />} />
-            <Route path="blog/:id" element={<BLog />} />
-            <Route path="blogs" element={<AllBlog />} />
-            <Route path="bloginfo/:id" element={<BlogInfor />} />
+            <Route path="blog/:id" element={<Article />} />
 
             {/* Bọc Edit và Preview vào 1 context */}
             <Route

@@ -6,7 +6,7 @@ import {
 } from "../../../service/postService";
 import { deleteContent } from "../../../service/contentService";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
-import Card from "./Card";
+import PostCard from "./Card";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
 import { remove, update } from "@/reducer/postReducer";
@@ -81,7 +81,7 @@ export default function BLogPostList() {
       <div>
         {posts.map((post) => {
           return (
-            <Card
+            <PostCard
               onUpdate={() => {navigate('/admin/editBlog/' + post.id)}}
               post={post}
               key={post.id}

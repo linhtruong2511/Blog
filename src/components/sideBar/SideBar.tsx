@@ -6,7 +6,6 @@ export default function SideBar() {
   return (
     <div className="flex flex-col gap-8 h-full rounded-xl p-5">
       <Search />
-      {/* <About /> */}
       <Trending />
       <Authors />
     </div>

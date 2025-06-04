@@ -13,14 +13,14 @@ const PendingPostTable = () => {
     await updatePost(id, { status: StatusPost.show });
 
     setPendingPost(pendingPost?.filter((item) => item.id !== id));
-    toast('Đã duyệt bài viết: ' + id);
+    toast("Đã duyệt bài viết: " + id);
   };
-  
+
   const handleReject = async (post: PostType) => {
     await deletePost(post);
-    
+
     setPendingPost(pendingPost?.filter((item) => item.id !== post.id));
-    toast('Đã từ chối duyệt bài viết: ' + post.id);
+    toast("Đã từ chối duyệt bài viết: " + post.id);
   };
 
   useEffect(() => {
@@ -58,7 +58,14 @@ const PendingPostTable = () => {
         <tbody>
           {pendingPost &&
             pendingPost.map((pp) => {
-              return <PendingPostRow pp={pp} onChecked={handleChecked} onReject={handleReject}/>;
+              return (
+                <PendingPostRow
+                  key={pp.id}
+                  pp={pp}
+                  onChecked={handleChecked}
+                  onReject={handleReject}
+                />
+              );
             })}
         </tbody>
       </table>

@@ -1,5 +1,5 @@
 import SideBar from "@/components/sideBar/SideBar";
-import BlogPostList from "../../components/blogPostList/BlogPostList";
+import ListPost from "../../components/blogPostList/ListPost";
 
 export default function Home() {
   return (
@@ -7,7 +7,7 @@ export default function Home() {
       {/* <HeroSection /> */}
       <main className="container flex gap-10 px-10 my-20 max-w-[1220px]">
         <div className="flex-8/12">
-          <BlogPostList />
+          <ListPost />
         </div>
         <div className="flex-4/12 hidden lg:block ">
           <SideBar />

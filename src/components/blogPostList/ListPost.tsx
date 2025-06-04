@@ -1,7 +1,7 @@
 import PostCard from "./PostCard";
 import { useAppSelector } from "@/store/hook";
 
-export default function BlogPostList() {
+export default function ListPost() {
   const posts = useAppSelector((state) => state.postReducer); 
   return (
     <>

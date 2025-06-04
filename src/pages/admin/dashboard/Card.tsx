@@ -16,7 +16,7 @@ interface Props {
   onUpdate: (id: string) => void;
 }
 
-export default function Card({
+export default function PostCard({
   post,
   onSelect,
   onEdit,

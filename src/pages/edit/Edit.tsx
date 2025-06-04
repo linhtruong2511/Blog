@@ -14,36 +14,20 @@ const Edit = () => {
   const { content, setContent, title, setTitle, desc, setDesc, setThumbnail } =
     useEditContext();
   const { id } = useParams();
-
   const navigate = useNavigate();
-  const hanlePreview = (content: string) => {
+  
+  const handlePreview = (content: string) => {
     setContent(content);
     if (title === "" || desc === "") {
       toast.error("Bạn cần nhập đầy đủ tiêu đề và mô tả của bài viết");
     } else {
       navigate("/preview");
     }
-    // localStorage.setItem("autoSave", content);
   };
 
-  useEffect(() => {
-    // Hỏi người dùng có muốn tải lại trang trong khi đang edit không
-    const handleReload = () => {
-      const ok = confirm(
-        "Bạn đang tạo bài viết, bạn có muốn lưu vào bộ nhớ không"
-      );
-      if (ok) {
-        setContent(localStorage.getItem("autoSave") as string);
-      } else {
-        localStorage.removeItem("autoSave");
-      }
-    };
-    window.addEventListener("beforeunload", handleReload);
-    return () => {
-      window.removeEventListener("beforeunload", handleReload);
-    };
-  }, []);
-
+  /**
+   * Khởi tạo nội dung và thông tin của bài viết cần sửa vào context để có thể sử dụng trong cả preview
+   */
   useEffect(() => {
     const fetchData = async () => {
       if (id) {
@@ -64,11 +48,13 @@ const Edit = () => {
         onChange={(e) => setTitle(e.target.value)}
         value={title}
       ></Input>
+
       <Textarea
         placeholder="Mô tả bài viết"
         onChange={(e) => setDesc(e.target.value)}
         value={desc}
       ></Textarea>
+
       <Label className="font-medium" htmlFor="thumbnail">
         Ảnh bìa
         <Input
@@ -86,12 +72,14 @@ const Edit = () => {
           }}
         ></Input>
       </Label>
+
       <Editor
         buttonSaveTitle="Preview"
         children
         content={content}
-        onSave={hanlePreview}
+        onSave={handlePreview}
       ></Editor>
+      
     </div>
   );
 };

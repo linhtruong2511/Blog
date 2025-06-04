@@ -2,7 +2,7 @@ import { removeUserPosts, updateUserPosts } from "@/reducer/authReducer";
 import { deletePost, updatePost } from "@/service/postService";
 import { useAppDispatch } from "@/store/hook";
 import { ChangeEvent, useState } from "react";
-import Card from "@/pages/admin/dashboard/Card";
+import PostCard from "@/pages/admin/dashboard/Card";
 import { uploadToCloudinary } from "@/service/cloudinaryService";
 import { toast } from "react-toastify";
 import { deleteContent } from "@/service/contentService";
@@ -91,7 +91,7 @@ const UserPost = () => {
             posts.map((post) => {
               if (post.status !== StatusPost.pending) {
                 return (
-                  <Card
+                  <PostCard
                     onUpdate={handleUpdate}
                     onDelete={handleDelete}
                     onSaveEdit={handleSaveEdit}
